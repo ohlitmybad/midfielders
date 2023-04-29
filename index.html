@@ -1249,8 +1249,12 @@ const csvData = `1,Bruno Fernandes,0.252,0.278,0.756,0.764,0.34,0.998,0.883
 
 const dataArray = csvData.split('\n').map(line => line.split(','));
 
+function removeSpecialChars(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 function search(query) {
-  const results = dataArray.filter(data => data[1].toLowerCase().includes(query.toLowerCase()));  
+  const results = dataArray.filter(data => removeSpecialChars(data[1].toLowerCase()).includes(removeSpecialChars(query.toLowerCase())));  
   return results.length > 0 ? results[0] : null;
 }
 
