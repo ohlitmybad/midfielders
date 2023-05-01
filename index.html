@@ -1,60 +1,378 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>	
 
 
-<link rel="shortcut icon" type="image/x-icon" href="https://ohlitmybad.github.io/strikers/favicon.ico">	
-
+<link rel="shortcut icon" type="image/x-icon" href="https://ohlitmybad.github.io/strikers/favicon.ico">
   <title>Compare midfielders</title>
   <meta property="og:image" content="https://i.imgur.com/EOEQYrD.png">
   <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@ohlitmybad">
-    <meta name="twitter:title" content="Midfielder comparison tool">
-    <meta name="twitter:description" content="Generate radar charts to compare midfielders">
-    <meta name="twitter:image" content="https://i.imgur.com/EOEQYrD.png">
+  <meta name="twitter:site" content="@ohlitmybad">
+  <meta name="twitter:title" content="Midfielder comparison tool">
+  <meta name="twitter:description" content="Generate radar charts to compare midfielders">
+  <meta name="twitter:image" content="https://i.imgur.com/EOEQYrD.png">
+
 	
-    <defs>
-        <style>
+<defs>
+<style>
+
+text {
+  font-family: Arial;
+}
+
            
-         
-   .center {
-        display: flex;
-        justify-content: center;
-text-align: center;
-    }
-#radar_container {
-  margin: 0 auto;
-}
-  .code-block {
-    position: absolute;
-    top: 10;
-    left: 10;
-  }
-  #code-block-2 {
-    margin-top: 20px;
-  }     
-#radar_chart {
-  position: relative;
-top: 50px;
-left: 500px;
-  z-index: 2;
-}
-#radar_label {
+svg:nth-of-type(1) {
   position: absolute;
-  top: 100px;
-  left: 500px;
-  z-index: 1;
-}       
-
-.highlight {
-  color: rgb(248, 0, 200);
+  top: 286px;
+  left: 90px;
+  width: 482px;
+  height: 482px;
 }
 
-.highlight2 {
-  color: rgb(28, 63, 213);
+svg:nth-of-type(2) {
+  position: absolute;
+  top: 286px;
+  left: 90px;
+
 }
 
+
+table {
+   border-collapse: collapse;
+  width: 600px;
+  font-family: Arial;
+  background-color: #F9F9F9;
+  border-radius: 40px;
+margin-top: 1.5%;
+margin-left: 1.1%
+ ;
+ 
+}
+
+th, td {
+  border: none;
+  padding: 8px;
+  text-align: center;
+  font-size: 13px;
+  
+}
+
+th {
+ 
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 50%;
+  
+}
+
+td {
+  
+  color: #4330FB;
+   border-radius: 15px;
+  
+  
+}
+td:nth-child(even) {
+  color: #F822C6;
+  
+}
+
+td:nth-child(odd) {
+  color: ;
+}
+
+tr:first-child th:first-child {
+  background-color: #e0e0de;
+  color: white;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+ 
+}
+
+tr:first-child td:last-child {
+  background-color: #e0e0de;
+  color: #4330FB;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+tr:first-child td {
+  background-color: #e0e0de;
+  color: #F822C6;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+
+.button-1 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+  top: 20px;
+  left: 728px;
+  width: 120px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-1:hover {
+  box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+
+.button-2 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+  top: 85px;
+  left: 728px;
+width: 120px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-2:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+.button-3 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+  top: 150px;
+  left: 728px;
+width: 120px;
+ 
+  touch-action: manipulation;
+}
+
+.button-3:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+.button-4 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+  top: 215px;
+  left: 728px;
+width: 120px;
+ 
+  touch-action: manipulation;
+}
+
+.button-4:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+.button-5 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+  top: 280px;
+  left: 728px;
+width: 120px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-5:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+
+.button-6 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+  top: 345px;
+  left: 728px;
+width: 120px;
+ 
+  touch-action: manipulation;
+}
+
+.button-6:hover {
+  box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+
+
+.button-7 {
+  align-items: center;
+  background-color: #1DA1F2;
+  border-radius: 25px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+  top: 410px;
+  left: 728px;
+ width: 120px; 
+  touch-action: manipulation;
+}
+
+.button-7:hover {
+  box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+
+ td {
+    font-weight: bold;
+  }
+  th {
+    font-weight: normal;
+  }
 
 </style>
 </defs>
@@ -1260,108 +1578,102 @@ function search(query) {
 
 const searchQuery = prompt("Enter the name of the first midfielder:");
 const results = search(searchQuery);
-if (results) {
-  const resultsDiv = document.createElement('div');
-  resultsDiv.innerHTML = `<p class="highlight">${results[1]}: ${results.slice(2).join(', ')}</p>`;
-document.body.appendChild(resultsDiv);
-} else {
-  console.log(`No results found for '${searchQuery}'`);
-}
-
 const searchQuery2 = prompt("Enter the name of the second midfielder:");
 const results2 = search(searchQuery2);
-if (results2) {
-  const resultsDiv2 = document.createElement('div');
-  resultsDiv2.innerHTML = `<p class="highlight2">${results2[1]}: ${results2.slice(2).join(', ')}</p>`;
-document.body.appendChild(resultsDiv2);
-} else {
-  console.log(`No results found for '${searchQuery2}'`);
+const headerNames = ['Duels won %', 'Successful defensive actions per 90', 'Progressive runs per 90', 'Forward passes per 90', 'Forward pass accuracy %', 'Key passes per 90', 'Progressive passes per 90'];
+
+const table = document.createElement('table');
+
+const headerRow = document.createElement('tr');
+const header1 = document.createElement('th');
+header1.textContent = 'Percentile within sample';
+headerRow.appendChild(header1);
+const name1 = document.createElement('td');
+name1.textContent = results[1];
+headerRow.appendChild(name1);
+const name2 = document.createElement('td');
+name2.textContent = results2[1];
+headerRow.appendChild(name2);
+table.appendChild(headerRow);
+
+for (let i = 2; i <= 8; i++) {
+  const row = document.createElement('tr');
+  const metricHeader = document.createElement('th');
+  metricHeader.textContent = headerNames[i - 2];
+  row.appendChild(metricHeader);
+  const cell1 = document.createElement('td');
+  cell1.textContent = (results[i] * 100).toFixed(1);
+  row.appendChild(cell1);
+  const cell2 = document.createElement('td');
+  cell2.textContent = (results2[i] * 100).toFixed(1);
+  row.appendChild(cell2);
+  table.appendChild(row);
 }
+
+document.body.appendChild(table);
+
 
 const combResults = [results.join(', '), results2.join(', ')].join('\n');
 console.log(combResults);
-
-
 </script>
 
-<div class="code-block" id="code-block-1">
-  <pre>
-    <code>
 
 
 
-<div class="radar_label">
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 379.04 372.18">
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
     
-    <g class="radar_label" data-type="Key Passes" data-idx="0">
-      <text class="label" transform="translate(151.99 36.45) rotate(0)">Key Passes</text></g>
+<g class="radar_label" data-type="Key Passes" data-idx="0">
+      <text class="label" transform="translate(145.99 36.45) rotate(-2)">Key Passes</text></g>
     <g class="radar_label" data-type="Fwd Pass%" data-idx="6">
-      <text class="label" transform="matrix(0.5, -0.86, 0.86, 0.5, 45.89, 121.88) rotate(3.87)">Fwd Pass%</text>
+      <text class="label" transform="matrix(0.5, -0.86, 0.86, 0.5, 47.89, 122.88) rotate(7.5)">Fwd Pass%</text>
     </g>
     <g class="radar_label" data-type="Fwd Passes" data-idx="5">
-      <text class="label" transform="matrix(-0.38, -0.93, 0.93, -0.38, 48.38, 273.78) rotate (3.87)">Fwd Passes</text>
+      <text class="label" transform="matrix(-0.38, -0.93, 0.93, -0.38, 58.38, 273.78) rotate (3.87)">Fwd Passes</text>
     </g>
     <g class="radar_label" data-type="Prog Runs" data-idx="4">
       <text class="label" transform="translate(92.19 329.04) rotate(16.87)">Prog Runs</text>
     </g>
     <g class="radar_label" data-type="Def Actions" data-idx="3">
-      <text class="label" transform="translate(248.36 345.52) rotate(-23.32)">Def Actions</text>
+      <text class="label" transform="translate(245.36 344) rotate(-28.32)">Def Actions</text>
     </g>
     <g class="radar_label" data-type=“Duels%” data-idx="2">
-      <text class="label" transform="translate(354.56 193.26) rotate(100.11)">Duels%</text>
+      <text class="label" transform="translate(351.56 193.26) rotate(100.11)">Duels%</text>
     </g>
     <g class="radar_label" data-type="Prog Passes" data-idx="1">
-      <text class="label" transform="translate(285.42 62.68) rotate(48.09)">Prog Passes</text>
+      <text class="label" transform="translate(288.42 58.68) rotate(51.09)">Prog Passes</text>
     </g>
     
     
   </svg>
-  							</div></code></pre></div>
+  							
 
 
+<svg width="500" height="500" class="radar"><g transform="translate(231.77,225.77)"><g class="axisWrapper">
 
-<div class="code-block" id="code-block-2">
-<pre>
-<code>
-
-<div class="center">
-<div id="radar_container">
-								<div id="radar_chart"><svg width="400" height="400" class="radar">
-  <g transform="translate(200,183)">
-  
-   <g class="axisWrapper">
-                            <circle class="blackCircle" r="175" style="fill:none; stroke:#D3D3D3; stroke-width:1;"></circle>
-                             
-                              <circle class="gridCircle" r="175" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
-                                
-                                <circle class="gridCircle" r="140" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
-                                
-                                <circle class="gridCircle" r="105" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
-                                
-                                <circle class="gridCircle" r="70" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
-                                
-                                <circle class="gridCircle" r="35" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle></g>
+<circle class="blackCircle" r="175" style="fill:none; stroke:#D3D3D3; stroke-width:1;"></circle>
+<circle class="gridCircle" r="175" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+<circle class="gridCircle" r="140" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+<circle class="gridCircle" r="105" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+<circle class="gridCircle" r="70" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+<circle class="gridCircle" r="35" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle></g>
                                 
   
  
-    <line x1="0" y1="0" x2="8.59" y2="174.79" stroke="#D3D3D3" stroke-width="1" transform="translate(-8.59, -174.79)"></line>
-    <line x1="0" y1="0" x2="-130.8" y2="116.2" stroke="#D3D3D3" stroke-width="1" transform="translate(130.8, -116.2)"></line>
-    <line x1="0" y1="0" x2="-172.46" y2="-29.68" stroke="#D3D3D3" stroke-width="1" transform="translate(172.46, 29.68)"></line>
-    <line x1="0" y1="0" x2="-84.4" y2="-153.3" stroke="#D3D3D3" stroke-width="1" transform="translate(84.4, 153.3)"></line>
-    <line x1="0" y1="0" x2="67.12" y2="-161.6" stroke="#D3D3D3" stroke-width="1" transform="translate(-67.12, 161.6)"></line>
-    <line x1="0" y1="0" x2="168.17" y2="-48.4" stroke="#D3D3D3" stroke-width="1" transform="translate(-168.17, 48.4)"></line>
-    <line x1="0" y1="0" x2="142.75" y2="101.23" stroke="#D3D3D3" stroke-width="1" transform="translate(-142.75, -101.23)"></line>
+<line x1="0" y1="0" x2="8.59" y2="174.79" stroke="#D3D3D3" stroke-width="1" transform="translate(-8.59, -174.79)"></line>
+<line x1="0" y1="0" x2="-130.8" y2="116.2" stroke="#D3D3D3" stroke-width="1" transform="translate(130.8, -116.2)"></line>
+<line x1="0" y1="0" x2="-172.46" y2="-29.68" stroke="#D3D3D3" stroke-width="1" transform="translate(172.46, 29.68)"></line>
+<line x1="0" y1="0" x2="-84.4" y2="-153.3" stroke="#D3D3D3" stroke-width="1" transform="translate(84.4, 153.3)"></line>
+<line x1="0" y1="0" x2="67.12" y2="-161.6" stroke="#D3D3D3" stroke-width="1" transform="translate(-67.12, 161.6)"></line>
+<line x1="0" y1="0" x2="168.17" y2="-48.4" stroke="#D3D3D3" stroke-width="1" transform="translate(-168.17, 48.4)"></line>
+<line x1="0" y1="0" x2="142.75" y2="101.23" stroke="#D3D3D3" stroke-width="1" transform="translate(-142.75, -101.23)"></line>
                                 
-                                
-  
-    <g class="radarWrapper"></g>
-    <g class="radarWrapper2"></g>
-     </g>
+<g class="radarWrapper"></g>
+<g class="radarWrapper2"></g>
+</g>
+
  
- <script>
-
-
-
+<script>
 const rows = combResults.split('\n');
 const data = [];
 const data2 = [];
@@ -1436,9 +1748,7 @@ radarWrapper.appendChild(polyline);
 
 }
 
-
 createRadarLines();
-
 
  function createRadarLines2() {
   const points = data2.map(({ axis, value }) => {
@@ -1456,28 +1766,27 @@ radarWrapper2.appendChild(polyline);
 
 }
 
-
-
 createRadarLines2();
-
-  
-  
 </script>
 
-  </g>
 </svg>
-</div>							
-</section>
-</div>
-</code>
-</pre>
-</div> 
-</div>
-<div>
- <code>
-Percentile: Duels won %, Successful def actions per 90, Prog runs per 90, Forward passes per 90, Forward pass %, Key passes per 90, Prog passes per 90.<br>                                 &nbsp; &nbsp; &nbsp;     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://ohlitmybad.github.io/radars/">Home</a> <a href="https://twitter.com/ohlitmybad">@ohlitmybad</a>
-    </code>
 
-</div> 
+
+</section>
+<a href="https://ohlitmybad.github.io/radars/" target="_blank" rel="noopener noreferrer">
+  <button class="button-1" role="button">Home</button>
+<a href="https://ohlitmybad.github.io/keepers/" target="_blank" rel="noopener noreferrer">
+  <button class="button-2" role="button">Goalkeepers</button>
+<a href="https://ohlitmybad.github.io/centrebacks/" target="_blank" rel="noopener noreferrer">
+  <button class="button-3" role="button">Centrebacks</button>
+<a href="https://ohlitmybad.github.io/fullbacks/" target="_blank" rel="noopener noreferrer">
+  <button class="button-4" role="button">Fullbacks</button>
+<a href="https://ohlitmybad.github.io/wingers/" target="_blank" rel="noopener noreferrer">
+  <button class="button-5" role="button">Wingers</button>
+<a href="https://ohlitmybad.github.io/strikers/" target="_blank" rel="noopener noreferrer">
+  <button class="button-6" role="button">Strikers</button>
+<a href="https://twitter.com/ohlitmybad" target="_blank" rel="noopener noreferrer">
+  <button class="button-7" role="button">@ohlitmybad</button>
+</a>
 </body>
 </html>
