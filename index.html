@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>	
@@ -10,21 +6,153 @@
      crossorigin="anonymous"></script>
 
 <link rel="shortcut icon" type="image/x-icon" href="https://datamb.football/favicon.ico">
-  <title translate="no">DataMB | Compare Midfielders</title>
-  <meta property="og:image" content="https://i.imgur.com/EOEQYrD.png">
+  <title translate="no">DataMB | Compare Goalkeepers</title>
+  <meta property="og:image" content="https://i.imgur.com/0B0VPav.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@DataMB_">
-  <meta name="twitter:title" content="DataMB | Compare Midfielders">
-  <meta name="twitter:description" content="Generate radar charts to compare midfielders">
+  <meta name="twitter:title" content="DataMB | Compare Goalkeepers">
+  <meta name="twitter:description" content="Generate radar charts to compare goalkeepers">
   <meta name="twitter:image" content="https://i.imgur.com/p43wTxg.png">
-  <meta name="og:image" content="https://i.imgur.com/p43wTxg.png">
 
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
 	
 <defs>
 
 
+
+
 <style>
+	
+	
+  /* Dark Mode Styles */
+  body.dark-mode,
+  body.dark-mode * {
+    color: #f2f2f2;
+  }
+
+  body.dark-mode {
+    background-color: #0F0F0E;
+  }
+
+  /* Override specific element styles for dark mode */
+  body.dark-mode table {
+    /* Override table background color */
+    background-color: #333333;
+  }
+
+  body.dark-mode th
+  body.dark-mode td {
+    /* Override table cell text color */
+    color: #f2f2f2;
+  }
+
+body.dark-mode td:nth-child(3) {
+  /* Preserve purple text color for the third column */
+  color: #6f42c1;
+}
+
+body.dark-mode tr:first-child th:first-child {
+  background-color: #121212;
+}
+
+body.dark-mode tr:first-child td:last-child {
+  background-color: #121212;
+}
+
+
+body.dark-mode tr:first-child td {
+  background-color: #121212;
+}
+
+
+  body.dark-mode svg text.label {
+    /* Override SVG text color */
+    fill: #f2f2f2;
+  }
+
+body.dark-mode button {
+  /* Override button background color */
+  background-color: #333333;
+}
+
+body.dark-mode button,
+body.dark-mode button:focus {
+  /* Override button text color */
+  color: #f2f2f2;
+}
+
+body.dark-mode button:hover {
+  /* Preserve button hover property */
+  color: initial;
+}
+
+body.dark-mode .button-8 {
+  /* Override button background color */
+  background-color: #13293d; /* Dark blue color */
+  color: #f2f2f2; /* Off-white color */
+}
+
+body.dark-mode .button-8:hover,
+body.dark-mode .button-8:focus {
+  /* Override button hover and focus state */
+  background-color: #3a6ea5; /* Darker blue color */
+  color: #f2f2f2; /* Off-white color */
+}
+
+body.dark-mode .button-8:hover,
+body.dark-mode .button-8:focus {
+  /* Override button hover and focus state */
+  background-color: #3a6ea5; /* Darker blue color */
+  color: #f2f2f2; /* Off-white color */
+}
+
+
+ .dark-mode-toggle {
+    position: absolute;
+    top: 635px;
+    left: 850px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0de;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+
+
+.dark-mode-toggle .toggle-icon::before {
+  content: "\263D"; /* Unicode character for sun symbol */
+  font-size: 24px; /* Adjust the font size as needed */
+}
+
+body.dark-mode .dark-mode-toggle {
+  background-color: #333333;
+}
+
+
+
+
+body.dark-mode .dark-mode-toggle .toggle-icon::before {
+  font-family: "Ionicons";
+  content: "\f3b0"; /* Unicode value for the sun icon in Ionicons */
+}
+
+
+
+
+body.dark-mode .toggle-slider {
+  background-color: #2B2C2E; /* Darker background color for dark mode */
+}
+
+body.dark-mode input:checked + .toggle-slider:before {
+  background-color: #ccc; /* Darker background color for dark mode */
+}
+
+
 
 text {
   font-family: Arial;
@@ -543,6 +671,11 @@ position: absolute;
     </label>
   </div>
 
+
+
+  <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+    <div class="toggle-icon"></div>
+  </div>
 
 <script>
 const csvData = `1,Bruno Fernandes,Man United,28,0.266,0.272,0.761,0.751,0.358,0.997,0.886,6021
@@ -1938,6 +2071,30 @@ toggleButton.addEventListener('click', toggleFilling);
 <a href="https://twitter.com/DataMB_" target="_blank" rel="noopener noreferrer">
   <button class="button-8" role="button">@DataMB_</button>
 </a>
+
+
+ <script>
+
+    // Function to toggle dark mode
+    function toggleDarkMode() {
+      const body = document.querySelector("body");
+      body.classList.toggle("dark-mode");
+
+      // Store the user's preference in local storage
+      const isDarkMode = body.classList.contains("dark-mode");
+      localStorage.setItem("darkMode", isDarkMode);
+    }
+
+    // Check if user has a stored preference for dark mode
+    const storedDarkMode = localStorage.getItem("darkMode");
+
+    if (storedDarkMode === "true") {
+      const body = document.querySelector("body");
+      body.classList.add("dark-mode");
+    }
+
+  </script>
+
 
 
 </body>
