@@ -1751,10 +1751,10 @@ for (let i = 0; i < similarPlayers.length; i++) {
   const metricHeader2 = document.createElement('th');
   row2.appendChild(metricHeader2);
   const cell12 = document.createElement('td');
-  cell12.textContent = playerData[1];
+  cell12.textContent = playerData[1] + ' (' + playerData[2] + ', ' + playerData[3] + ')' ;
   row2.appendChild(cell12);
   const cell22 = document.createElement('td');
-  cell22.textContent = playerData2[1];
+  cell22.textContent = playerData2[1] + ' (' + playerData2[2] + ', ' + playerData2[3] + ')' ;
   row2.appendChild(cell22);
   table2.appendChild(row2);
 }
