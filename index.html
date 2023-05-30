@@ -1834,10 +1834,9 @@ const combResults = [results.join(', '), results2.join(', ')].join('\n');
 console.log(combResults);
 	
 	
-
 function calculateEuclideanDifference(player1, player2) {
   let difference = 0;
-  for (let i = 4; i < player1.length-1; i++) {
+  for (let i = 4; i < player1.length - 1; i++) {
     difference += Math.abs(player1[i] - player2[i]);
   }
   return difference;
@@ -1855,12 +1854,11 @@ const calculateSimilarPlayers = (results, dataArray) => {
   }
 
   similarPlayers.sort((a, b) => a.difference - b.difference);
-  return similarPlayers.slice(0, 3).map(item => item.player);
+  return similarPlayers.slice(0, 10).map(item => item.player);
 };
 
 const similarPlayers = calculateSimilarPlayers(results, dataArray);
 const similarPlayers2 = calculateSimilarPlayers(results2, dataArray);
-
 
 const table2 = document.createElement('table');
 
@@ -1876,24 +1874,61 @@ name22.textContent = "Similar data to " + results2[1];
 headerRow2.appendChild(name22);
 table2.appendChild(headerRow2);
 
-for (let i = 0; i < similarPlayers.length; i++) {
-  const playerData = similarPlayers[i];
-  const playerData2 = similarPlayers2[i];
+function appendPlayerRow(playerData, playerData2) {
   const row2 = document.createElement('tr');
   const metricHeader2 = document.createElement('th');
   row2.appendChild(metricHeader2);
   const cell12 = document.createElement('td');
-  cell12.textContent = playerData[1] + ' (' + playerData[2] + ', ' + playerData[3] + ')' ;
+  cell12.textContent = playerData[1] + ' (' + playerData[2] + ', ' + playerData[3] + ')';
   row2.appendChild(cell12);
   const cell22 = document.createElement('td');
-  cell22.textContent = playerData2[1] + ' (' + playerData2[2] + ', ' + playerData2[3] + ')' ;
+  cell22.textContent = playerData2[1] + ' (' + playerData2[2] + ', ' + playerData2[3] + ')';
   row2.appendChild(cell22);
   table2.appendChild(row2);
 }
 
+function showAdditionalPlayers() {
+  for (let i = 3; i < similarPlayers.length; i++) {
+    const playerData = similarPlayers[i];
+    const playerData2 = similarPlayers2[i];
+    appendPlayerRow(playerData, playerData2);
+  }
+}
+
+for (let i = 0; i < 3; i++) {
+  const playerData = similarPlayers[i];
+  const playerData2 = similarPlayers2[i];
+  appendPlayerRow(playerData, playerData2);
+}
+
+// Create a clickable button after the third player
+const addButtonRow = document.createElement('tr');
+const addButtonCell = document.createElement('td');
+addButtonCell.colSpan = 3; // Set the column span to cover both columns
+addButtonCell.style.textAlign = 'center'; // Center the button
+const addButton = document.createElement('button');
+addButton.textContent = '+';
+addButtonCell.appendChild(addButton);
+addButtonRow.appendChild(addButtonCell);
+
+// Insert the button row after the third row
+table2.insertBefore(addButtonRow, table2.children[4]);
+
+function handleClick() {
+  // Remove the button row
+  table2.removeChild(addButtonRow);
+
+  // Show additional players
+  showAdditionalPlayers();
+
+  // Remove the click event listener
+  table2.removeEventListener('click', handleClick);
+}
+
+// Add the click event listener to the table
+table2.addEventListener('click', handleClick);
 
 table2.style.marginTop = '550px';
-
 document.body.appendChild(table2);
 
 	
