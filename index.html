@@ -109,7 +109,7 @@ body.dark-mode .button-8:focus {
 
  .dark-mode-toggle {
     position: absolute;
-    top: 692px;
+    top: 680px;
     left: 850px;
     display: flex;
     align-items: center;
@@ -149,6 +149,36 @@ body.dark-mode .toggle-slider {
 
 body.dark-mode input:checked + .toggle-slider:before {
   background-color: #ccc; /* Darker background color for dark mode */
+}
+
+
+body.dark-mode .button-10 {
+  border: 0.1px solid #000000; /* Darker background color for dark mode */
+}
+	
+ .button-10 {
+    position: absolute;
+    top: 740px;
+    left: 850px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40.1px;
+    height: 40.1px;
+    border-radius: 50%;
+  background-color: #e0e0de;
+  color: #333;
+  border: 0.1px solid #ccc;
+  cursor: pointer;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+
+
+
+.icon2::before {
+  content: "\f118";
+  font-family: "Ionicons"; /* Replace with the appropriate font */
+font-size: 22px;
 }
 
 
@@ -702,44 +732,15 @@ opacity: .8;
         }
 	
 	
-   #bottom-container {
-    position: absolute;
-    top: 1250px;
-  }	
-	
-
-	   #bottom-container {
-    position: absolute;
-    top: 1220px;
-  }	
-	
-
-	
-	 #bottom-container3 {
-    position: absolute;
-    top: 1220px;
-    right: 0px;	  
-  }	
-
-   #bottom-container2 {
-    position: absolute;
-    top: 1770px;
-  }	
-	
-
-	
-	 #bottom-container4 {
-    position: absolute;
-    top: 1770px;
-    right: 0px;	  
-  }	
-
-
+ 
 
 	
 	
 </style>
 </defs>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSBMXX80EF"></script>
@@ -772,7 +773,92 @@ opacity: .8;
     <div class="toggle-icon"></div>
   </div>
 
+
+<button onclick="takeScreenshot()" class="button-10"><div class="icon2"></div></button>
+
+
 <script>
+
+function takeScreenshot() {
+
+
+ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  let x, y, cropPercentageX, cropPercentageY, cropPercentageRight, captureWidth, captureHeight;
+
+  if (isMobile) {
+    // Values for mobile devices
+    x = 0;
+    y = 0;
+    cropPercentageX = 0.012;
+    cropPercentageY = 0;
+    cropPercentageRight = 0.23;
+    captureWidth = 930;
+    captureHeight = 770;
+  } else {
+    // Values for desktop
+    x = 0;
+    y = 0;
+    cropPercentageX = 0.1038;
+    cropPercentageY = 0.29;
+    cropPercentageRight = 0.38;
+    captureWidth = 1400;
+    captureHeight = 1060;
+  }
+
+
+  // Take a screenshot of the entire document body
+  domtoimage.toBlob(document.body, {
+    width: captureWidth,
+    height: captureHeight,
+    style: {
+      transform: 'none' // Remove any applied transformations
+    }
+  }).then(blob => {
+    // Create an image element to load the screenshot blob
+    const img = new Image();
+    img.onload = () => {
+      // Calculate the crop dimensions based on the percentages and image size
+      const cropX = img.width * cropPercentageX;
+      const cropY = img.height * cropPercentageY;
+      const cropWidth = img.width - cropX - (img.width * cropPercentageRight);
+      const cropHeight = img.height - cropY;
+
+      // Create a new canvas element with the cropped dimensions
+      const canvas = document.createElement('canvas');
+      canvas.width = cropWidth;
+      canvas.height = cropHeight;
+
+      // Get the 2D drawing context of the canvas
+      const ctx = canvas.getContext('2d');
+
+      // Fill the canvas with white color
+      ctx.fillStyle = '#ffffff'; // White color
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.drawImage(img, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+
+      // Add text to the canvas
+      ctx.font = '12px Arial';
+      ctx.fillStyle = 'grey';
+      ctx.fillText('datamb.football', 616, 746);
+
+      // Convert the canvas to a PNG image
+      canvas.toBlob(croppedBlob => {
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(croppedBlob);
+        link.download = 'screenshot.png'; // Specify the filename for the downloaded image
+
+        // Simulate a click on the link to trigger the download
+        link.click();
+      }, 'image/png');
+    };
+    img.src = URL.createObjectURL(blob);
+  });
+}
+
+
 const csvData = `1056,Average,Club,26,0.480,0.498,0.593,0.541,0.470,0.580,0.545,2363
 1,Bruno Fernandes,Man United,28,0.233,0.256,0.744,0.762,0.341,0.997,0.893,6195
 2,Enzo Fernández,Chelsea,22,0.780,0.412,0.485,0.994,0.868,0.785,0.987,5567
@@ -2020,31 +2106,37 @@ document.body.appendChild(table2);
 
 
 
+
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
     
-<g class="radar_label" data-type="Key Passes" data-idx="0">
-      <text class="label" transform="translate(145.99 36.45) rotate(-2)">Key Passes</text></g>
-    <g class="radar_label" data-type="Fwd Pass%" data-idx="6">
-      <text class="label" transform="matrix(0.5, -0.86, 0.86, 0.5, 47.89, 122.88) rotate(7.5)">Fwd Pass%</text>
-    </g>
-    <g class="radar_label" data-type="Fwd Passes" data-idx="5">
-      <text class="label" transform="matrix(-0.38, -0.93, 0.93, -0.38, 58.38, 273.78) rotate (3.87)">Fwd Passes</text>
-    </g>
-    <g class="radar_label" data-type="Prog Runs" data-idx="4">
-      <text class="label" transform="translate(92.19 329.04) rotate(18.87)">Prog Runs</text>
-    </g>
-    <g class="radar_label" data-type="Def Actions" data-idx="3">
-      <text class="label" transform="translate(245.36 344) rotate(-28.32)">Def Actions</text>
-    </g>
-    <g class="radar_label" data-type=“Duels%” data-idx="2">
-      <text class="label" transform="translate(351.56 193.26) rotate(100.11)">Duels%</text>
-    </g>
-    <g class="radar_label" data-type="Prog Passes" data-idx="1">
-      <text class="label" transform="translate(288.42 58.68) rotate(51.09)">Prog Passes</text>
-    </g>
-    
-    
-  </svg>
+<g class="radar_label">
+  <text class="label" data-type="Aerial%" data-idx="0" transform="translate(145.99 36.45) rotate(-2)">Key Passes</text>
+</g>
+
+<g class="radar_label">
+  <text class="label" data-type="Long%" data-idx="6" transform="matrix(0.5, -0.86, 0.86, 0.5, 47.89, 122.88) rotate(7.5)">Fwd Pass%</text>
+</g>
+
+<g class="radar_label">
+  <text class="label" data-type="Passes" data-idx="5" transform="matrix(-0.38, -0.93, 0.93, -0.38, 58.38, 273.78) rotate (3.87)">Fwd Passes</text>
+</g>
+
+<g class="radar_label">
+  <text class="label" data-type="Exits" data-idx="4" transform="translate(92.19 329.04) rotate(18.87)">Prog Runs</text>
+</g>
+
+<g class="radar_label">
+  <text class="label" data-type="Aerial" data-idx="3" transform="translate(245.36 344) rotate(-28.32)">Def Actions</text>
+</g>
+
+<g class="radar_label">
+  <text class="label" data-type="Def Actions" data-idx="2" transform="translate(351.56 193.26) rotate(100.11)">Duels%</text>
+</g>
+
+<g class="radar_label">
+  <text class="label" data-type="Shotstopping" data-idx="1" transform="translate(288.42 58.68) rotate(51.09)">Prog Passes</text>
+</g>
+</svg>
   							
 
 
