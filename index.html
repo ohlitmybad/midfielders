@@ -177,6 +177,31 @@ body.dark-mode .dark-mode-toggle .toggle-icon::before {
   </a>
 </header>
 
+	
+<script>
+    // Function to scroll down a tiny bit
+    function scrollDown() {
+        window.scrollBy(0, 250); // Adjust the value (100) to change the scroll distance
+    }
+
+    // Function to scroll up a tiny bit
+    function scrollUp() {
+        window.scrollBy(0, -240); // Adjust the value (-80) to change the scroll distance
+    }
+
+    // Combine both actions with a small timer between them
+    function initializeScroll() {
+        // Check if the screen width is below the threshold for mobile devices (e.g., 768 pixels)
+        if (window.innerWidth < 768) {
+            scrollDown();
+            setTimeout(scrollUp, 10); // Adjust the delay time (1000ms = 1 second)
+        }
+    }
+
+    // Add an event listener to execute the scrolling functions when the page loads
+    window.addEventListener('load', initializeScroll);
+</script>
+
 <script type="text/javascript">
   window._taboola = window._taboola || [];
   _taboola.push({article:'auto'});
