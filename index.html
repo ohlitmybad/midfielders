@@ -2373,62 +2373,7 @@ West Ham United (Team),https://datamb.football/West_Ham_United_Team_stats
 Wolfsburg (Team),https://datamb.football/Wolfsburg_Team_stats
 Wolverhampton Wanderers (Team),https://datamb.football/Wolverhampton_Wanderers_Team_stats`; // Replace ... with the rest of your CSV data
 
-const dataLines = dataCSV.split('\n');
-const searchButton = document.getElementById('searchButton');
-const searchInputModal = document.getElementById('searchInputModal');
-const searchInput = document.getElementById('searchInput');
-const autocompleteBox = document.getElementById('autocompleteBox');
-
-// Convert CSV data to an array of objects
-const data1 = dataLines.map(line => {
-    const [name, link] = line.split(',');
-    return { name, link };
-});
-
-function search2(query) {
-    autocompleteBox.innerHTML = '';
-
-    const filteredData = data1.filter(item => {
-        const sanitizedItem = item.name.replace(/[^\w\s]/g, '').toLowerCase();
-        const sanitizedQuery = query.replace(/[^\w\s]/g, '').toLowerCase();
-        return sanitizedItem.includes(sanitizedQuery);
-    });
-
-    if (filteredData.length === 0) {
-        autocompleteBox.style.display = 'none';
-        return;
-    }
-
-    filteredData.forEach(item => {
-        const listItem = document.createElement('div');
-        const link = document.createElement('a');
-        link.href = item.link;
-        link.textContent = item.name;
-        listItem.appendChild(link);
-        autocompleteBox.appendChild(listItem);
-    });
-
-    autocompleteBox.style.display = 'block';
-}
-
-searchButton.addEventListener('click', () => {
-    searchInputModal.style.display = 'block';
-});
-
-searchInput.addEventListener('input', () => {
-    const query = searchInput.value;
-    if (query.trim() === '') {
-        autocompleteBox.style.display = 'none';
-    } else {
-        search2(query);
-    }
-});
-
-document.addEventListener('click', (event) => {
-    if (event.target === searchInputModal) {
-        searchInputModal.style.display = 'none';
-    }
-});
+const _0x1cda9d=_0x3279;(function(_0x3d1616,_0x106f05){const _0x561e6e=_0x3279,_0x2e8a41=_0x3d1616();while(!![]){try{const _0x282d7f=-parseInt(_0x561e6e(0x1a1))/0x1+parseInt(_0x561e6e(0x18f))/0x2*(-parseInt(_0x561e6e(0x195))/0x3)+-parseInt(_0x561e6e(0x18b))/0x4+-parseInt(_0x561e6e(0x1a2))/0x5+-parseInt(_0x561e6e(0x19a))/0x6+parseInt(_0x561e6e(0x188))/0x7*(-parseInt(_0x561e6e(0x19d))/0x8)+parseInt(_0x561e6e(0x191))/0x9*(parseInt(_0x561e6e(0x19b))/0xa);if(_0x282d7f===_0x106f05)break;else _0x2e8a41['push'](_0x2e8a41['shift']());}catch(_0x219362){_0x2e8a41['push'](_0x2e8a41['shift']());}}}(_0x113e,0x28c6f));const dataLines=dataCSV[_0x1cda9d(0x199)]('\x0a'),searchButton=document[_0x1cda9d(0x18a)](_0x1cda9d(0x182)),searchInputModal=document[_0x1cda9d(0x18a)]('searchInputModal'),searchInput=document[_0x1cda9d(0x18a)]('searchInput'),autocompleteBox=document[_0x1cda9d(0x18a)](_0x1cda9d(0x18c)),data1=dataLines[_0x1cda9d(0x18e)](_0x2eff42=>{const [_0x577075,_0x1d5918]=_0x2eff42['split'](',');return{'name':_0x577075,'link':_0x1d5918};});function _0x113e(){const _0x254e59=['trim','getElementById','274776cBvuqt','autocompleteBox','link','map','442SSdBdl','length','1620naLciC','block','includes','name','4038eTYCsb','createElement','replace','href','split','327870eYOUMc','53290VqPTPN','div','8696OyNMkN','target','appendChild','style','53872WUKLzq','603865uRsUWF','display','click','input','addEventListener','searchButton','none','toLowerCase','forEach','filter','textContent','1267oKEowq'];_0x113e=function(){return _0x254e59;};return _0x113e();}function removeDiacritics(_0x521617){return _0x521617['normalize']('NFD')['replace'](/[\u0300-\u036f]/g,'');}function search2(_0x20c915){const _0x2d8964=_0x1cda9d;autocompleteBox['innerHTML']='';const _0x25dc8b=removeDiacritics(_0x20c915)[_0x2d8964(0x197)](/[^\w\s]/g,'')[_0x2d8964(0x184)](),_0x4c0cab=data1[_0x2d8964(0x186)](_0x122915=>{const _0x3f413e=_0x2d8964,_0x19a3ab=removeDiacritics(_0x122915[_0x3f413e(0x194)])[_0x3f413e(0x197)](/[^\w\s]/g,'')[_0x3f413e(0x184)]();return _0x19a3ab[_0x3f413e(0x193)](_0x25dc8b);});if(_0x4c0cab[_0x2d8964(0x190)]===0x0){autocompleteBox[_0x2d8964(0x1a0)][_0x2d8964(0x1a3)]='none';return;}_0x4c0cab[_0x2d8964(0x185)](_0x548088=>{const _0xc8b0f0=_0x2d8964,_0xaae7d=document[_0xc8b0f0(0x196)](_0xc8b0f0(0x19c)),_0x25de77=document[_0xc8b0f0(0x196)]('a');_0x25de77[_0xc8b0f0(0x198)]=_0x548088[_0xc8b0f0(0x18d)],_0x25de77[_0xc8b0f0(0x187)]=_0x548088[_0xc8b0f0(0x194)],_0xaae7d[_0xc8b0f0(0x19f)](_0x25de77),autocompleteBox[_0xc8b0f0(0x19f)](_0xaae7d);}),autocompleteBox[_0x2d8964(0x1a0)][_0x2d8964(0x1a3)]=_0x2d8964(0x192);}function _0x3279(_0xecdda4,_0x35cb52){const _0x113ead=_0x113e();return _0x3279=function(_0x32790c,_0x3803af){_0x32790c=_0x32790c-0x182;let _0x4b6796=_0x113ead[_0x32790c];return _0x4b6796;},_0x3279(_0xecdda4,_0x35cb52);}searchButton[_0x1cda9d(0x1a6)](_0x1cda9d(0x1a4),()=>{const _0x2900c9=_0x1cda9d;searchInputModal[_0x2900c9(0x1a0)][_0x2900c9(0x1a3)]=_0x2900c9(0x192);}),searchInput[_0x1cda9d(0x1a6)](_0x1cda9d(0x1a5),()=>{const _0xa04743=_0x1cda9d,_0x40b10d=searchInput['value'];_0x40b10d[_0xa04743(0x189)]()===''?autocompleteBox[_0xa04743(0x1a0)][_0xa04743(0x1a3)]='none':search2(_0x40b10d);}),document[_0x1cda9d(0x1a6)](_0x1cda9d(0x1a4),_0x4eaaf3=>{const _0x505703=_0x1cda9d;_0x4eaaf3[_0x505703(0x19e)]===searchInputModal&&(searchInputModal[_0x505703(0x1a0)]['display']=_0x505703(0x183));});
 
 
 
