@@ -1,15 +1,8 @@
-
-
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
-
-<meta name="viewport" content="width=device-width, initial-scale=0.52, user-scalable=no">
-<link rel="shortcut icon" type="image/x-icon" href="https://datamb.football/favicon.ico">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link rel="shortcut icon" type="image/x-icon" href="https://datamb.football/favicon.ico">
   <title translate="no">DataMB | Compare Midfielders</title>
   <meta property="og:image" content="https://datamb.football/vignettes/cm.png">
 		<meta name="description" content="Compare midfielder statistics in the Top 7 Leagues. Visualize player performance. Find similar profiles. Use our radar tool to compare duels; interceptions; tackles; passes; passing accuracy; progressive passes; progressive runs; key passes and more for midfielders in Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Primeira Liga.">
@@ -19,26 +12,590 @@
   <meta name="twitter:description" content="Radar Comparison Tool">
   <meta name="twitter:image" content="https://datamb.football/vignettes/cm.png">
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script>
+  (function() {
+      // Get the width of the viewport
+      var width = window.innerWidth;
+      console.log('Window width:', width);  // Debug log
 
+      // Calculate the initial scale based on the width
+      var initialScale = width / 770;
+      console.log('Initial scale:', initialScale);  // Debug log
+
+      // Find the viewport meta tag
+      var viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+          // Set the viewport meta tag content attribute
+          viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + initialScale + ', user-scalable=no');
+          console.log('Viewport meta updated with initial scale:', initialScale);  // Debug log
+      } else {
+          console.error('Viewport meta tag not found');
+      }
+  })();
+</script>
+	<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+<defs>
+<style>
+
+.result-color-blue {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-pink {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-orange {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-green {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+
+
+
+.result-color-bleu {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-rose {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+
+
+.result-color-1 {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-2 {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-3 {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-4 {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+.result-color-5 {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-6 {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+.result-color-7 {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-8 {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-9 {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-10 {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+.result-color-11 {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-12 {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+
+
+.result-color-13 {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-14 {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-15 {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-16 {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+.result-color-17 {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-18 {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+.result-color-19 {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-20 {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-21 {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-22 {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+.result-color-23 {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-24 {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+
+
+.result-color-25 {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-26 {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-27 {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-28 {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+.result-color-29 {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-30 {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+.result-color-31 {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-32 {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-33 {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-34 {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+.result-color-35 {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-36 {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+
+
+.result-color-37 {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-38 {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-39 {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-40 {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+.result-color-41 {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-42 {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+.result-color-43 {
+  color: #3062FB !important;
+  stroke: #3062FB;
+  fill: #3062FB;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-44 {
+  color: #F62681 !important;
+stroke: #F62681;
+fill: #F62681;
+fill-opacity: 0.02;
+
+}
+
+.result-color-45 {
+  color: #55d149 !important;
+stroke: #55d149;
+fill: #55d149;
+fill-opacity: 0.02;
+}
+
+.result-color-46 {
+  color: #FFCF5F !important;
+stroke: #FFCF5F;
+fill: #FFCF5F;
+fill-opacity: 0.02;
+}
+
+
+.result-color-47 {
+  color: #900C3F  !important;
+  stroke: #900C3F ;
+  fill: #900C3F ;
+  fill-opacity: 0.02;
+}
+
+
+.result-color-48 {
+  color: #F09710 !important;
+stroke: #F09710;
+fill: #F09710;
+fill-opacity: 0.02;
+
+}
+
+   
+
+  /* !!!DARK MODE!!! */
+  body.dark-mode,
+  body.dark-mode * {
+    color: #f2f2f2;
+  }
+
+  body.dark-mode {
+    background-color: #0F0F0E;
+  }
+
+  body.dark-mode table {
+    background-color: #333333;
+  }
+
+  body.dark-mode tr:first-child th:first-child {
+  color: #5b5b5b;
+  
+}
+
+  body.dark-mode th
+  body.dark-mode td {
+    color: #f2f2f2;
+  }
+
+ body.dark-mode .metrics-table th {
+  color: #bcbcbc;
+  padding: 9px;
+}
+
+body.dark-mode #searchInput1 {
+    color: #000; 
+background-color : #999;
+  }
 	
-	<style>
-       body, html {
-            margin: 0;
-            padding: 0;
-        }
-        iframe {
-            display: block;
-            width: 100%;
-            height: 890px;
-            border: none; /* Remove iframe borders if desired */
-        }
+ body.dark-mode	  #searchInput1::placeholder {
+    color: #fff; 
+  }
+
+ body.dark-mode	  #searchButton1 {
+    color: #fff !important; 
+background-color : #333333;
+  }
+
+
+
+.dark-mode .matching-names-container {
+  background-color: grey;
+}
 
 
 
 
+  body.dark-mode svg text.label {
+    fill: #bcbcbc;
+  }
 
-        .header .logo {
+
+
+  body.dark-mode svg text.label {
+    fill: #bcbcbc;
+  }
+
+body.dark-mode button {
+  background-color: #333333;
+}
+
+body.dark-mode button,
+body.dark-mode button:focus {
+  color: #f2f2f2;
+}
+
+body.dark-mode button:hover {
+  color: initial;
+}
+
+body.dark-mode .button-8 {
+  background-color: #13293d; 
+  color: #f2f2f2; 
+}
+
+body.dark-mode .button-8:hover,
+body.dark-mode .button-8:focus {
+  background-color: #3a6ea5;
+  color: #f2f2f2; 
+}
+
+body.dark-mode .button-8:hover,
+body.dark-mode .button-8:focus {
+  background-color: #3a6ea5;
+  color: #f2f2f2;
+}
+
+
+
+
+.dark-mode-toggle .toggle-icon::before {
+  font-family: "Ionicons";
+  content: "\f467"; 
+  font-size: 35px; 
+}
+
+body.dark-mode .dark-mode-toggle {
+  background-color: #333333;
+}
+
+
+
+body.dark-mode .dark-mode-toggle .toggle-icon::before {
+  font-family: "Ionicons";
+  content: "\f3b0"; 
+  font-size: 24px; 
+}
+
+
+
+body.dark-mode .toggle-slider {
+  background-color: #2B2C2E;
+}
+
+body.dark-mode input:checked + .toggle-slider:before {
+  background-color: #ccc; 
+}
+
+
+body.dark-mode .button-10 {
+  border: 0.1px solid #000000; 
+}
+
+
+.header .logo {
   display: flex;
   align-items: center;
 }
@@ -59,7 +616,7 @@ color: #444444;
 .header .navigation {
   display: center;
   align-items: center;
-  word-spacing: 2.6em; /* Adjust the spacing as needed */
+  word-spacing: 2.6em; 
 }
 
 
@@ -107,13 +664,13 @@ header a {
 
 .search-input-modal {
     display: none;
-    position: fixed; /* Change this to "fixed" to cover the entire viewport */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Increase opacity for better obscuring */
-    z-index: 999; /* Ensure it's above other elements */
+    background: rgba(0, 0, 0, 0.7); 
+    z-index: 999; 
 }
 
 .search-input-container {
@@ -124,7 +681,7 @@ header a {
     background-color: #fff;
     padding: 20px;
     border-radius: 4px;
-    z-index: 1000; /* Make sure it's on top of the modal background */
+    z-index: 1000; 
 }
 
 #searchInput {
@@ -156,7 +713,7 @@ header a {
         }
 
         #autocompleteBox {
-            line-height: 2; /* Adjust the value as needed to control line spacing */
+            line-height: 2; 
             text-align: center !important;
 
         }
@@ -166,7 +723,7 @@ header a {
             font-family: Arial, sans-serif;
             text-align: center !important;
             color: #333 !important;
-            cursor: pointer; /* Add pointer cursor style to the anchor element */
+            cursor: pointer; 
         }
 
         #autocompleteBox li:hover {
@@ -177,14 +734,553 @@ header a {
     background-color: #0074d9;
     color: #fff;
     border: none;
-    width: 40px; /* Set the width and height to the same value for a round button */
+    width: 40px; 
     height: 40px;
-    border-radius: 50%; /* Make the button round by setting border-radius to 50% of the size */
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 20px; /* Increase the text size */
+    font-size: 20px; 
 }
 
-    </style>
+.button-10 {
+    position: absolute;
+    top: 607px;
+    left: 657px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40.1px;
+    height: 40.1px;
+    border-radius: 50%;
+  background-color: #e0e0de;
+  color: #333;
+  border: 0.1px solid #ccc;
+  cursor: pointer;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+
+
+.button-1 {
+  align-items: center;
+height: 20px;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+top: 611px;
+  left: 55px;
+width: 85px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-1:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+.button-2 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+top: 611px;
+  left: 155px;
+height: 20px;
+width: 85px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-2:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+.button-3 {
+  align-items: center;
+height: 20px;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+top: 611px;
+  left: 255px;
+width: 85px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-3:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+.button-4 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+top: 611px;
+  left: 355px;
+height: 20px;
+width: 85px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-4:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+
+
+.button-5 {
+  align-items: center;
+height: 20px;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+top: 611px;
+  left: 455px;
+width: 85px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-5:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+.button-6 {
+  align-items: center;
+  background-color: #F9F9F9;
+  border-radius: 6px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  color: #121212;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 1 1 auto;
+  font-family: Inter,sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  outline: none;
+  padding: 1rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .1s,-webkit-box-shadow .1s;
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+  position: absolute;
+top: 611px;
+  left: 555px;
+height: 20px;
+width: 85px; 
+ 
+  touch-action: manipulation;
+}
+
+.button-6:hover {
+   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+}
+
+
+
+svg text.label {
+    fill: #bcbcbc;
+  }
+	
+.icon2::before {
+  content: "\f118";
+  font-family: "Ionicons"; 
+font-size: 22px;
+}
+
+.icon3::before {
+  content: "\f448";
+  font-family: "Ionicons";
+font-size: 22px;
+}
+
+text {
+  font-family: Arial;
+}
+
+
+  #searchInput1::placeholder {
+    font-size : 18px; 
+  }
+
+
+.name {
+font-family: Arial, sans-serif !important;
+font-size: 13px;
+position: relative;
+top: 10px;
+color: black !important;
+cursor: pointer;
+}
+
+
+
+td {
+    font-weight: bold;
+  }
+  th {
+    font-weight: normal;
+  }
+
+
+.icon::before {
+  content: "\f21c";
+  font-family: "Ionicons"; 
+font-size: 22px;
+}		
+
+body, html {
+            margin: 0;
+            padding: 0;
+        }
+
+
+table {
+   border-collapse: collapse;
+  width: 200px;
+  font-family: Arial;
+  border-radius: 10px;
+}
+
+.metrics-table {
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  width: 750px;
+  table-layout: fixed; 
+  border-collapse: collapse; 
+}
+
+
+.metrics-table th {
+  color: #000000;
+  padding: 6px 9px;
+  font-size: 11px;
+  text-align: center;
+  overflow: hidden; 
+}
+
+.metrics-table td {
+  padding: 4px 11px;
+  text-align: center;
+  word-wrap: break-word; 
+  overflow: hidden; 
+}
+
+.metrics-table th:nth-child(1),
+.metrics-table td:nth-child(1) {
+  width: 90px; 
+}
+
+.metrics-table th:nth-child(2),
+.metrics-table td:nth-child(2) {
+  width: 95px; 
+}
+
+.metrics-table th:nth-child(3),
+.metrics-table td:nth-child(3) {
+  width: 20px; 
+}
+
+
+tr:first-child th:first-child {
+  color: #5b5b5b;
+  font-weight: bold;
+  font-size: 12px;
+  word-wrap: break-word;
+  overflow: hidden; 
+}
+
+
+
+#searchInput1 {
+width: 406px;
+height: 30px;
+}
+
+#searchButton1 {
+width: 32px;
+color: black !important;
+height: 32px;
+cursor: pointer;
+}
+
+
+  
+svg:nth-of-type(1) {
+  width: 700px;
+  height: 485px;
+}
+
+
+.searchcontainer {
+    display: flex;
+    align-items: center;
+    position: relative;
+	  margin-left: 8px;
+            margin-top: 8px;
+	
+}
+
+.dark-mode-toggle {
+position: absolute;
+left: 93%;
+top:5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 37px;
+    height: 37px;
+    background-color: #e0e0de;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+
+
+.maxcontainer {
+position: absolute;
+    }
+
+
+
+.toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+position: absolute;
+  top: 431.5px;
+  left: 620px;
+ width: 120px; 
+ 
+    }
+
+    .toggle-label {
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    .toggle-checkbox {
+      width: 40px;
+      height: 20px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .toggle-checkbox input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+    }
+
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #2196F3;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    .toggle-container2 {
+display: flex;
+align-items: center;
+justify-content: center;
+position: absolute;
+  top: 416.6px;
+  left: 5.9px;
+ width: 120px; 
+    }
+
+    img {
+            width: 40px;
+top: -400px;
+pointer-events: none;
+z-index: 40000; 
+left: -953px;
+opacity: .8;
+        }
+
+
+
+  
+        .screenshotcontainer {
+            margin-left: 8px;
+        }
+        
+	.emptycontainer {
+    height: 166px;
+    width: 100%; 
+}
+.finalcontainer {
+  width: 100%;
+}
+
+
+
+.similar-table {
+  position: absolute;
+  left: 389.4px;
+  transform: translateX(-50%);
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  border-collapse: collapse; 
+}
+
+.similar-table th,
+.similar-table td {
+  text-align: center;
+  white-space: normal;
+  width: auto;
+
+}
+
+.similar-table th {
+  color: #000000;
+  padding: 6px 9px;
+  font-size: 11px;
+  overflow: hidden; 
+}
+
+.similar-table td {
+  padding: 4px 11px;
+}
+
+
+</style>
+</defs>
+	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
 
 
 
@@ -208,37 +1304,8 @@ header a {
     </svg>
   </a>
 </header>
-	
-<script>
-    // Function to scroll down a tiny bit
-    function scrollDown() {
-        window.scrollBy(0, 250); // Adjust the value (100) to change the scroll distance
-    }
-
-    // Function to scroll up a tiny bit
-    function scrollUp() {
-        window.scrollBy(0, -240); // Adjust the value (-80) to change the scroll distance
-    }
-
-    // Combine both actions with a small timer between them
-    function initializeScroll() {
-        // Check if the screen width is below the threshold for mobile devices (e.g., 768 pixels)
-        if (window.innerWidth < 768) {
-            scrollDown();
-            setTimeout(scrollUp, 10); // Adjust the delay time (1000ms = 1 second)
-        }
-    }
-
-    // Add an event listener to execute the scrolling functions when the page loads
-    window.addEventListener('load', initializeScroll);
-</script>
-
-
-
- <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
      crossorigin="anonymous"></script>
-	
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSBMXX80EF"></script>
@@ -259,8 +1326,6 @@ header a {
 </div>
 
 
-
-
 <script>
 
   
@@ -277,6 +1342,7 @@ const _0x1cda9d=_0x3279;(function(_0x3d1616,_0x106f05){const _0x561e6e=_0x3279,_
 </script>
 
 <body>
+
   <center>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
      crossorigin="anonymous"></script>
@@ -290,44 +1356,220 @@ const _0x1cda9d=_0x3279;(function(_0x3d1616,_0x106f05){const _0x561e6e=_0x3279,_
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script></center>
+  <div class="searchcontainer">
+    <input type="text" id="searchInput1" class="search-bar" placeholder="Enter name of midfielder..." />
+    &nbsp;<input type="button" id="searchButton1" value="+&nbsp;" />
+    <div class="dark-mode-toggle" onclick="toggleDarkMode()"><div class="toggle-icon"></div></div></div>
+    <div class="screenshotcontainer">
+      <div id="matchingNames"></div>
+	<div id="resultsTable"></div>  
+ <br><br>
+  <div class="maxcontainer">
+  <div class="toggle-container">
+    <label class="toggle-label"></label>
+    <label class="toggle-checkbox">
+      <input type="checkbox" id="toggleButton" onclick="toggleFilling()" unchecked>
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+  <div class="toggle-container2">
+    <img src="https://datamb.football/logo.png" alt="Logo">
+  </div>
+  <button onclick="takeScreenshot()" class="button-10"><div class="icon2"></div></button>
+  <a href="https://datamb.football/keepers/" target="_top" rel="noopener noreferrer">
+    <button class="button-1" role="button">GK</button></a>
+  
+  <a href="https://datamb.football/centrebacks/" target="_top" rel="noopener noreferrer">
+    <button class="button-2" role="button">CB</button></a>
+  
+  <a href="https://datamb.football/fullbacks/" target="_top" rel="noopener noreferrer">
+    <button class="button-3" role="button">FB</button></a>
+  
+  <a href="https://datamb.football/wingers/" target="_top" rel="noopener noreferrer">
+    <button class="button-4" role="button">FW</button></a>
+  
+  <a href="https://datamb.football/strikers/" target="_top" rel="noopener noreferrer">
+    <button class="button-5" role="button">ST</button></a>
+  
+  <a href="https://datamb.football/teamradars/" target="_top" rel="noopener noreferrer">
+    <button class="button-6" role="button">Team</button></a>
+
+  </div>
 
 
+  <svg class="radar"><g transform="translate(379.77,225.77)"><g class="axisWrapper">
+  
+    <g class="radar_label">
+      <text class="label" data-type="Aerial%" data-idx="0" transform="translate(-60 -196.04) scale(1.3) rotate(-1.7)">Key Passes</text>
+  </g>
+  
+  <g class="radar_label">
+      <text class="label" data-type="Long%" data-idx="6" transform="matrix(0.65, -1.118, 1.118, 0.65, -188.21, -80.03) rotate(7.5)">Fwd Pass%</text>
+  </g>
+  
+  <g class="radar_label">
+      <text class="label" data-type="Passes" data-idx="5" transform="matrix(-0.494, -1.209, 1.209, -0.494, -173, 107.54) rotate(3.87)">Fwd Passes</text>
+  </g>
+  
+  <g class="radar_label">
+      <text class="label" data-type="Exits" data-idx="4" transform="translate(-120.12 183.16) scale(1.3) rotate(20)">Carrying</text>
+  </g>
+  
+  <g class="radar_label">
+      <text class="label" data-type="Aerial" data-idx="3" transform="translate(71.82 206.54) scale(1.3) rotate(-31)">Def Actions</text>
+  </g>
+  
+  <g class="radar_label">
+      <text class="label" data-type="Def Actions" data-idx="2" transform="translate(200.22 6.30) scale(1.3) rotate(99.11)">Duels%</text>
+  </g>
+  
+  <g class="radar_label">
+      <text class="label" data-type="Shotstopping" data-idx="1" transform="translate(125.64 -163.65) scale(1.3) rotate(52.49)">Prog Passes</text>
+  </g>
+  
+  
+  <circle class="blackCircle" r="190" style="fill:none; stroke:#D3D3D3; stroke-width:1;"></circle>
+  <circle class="gridCircle" r="190" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+  <circle class="gridCircle" r="160" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+  <circle class="gridCircle" r="120" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+  <circle class="gridCircle" r="80" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+  <circle class="gridCircle" r="40" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
 
-   <script>
-
-function generateSrc(_0x453324){var _0x4b826e=atob(_0x453324);return _0x4b826e;}
-</script>
-
-    <iframe id="goalkeeperIframe"></iframe>
-
-
-
-
+   
+  <line x1="0" y1="0" x2="9.33" y2="189.4543362" stroke="#D3D3D3" stroke-width="1" transform="translate(-9.33, -189.4543362)"></line>
+  <line x1="0" y1="0" x2="-142.0538533333333" y2="126.24" stroke="#D3D3D3" stroke-width="1" transform="translate(141.74184, -126.24)"></line>
+  <line x1="0" y1="0" x2="-187.31589333333332" y2="-32.31413333333333" stroke="#D3D3D3" stroke-width="1" transform="translate(187.5574112, 32.2528)"></line>
+  <line x1="0" y1="0" x2="-91.84497333333333" y2="-166.92245333333333" stroke="#D3D3D3" stroke-width="1" transform="translate(91.84497333333333, 166.21328)"></line>
+  <line x1="0" y1="0" x2="72.99733333333333" y2="-175.84917333333335" stroke="#D3D3D3" stroke-width="1" transform="translate(-72.99997333333334, 175.334068)"></line>
+  <line x1="0" y1="0" x2="182.73258666666666" y2="-52.67472" stroke="#D3D3D3" stroke-width="1" transform="translate(-182.7209384, 52.480128)"></line>
+  <line x1="0" y1="0" x2="154.67849333333334" y2="109.91788799999999" stroke="#D3D3D3" stroke-width="1" transform="translate(-154.6883792222, -110.017215488)"></line>
+  
+  
+  <g class="radarWrapper"></g>
+  </g></g>    
+  <div id="insertHere"></div>
+</div>
 <script>
+      const _0xb87ede=_0x1721;(function(_0xc71bc4,_0x55e4f8){const _0x55e5a8=_0x1721,_0x216d5c=_0xc71bc4();while(!![]){try{const _0x38122f=parseInt(_0x55e5a8(0x1da))/0x1+parseInt(_0x55e5a8(0x205))/0x2*(parseInt(_0x55e5a8(0x1d7))/0x3)+parseInt(_0x55e5a8(0x1fe))/0x4*(parseInt(_0x55e5a8(0x1b9))/0x5)+parseInt(_0x55e5a8(0x219))/0x6+parseInt(_0x55e5a8(0x21d))/0x7*(parseInt(_0x55e5a8(0x1a0))/0x8)+-parseInt(_0x55e5a8(0x1f8))/0x9+parseInt(_0x55e5a8(0x244))/0xa*(-parseInt(_0x55e5a8(0x1a2))/0xb);if(_0x38122f===_0x55e4f8)break;else _0x216d5c['push'](_0x216d5c['shift']());}catch(_0xf041d4){_0x216d5c['push'](_0x216d5c['shift']());}}}(_0x2f56,0x9935f));const allData1=[],allData2=[];let allDataAsString='';function _0x2f56(){const _0x10d96d=['756195bVmcgQ','block','input','pow','result-color-46','read','querySelector','removeChild','result-color-33','closest','Enter','add','result-color-2','SheetNames','map','dispatchEvent','length','firstChild','result-color-22','indexOf','result-color-29','join','remove','Sheets','toLowerCase','result-color-30','.name','Similar\x20data\x20to\x20','resultsTable','Forward\x20passes','2901915RITuGt','result-color-43','appendChild','cos','Prog.\x20carries','error','106640uYBcww','result-color-3','sort','trim','children','result-color-38','searchInput1','4dAcvAz','includes','http://www.w3.org/2000/svg','metrics-table','result-color-35','div','9999','Def.\x20actions','click','style','result-color-12','9px','setAttribute','class','result-color-44','result-color-41','result-color-36','0.86','result-color-blue','result-color-37','2382222Glfzww','sheet_to_json','filter','\x2023/24','7LiCTWN','width','addEventListener','result-color-25','difference','userAgent','.radarCircle.','Arial,\x20sans-serif','cursor','https://datamb.football/database/OLD/RATOP72223/CM/CM.xlsx','result-color-40','NFD','Backspace','backgroundColor','result-color-47','none','push','test','result-color-1','searchButton','createElementNS','forEach','searchButton1','arrayBuffer','result-color-pink','Prog.\x20passes','result-color-6','result-color-39','result-color-7','fontFamily','sqrt','value','result-color-45','.team','#9c9b9b','result-color-24','matchingNames','keyup','sin','436510vhZLOZ','fontSize','result-color-4','innerHTML','createElement','result-color-48','result-color-11','fill','position','button','paddingLeft','result-color-28','similarPlayersContainer','listStyleType','target','catch','all','getElementById','result-color-green','replace','5554616oqlMHW','split','517flDpTL','key','radarPolygon\x20','age','textContent','https://datamb.football/database/OLD/RATOP72324/CM/CM.xlsx','.fullName','display',')\x20-\x20','fullName','result-color-bleu','transform','0.2','.radarPolygon','result-color-42','slice','then','result-color-10','name','polygon','result-color-32','querySelectorAll','result-color-26','95XoFFOj','fillOpacity','array','unshift','radarLines\x20','Forward\x20pass%','polyline','result-color-15','zIndex','left','.radarLines.','result-color-20','team','result-color-8','Age','utils','\x20min','circle','result-color-21','Key\x20passes','points','classList','result-color-5','toFixed','colspan','index','result-color-31','\x2022/23','span','similar-table','971226MaSOsV','insertHere','table'];_0x2f56=function(){return _0x10d96d;};return _0x2f56();}const urls1=[_0xb87ede(0x1a7)],urls2=[_0xb87ede(0x226)],fetchPromises1=urls1['map'](_0x21f8fc=>fetch(_0x21f8fc)[_0xb87ede(0x1b2)](_0x41f649=>_0x41f649[_0xb87ede(0x234)]())),fetchPromises2=urls2[_0xb87ede(0x1e8)](_0x2e10cf=>fetch(_0x2e10cf)[_0xb87ede(0x1b2)](_0x53eedd=>_0x53eedd[_0xb87ede(0x234)]()));function processAndStoreData1(_0x22d784){const _0x5205cb=_0xb87ede;let _0x266d33=0x1;_0x22d784['forEach'](_0x5288bc=>{const _0x3a5d00=_0x1721,_0x51fb6d=XLSX[_0x3a5d00(0x1df)](new Uint8Array(_0x5288bc),{'type':_0x3a5d00(0x1bb)}),_0xe6a7d4=_0x51fb6d[_0x3a5d00(0x1e7)][0x0],_0x44f6f2=_0x51fb6d[_0x3a5d00(0x1f1)][_0xe6a7d4],_0x570ad6=XLSX[_0x3a5d00(0x1c8)][_0x3a5d00(0x21a)](_0x44f6f2,{'header':0x1}),_0x115311=_0x570ad6[_0x3a5d00(0x1b1)](0x1);_0x115311[_0x3a5d00(0x232)](_0x1b8abb=>{const _0x39df1f=_0x3a5d00;_0x1b8abb[_0x39df1f(0x1bc)](''+_0x266d33++),_0x1b8abb[0xf]=_0x1b8abb[0x1]+_0x39df1f(0x1d4),_0x1b8abb[0x3]=_0x1b8abb[0x3]-0x1;const _0x1a3ec8=[_0x1b8abb[0x0],_0x1b8abb[0xf],_0x1b8abb[0x2],_0x1b8abb[0x3],_0x1b8abb[0x5],_0x1b8abb[0x6],_0x1b8abb[0x7],_0x1b8abb[0x8],_0x1b8abb[0x9],_0x1b8abb[0xa],_0x1b8abb[0xb],_0x1b8abb[0x4]];allData1[_0x39df1f(0x22d)](_0x1a3ec8);});});const _0x45dc49=[0x4,0x5,0x6,0x7,0x8,0x9,0xa],_0x3741a7=_0x45dc49['map'](_0x49be22=>allData1['map'](_0x4313fc=>parseFloat(_0x4313fc[_0x49be22]))),_0xc0c69e=_0x3741a7[_0x5205cb(0x1e8)](_0x4ff5d4=>{const _0x3c064e=[..._0x4ff5d4]['sort']((_0x80ba7d,_0x273b10)=>_0x80ba7d-_0x273b10);return _0x4ff5d4['map'](_0x42d1bb=>{const _0x725a10=_0x1721,_0x3db6d9=_0x3c064e[_0x725a10(0x1ed)](_0x42d1bb)+0x1;return _0x3db6d9/_0x3c064e[_0x725a10(0x1ea)];});});allData1[_0x5205cb(0x232)]((_0x132832,_0x11f397)=>{const _0x2e9433=_0x5205cb;_0x45dc49[_0x2e9433(0x232)]((_0x3e4da0,_0x1ecc40)=>{const _0x1c04fd=_0x2e9433;_0x132832[_0x3e4da0]=_0xc0c69e[_0x1ecc40][_0x11f397][_0x1c04fd(0x1d0)](0x3);});});}function processAndStoreData(_0x266aa6){const _0x3adf0b=_0xb87ede;let _0x1afd8b=0x1;_0x266aa6[_0x3adf0b(0x232)](_0x337147=>{const _0x396e14=_0x3adf0b,_0x3c7968=XLSX[_0x396e14(0x1df)](new Uint8Array(_0x337147),{'type':_0x396e14(0x1bb)}),_0x1ccd62=_0x3c7968[_0x396e14(0x1e7)][0x0],_0x3272fe=_0x3c7968['Sheets'][_0x1ccd62],_0x2e1b09=XLSX[_0x396e14(0x1c8)][_0x396e14(0x21a)](_0x3272fe,{'header':0x1}),_0x226990=_0x2e1b09[_0x396e14(0x1b1)](0x1);_0x226990[_0x396e14(0x232)](_0x71c9ce=>{const _0x1606a8=_0x396e14;_0x71c9ce['unshift'](''+_0x1afd8b++),_0x71c9ce[0xf]=_0x71c9ce[0x1]+_0x1606a8(0x21c);const _0x434a2f=[_0x71c9ce[0x0],_0x71c9ce[0xf],_0x71c9ce[0x2],_0x71c9ce[0x3],_0x71c9ce[0x5],_0x71c9ce[0x6],_0x71c9ce[0x7],_0x71c9ce[0x8],_0x71c9ce[0x9],_0x71c9ce[0xa],_0x71c9ce[0xb],_0x71c9ce[0x4]];allData2[_0x1606a8(0x22d)](_0x434a2f);});});const _0x5211d9=[0x4,0x5,0x6,0x7,0x8,0x9,0xa],_0x30ef4f=_0x5211d9[_0x3adf0b(0x1e8)](_0x120e10=>allData2['map'](_0x53c771=>parseFloat(_0x53c771[_0x120e10]))),_0x59718b=_0x30ef4f[_0x3adf0b(0x1e8)](_0x14d9f4=>{const _0x48145c=_0x3adf0b,_0x5b5d6d=[..._0x14d9f4][_0x48145c(0x200)]((_0x148bbe,_0x443d9c)=>_0x148bbe-_0x443d9c);return _0x14d9f4[_0x48145c(0x1e8)](_0xd2bb72=>{const _0x1f5baf=_0x48145c,_0x36157d=_0x5b5d6d[_0x1f5baf(0x1ed)](_0xd2bb72)+0x1;return _0x36157d/_0x5b5d6d[_0x1f5baf(0x1ea)];});});allData2[_0x3adf0b(0x232)]((_0x1068b5,_0x13fe3b)=>{const _0x1dc2d3=_0x3adf0b;_0x5211d9[_0x1dc2d3(0x232)]((_0x3500e2,_0x32e947)=>{const _0x1673a2=_0x1dc2d3;_0x1068b5[_0x3500e2]=_0x59718b[_0x32e947][_0x13fe3b][_0x1673a2(0x1d0)](0x3);});});}function _0x1721(_0x12ea89,_0x3b0405){const _0x2f5621=_0x2f56();return _0x1721=function(_0x17216f,_0x5236f3){_0x17216f=_0x17216f-0x18e;let _0x36a0c0=_0x2f5621[_0x17216f];return _0x36a0c0;},_0x1721(_0x12ea89,_0x3b0405);}Promise[_0xb87ede(0x19c)](fetchPromises1)[_0xb87ede(0x1b2)](_0x1d1496=>{const _0x20ba49=_0xb87ede;processAndStoreData(_0x1d1496),Promise[_0x20ba49(0x19c)](fetchPromises2)[_0x20ba49(0x1b2)](_0x210329=>{const _0x56e76d=_0x20ba49;processAndStoreData1(_0x210329);const _0x25f725=allData2['concat'](allData1);_0x25f725[_0x56e76d(0x232)]((_0x3d7e20,_0x379abe)=>{_0x3d7e20[0x0]=''+(_0x379abe+0x1);}),_0x25f725['forEach'](_0x3a392e=>{const _0x2a8347=_0x56e76d;allDataAsString+=_0x3a392e[_0x2a8347(0x1ef)](',')+'\x0a';});const _0x50bb9f=allDataAsString[_0x56e76d(0x201)]()[_0x56e76d(0x1a1)]('\x0a'),_0x388993=[];for(const _0x2e9169 of _0x50bb9f){const _0x178938=_0x2e9169['split'](','),_0x46aba2=_0x178938[0x1],_0x396513=_0x178938[0x3],_0x3967ec=_0x178938[0x2],_0x4dafa5=_0x46aba2+','+_0x396513+','+_0x3967ec;_0x388993[_0x56e76d(0x22d)](_0x4dafa5);}function _0xb93e9d(){const _0x9ae937=_0x56e76d,_0x3b0cfb=navigator[_0x9ae937(0x222)];return/Android|iPhone/i[_0x9ae937(0x22e)](_0x3b0cfb);}const _0x37f9fe=_0x388993,_0x5a5753=document[_0x56e76d(0x19d)](_0x56e76d(0x204)),_0x5cf797=document['getElementById'](_0x56e76d(0x241)),_0x1dceae=document[_0x56e76d(0x19d)](_0x56e76d(0x230));function _0x3d5979(){const _0x2e0d42=_0x56e76d,_0x54d90f=_0x48fa7f(_0x5a5753[_0x2e0d42(0x23c)][_0x2e0d42(0x1f2)]()),_0x2e4357=_0x37f9fe[_0x2e0d42(0x21b)](function(_0x1d061e){const _0x41e0cd=_0x2e0d42,[_0x40c6b8]=_0x1d061e[_0x41e0cd(0x1a1)](','),_0x25ad66=_0x48fa7f(_0x40c6b8[_0x41e0cd(0x1f2)]());return _0x25ad66[_0x41e0cd(0x206)](_0x54d90f);});_0x5cf797[_0x2e0d42(0x18f)]='',_0x2e4357['forEach'](function(_0x2a8d51){const _0x4f3313=_0x2e0d42,[_0x13db2b,_0x1d4042,_0x1c8462]=_0x2a8d51['split'](','),_0x54aa75=document[_0x4f3313(0x190)](_0x4f3313(0x20a));_0x54aa75[_0x4f3313(0x1ce)]['add'](_0x4f3313(0x1b4));const _0x1e358c=document[_0x4f3313(0x190)](_0x4f3313(0x1d5));_0x1e358c['textContent']=_0x13db2b,_0x1e358c['classList'][_0x4f3313(0x1e5)](_0x4f3313(0x1ab)),_0x54aa75[_0x4f3313(0x1fa)](_0x1e358c);const _0x36e114=document[_0x4f3313(0x190)](_0x4f3313(0x1d5));_0x36e114[_0x4f3313(0x1a6)]='\x20('+_0x1d4042+',',_0x36e114[_0x4f3313(0x1ce)][_0x4f3313(0x1e5)](_0x4f3313(0x1a5)),_0x54aa75['appendChild'](_0x36e114);const _0x2069ae=document[_0x4f3313(0x190)](_0x4f3313(0x1d5));_0x2069ae[_0x4f3313(0x1a6)]='\x20'+_0x1c8462+')',_0x2069ae[_0x4f3313(0x1ce)]['add'](_0x4f3313(0x1c5)),_0x54aa75[_0x4f3313(0x1fa)](_0x2069ae),_0x54aa75[_0x4f3313(0x21f)](_0x4f3313(0x20d),function(_0x5e72a6){const _0x333b7b=_0x4f3313,_0x391a31=_0x5e72a6[_0x333b7b(0x19a)][_0x333b7b(0x1e3)](_0x333b7b(0x1f4));if(_0x391a31){const _0x4dbfbb=_0x391a31[_0x333b7b(0x1e0)](_0x333b7b(0x1a8))[_0x333b7b(0x1a6)],_0x1c9bdc=_0x391a31[_0x333b7b(0x1e0)]('.age')[_0x333b7b(0x1a6)][_0x333b7b(0x201)](),_0x331069=_0x391a31[_0x333b7b(0x1e0)](_0x333b7b(0x23e))[_0x333b7b(0x1a6)][_0x333b7b(0x201)]()[_0x333b7b(0x19f)](/[^a-zA-Z\s]/g,''),_0x2a8352=_0x4dbfbb+','+_0x1c9bdc['substring'](0x1,_0x1c9bdc[_0x333b7b(0x1ea)]-0x1)+','+_0x331069;_0x5a5753['value']=_0x2a8352;const _0x2aeedf=new KeyboardEvent(_0x333b7b(0x242),{'key':_0x333b7b(0x1e4)});_0x5a5753[_0x333b7b(0x1e9)](_0x2aeedf);}}),_0x5cf797[_0x4f3313(0x1fa)](_0x54aa75);}),_0x54d90f===''&&_0x2e4357['length']===0x0?_0x5cf797[_0x2e0d42(0x20e)][_0x2e0d42(0x1a9)]=_0x2e0d42(0x22c):(_0x5cf797[_0x2e0d42(0x20e)][_0x2e0d42(0x1a9)]=_0x2e0d42(0x1db),_0x5cf797[_0x2e0d42(0x20e)][_0x2e0d42(0x22a)]=_0x2e0d42(0x23f),_0x5cf797[_0x2e0d42(0x20e)][_0x2e0d42(0x21e)]='384px',_0x5cf797[_0x2e0d42(0x20e)]['padding']='10px',_0x5cf797[_0x2e0d42(0x20e)][_0x2e0d42(0x194)]='relative',_0x5cf797[_0x2e0d42(0x20e)][_0x2e0d42(0x1c2)]='5.5px',_0x5cf797[_0x2e0d42(0x20e)][_0x2e0d42(0x1c1)]=_0x2e0d42(0x20b)),_0x54d90f===''&&(_0x5cf797[_0x2e0d42(0x20e)][_0x2e0d42(0x1a9)]=_0x2e0d42(0x22c));}_0x5a5753['addEventListener'](_0x56e76d(0x1dc),_0x3d5979),_0x5a5753[_0x56e76d(0x21f)](_0x56e76d(0x242),function(_0x5fd7f8){const _0x2919d6=_0x56e76d;if(_0x5fd7f8['key']==='Enter')searchButton1[_0x2919d6(0x20d)]();else _0x5fd7f8[_0x2919d6(0x1a3)]===_0x2919d6(0x229)&&_0x3d5979();});const _0x5843ac=allDataAsString;let _0x3fc182=_0x5843ac['trim']()[_0x56e76d(0x1a1)]('\x0a')[_0x56e76d(0x1e8)](_0x8ea0a9=>_0x8ea0a9[_0x56e76d(0x1a1)](','));function _0x4b8339(_0x309b77,_0x2a790d){const _0x444050=_0x56e76d;let _0x45e478=0x0;for(let _0x294da2=0x4;_0x294da2<=0xa;_0x294da2++){const _0x4dcd5a=parseFloat(_0x309b77[_0x294da2]),_0x33b1c8=parseFloat(_0x2a790d[_0x294da2]);_0x45e478+=Math[_0x444050(0x1dd)](_0x4dcd5a-_0x33b1c8,0x2);}return Math[_0x444050(0x23b)](_0x45e478);}const _0x245690=[_0x56e76d(0x217),_0x56e76d(0x235),'result-color-orange',_0x56e76d(0x19e),_0x56e76d(0x1ac),'result-color-rose',_0x56e76d(0x22f),_0x56e76d(0x1e6),_0x56e76d(0x1ff),_0x56e76d(0x18e),_0x56e76d(0x1cf),_0x56e76d(0x237),_0x56e76d(0x239),_0x56e76d(0x1c6),'result-color-9',_0x56e76d(0x1b3),_0x56e76d(0x192),_0x56e76d(0x20f),'result-color-13','result-color-14',_0x56e76d(0x1c0),'result-color-16','result-color-17','result-color-18','result-color-19',_0x56e76d(0x1c4),_0x56e76d(0x1cb),_0x56e76d(0x1ec),'result-color-23',_0x56e76d(0x240),_0x56e76d(0x220),_0x56e76d(0x1b8),'result-color-27',_0x56e76d(0x197),_0x56e76d(0x1ee),_0x56e76d(0x1f3),_0x56e76d(0x1d3),_0x56e76d(0x1b6),_0x56e76d(0x1e2),'result-color-34',_0x56e76d(0x209),_0x56e76d(0x215),_0x56e76d(0x218),_0x56e76d(0x203),_0x56e76d(0x238),_0x56e76d(0x227),_0x56e76d(0x214),_0x56e76d(0x1b0),_0x56e76d(0x1f9),_0x56e76d(0x213),_0x56e76d(0x23d),_0x56e76d(0x1de),_0x56e76d(0x22b),_0x56e76d(0x191)];let _0x38e995=[];function _0x48fa7f(_0x34820e){const _0x3a349f=_0x56e76d;return _0x34820e['normalize'](_0x3a349f(0x228))[_0x3a349f(0x19f)](/[\u0300-\u036f\s]/g,'')[_0x3a349f(0x19f)](/Ø/g,'O')['replace'](/ø/g,'o');}function _0x5f2377(_0x495dea){const _0x3d8749=_0x56e76d,_0x24daea=_0x495dea[_0x3d8749(0x1a1)](',')[_0x3d8749(0x1e8)](_0x23ed2f=>_0x23ed2f['trim']()),_0x263066=_0x24daea[0x0];let _0x3b4c00,_0x44b973;_0x24daea[_0x3d8749(0x1ea)]>0x1&&(_0x3b4c00=_0x24daea[0x1][_0x3d8749(0x201)](),_0x24daea['length']>0x2&&(_0x44b973=_0x24daea[0x2]['trim']()));const _0x10fef1=_0x3fc182[_0x3d8749(0x21b)](_0x327db8=>{const _0x2ef8f5=_0x3d8749,_0x565a32=_0x48fa7f(_0x327db8[0x1]['toLowerCase']()),_0x4967d7=_0x48fa7f(_0x327db8[0x2][_0x2ef8f5(0x1f2)]()),_0x4734eb=_0x327db8[0x3][_0x2ef8f5(0x201)]()[_0x2ef8f5(0x1f2)](),_0x5260ae=_0x565a32[_0x2ef8f5(0x206)](_0x48fa7f(_0x263066['toLowerCase']())),_0x9fec07=!_0x3b4c00||_0x4734eb===_0x48fa7f(_0x3b4c00['toLowerCase']()),_0x3dcd39=!_0x44b973||_0x4967d7===_0x48fa7f(_0x44b973[_0x2ef8f5(0x1f2)]());return _0x5260ae&&(_0x9fec07||_0x3dcd39);});return _0x10fef1;}function _0x3848c7(_0x32a7a8,_0x2e3d39,_0x1ab9c0){const _0x1ed9e6=_0x56e76d,_0x42c90e=document[_0x1ed9e6(0x19d)](_0x1ed9e6(0x1f6)),_0xeac771=['','Percentiles','',_0x1ed9e6(0x1c7),'Duel%',_0x1ed9e6(0x20c),_0x1ed9e6(0x1fc),_0x1ed9e6(0x1f7),_0x1ed9e6(0x1be),_0x1ed9e6(0x1cc),_0x1ed9e6(0x236),'Minutes\x20played'],_0x204207=_0x42c90e['querySelector']('th')!==null,_0x3d4d60=_0x204207?_0x42c90e[_0x1ed9e6(0x1e0)](_0x1ed9e6(0x1d9)):document[_0x1ed9e6(0x190)](_0x1ed9e6(0x1d9));_0x3d4d60['classList']['add'](_0x1ed9e6(0x208));if(!_0x204207){const _0xef5708=document[_0x1ed9e6(0x190)]('tr');for(let _0x5cfc72=0x1;_0x5cfc72<_0xeac771[_0x1ed9e6(0x1ea)];_0x5cfc72++){const _0x44f9e6=document[_0x1ed9e6(0x190)]('th');_0x44f9e6[_0x1ed9e6(0x1a6)]=_0xeac771[_0x5cfc72],_0xef5708[_0x1ed9e6(0x1fa)](_0x44f9e6);}const _0x56e4d5=document['createElement']('th');_0x56e4d5[_0x1ed9e6(0x1a6)]='',_0xef5708[_0x1ed9e6(0x1fa)](_0x56e4d5),_0x3d4d60[_0x1ed9e6(0x1fa)](_0xef5708);}const _0x20f00f=_0x3fc182[_0x2e3d39],_0x361a84=document[_0x1ed9e6(0x190)]('tr');for(let _0x3d997a=0x1;_0x3d997a<_0x20f00f['length'];_0x3d997a++){const _0x4cec43=document['createElement']('td');if(_0x3d997a>=0x4&&_0x3d997a<=0xa){const _0x4076df=parseFloat(_0x20f00f[_0x3d997a])*0x64;_0x4cec43[_0x1ed9e6(0x1a6)]=_0x4076df[_0x1ed9e6(0x1d0)](0x1);}else _0x4cec43[_0x1ed9e6(0x1a6)]=_0x20f00f[_0x3d997a];_0x4cec43['classList'][_0x1ed9e6(0x1e5)](_0x1ab9c0),_0x361a84[_0x1ed9e6(0x1fa)](_0x4cec43);}const _0x26e4d6=document[_0x1ed9e6(0x190)]('td'),_0x470bbb=document[_0x1ed9e6(0x190)](_0x1ed9e6(0x195));_0x470bbb[_0x1ed9e6(0x1a6)]='x',_0x470bbb['addEventListener'](_0x1ed9e6(0x20d),function(){const _0x15c8d8=_0x1ed9e6;_0x361a84[_0x15c8d8(0x1f0)]();const _0x3c3a5a=document[_0x15c8d8(0x1b7)]('.radarPolygon.'+_0x1ab9c0),_0xf5c0b7=document[_0x15c8d8(0x1b7)](_0x15c8d8(0x1c3)+_0x1ab9c0),_0x4d5c5b=document[_0x15c8d8(0x1b7)](_0x15c8d8(0x223)+_0x1ab9c0);_0x3c3a5a['forEach'](_0xc08510=>_0xc08510[_0x15c8d8(0x1f0)]()),_0xf5c0b7['forEach'](_0x1a3f26=>_0x1a3f26[_0x15c8d8(0x1f0)]()),_0x4d5c5b[_0x15c8d8(0x232)](_0x41a1a3=>_0x41a1a3[_0x15c8d8(0x1f0)]());}),_0x26e4d6[_0x1ed9e6(0x1fa)](_0x470bbb),_0x361a84['appendChild'](_0x26e4d6),_0x3d4d60['appendChild'](_0x361a84);!_0x204207&&_0x42c90e['appendChild'](_0x3d4d60);const _0x345b65=_0x3fc182[_0x2e3d39][_0x1ed9e6(0x1ef)](',\x20'),_0x115457=0xbe,_0x162769=[0x0,0x0],_0x365762=[0x0,0x2*Math['PI']/0x7,0x4*Math['PI']/0x7,0x6*Math['PI']/0x7,0x8*Math['PI']/0x7,0xa*Math['PI']/0x7,0xc*Math['PI']/0x7];function _0x393da1(_0x498d8f,_0x55457a){const _0x5b1366=_0x1ed9e6;let _0x4d2a1e=_0x365762[_0x498d8f-0x1];_0x4d2a1e+=0x2*Math['PI']/0x7*0.2;const _0x159cc5=0xbe*_0x55457a*Math[_0x5b1366(0x1fb)](_0x4d2a1e),_0x1cea4e=0xbe*_0x55457a*Math[_0x5b1366(0x243)](_0x4d2a1e);return{'x':_0x159cc5,'y':_0x1cea4e};}const _0x351142=document[_0x1ed9e6(0x1e0)]('.radar'),_0x3dfe1c=_0x351142['appendChild'](document[_0x1ed9e6(0x231)]('http://www.w3.org/2000/svg','g'));_0x3dfe1c['setAttribute'](_0x1ed9e6(0x1ad),'translate(379.77,225.77)'),_0x3dfe1c[_0x1ed9e6(0x18f)]='';const _0x12d6ad=[],_0x3e1361=_0x345b65['split'](',');for(let _0x3d4327=0x4;_0x3d4327<0xb;_0x3d4327++){_0x12d6ad[_0x1ed9e6(0x22d)]({'axis':_0x3d4327-0x3,'value':parseFloat(_0x3e1361[_0x3d4327])});}const _0x4c1a49=_0x12d6ad[_0x1ed9e6(0x1e8)](({axis:_0x5b5f6d,value:_0x6c4424})=>{const {x:_0xbd96e5,y:_0x3936df}=_0x393da1(_0x5b5f6d,_0x6c4424);return _0xbd96e5+','+_0x3936df;})[_0x1ed9e6(0x1ef)]('\x20'),_0x5461c9=document[_0x1ed9e6(0x231)](_0x1ed9e6(0x207),_0x1ed9e6(0x1bf));_0x5461c9['setAttribute'](_0x1ed9e6(0x212),_0x1ed9e6(0x1bd)+_0x1ab9c0),_0x5461c9[_0x1ed9e6(0x211)](_0x1ed9e6(0x1cd),_0x4c1a49+'\x20'+_0x4c1a49[_0x1ed9e6(0x1a1)]('\x20')[0x0]),_0x5461c9[_0x1ed9e6(0x211)]('stroke-width','3'),_0x5461c9[_0x1ed9e6(0x211)]('fill',_0x1ed9e6(0x22c)),_0x3dfe1c[_0x1ed9e6(0x1fa)](_0x5461c9);const _0xd453e2=document[_0x1ed9e6(0x231)](_0x1ed9e6(0x207),_0x1ed9e6(0x1b5));_0xd453e2[_0x1ed9e6(0x211)](_0x1ed9e6(0x212),_0x1ed9e6(0x1a4)+_0x1ab9c0),_0xd453e2['setAttribute'](_0x1ed9e6(0x1cd),_0x4c1a49),_0xd453e2['style'][_0x1ed9e6(0x1ba)]=_0x1ed9e6(0x1ae),_0x3dfe1c['appendChild'](_0xd453e2),_0x12d6ad[_0x1ed9e6(0x232)](({axis:_0x5cf253,value:_0x320f7a})=>{const _0x3f7f3d=_0x1ed9e6,{x:_0x2368a4,y:_0x5d5c2b}=_0x393da1(_0x5cf253,_0x320f7a),_0x70763=document[_0x3f7f3d(0x231)](_0x3f7f3d(0x207),_0x3f7f3d(0x1ca));_0x70763[_0x3f7f3d(0x211)](_0x3f7f3d(0x212),'radarCircle\x20'+_0x1ab9c0),_0x70763[_0x3f7f3d(0x20e)][_0x3f7f3d(0x1ba)]=_0x3f7f3d(0x216),_0x70763[_0x3f7f3d(0x211)]('r','6'),_0x70763[_0x3f7f3d(0x211)]('cx',_0x2368a4),_0x70763[_0x3f7f3d(0x211)]('cy',_0x5d5c2b),_0x3dfe1c[_0x3f7f3d(0x1fa)](_0x70763);});}const _0x16aa30=new Set();function _0x316c27(){const _0x37f330=_0x56e76d,_0x3aaa07=document[_0x37f330(0x19d)]('searchInput1'),_0x143fbe=document['getElementById'](_0x37f330(0x233)),_0x169457=document[_0x37f330(0x19d)](_0x37f330(0x1f6)),_0x56b045=document['createElement']('ul');_0x56b045[_0x37f330(0x20e)][_0x37f330(0x23a)]=_0x37f330(0x224),_0x56b045[_0x37f330(0x20e)][_0x37f330(0x199)]='none',_0x56b045[_0x37f330(0x20e)][_0x37f330(0x196)]=_0x37f330(0x210),_0x169457[_0x37f330(0x1fa)](_0x56b045);let _0xb78ded=0x0;_0x143fbe[_0x37f330(0x21f)](_0x37f330(0x20d),function(){const _0x1ac353=_0x37f330,_0x35ea99=_0x3aaa07[_0x1ac353(0x23c)],_0x1243f0=_0x5f2377(_0x35ea99),_0xb21bc9=document[_0x1ac353(0x1b7)](_0x1ac353(0x1af));_0xb21bc9[_0x1ac353(0x232)](_0x8ceb3f=>{const _0x394fb7=_0x1ac353;_0x8ceb3f['style'][_0x394fb7(0x193)]='';});if(_0x1243f0){const _0x4c78c3=parseInt(_0x1243f0[0x0]),_0x467fdb=_0x1243f0[0x1]+'\x20('+_0x1243f0[0x2]+',\x20'+_0x1243f0[0x3]+_0x1ac353(0x1aa)+_0x1243f0[0xb]+_0x1ac353(0x1c9),_0x24d371=_0x245690[_0xb78ded%_0x245690['length']];_0x3848c7(_0x467fdb,_0x4c78c3-0x1,_0x24d371),_0xb78ded++;}});}_0x316c27();const _0x478c82=document[_0x56e76d(0x190)](_0x56e76d(0x20a));_0x478c82['id']=_0x56e76d(0x198);const _0x4e4628=document['getElementById'](_0x56e76d(0x1d8));_0x4e4628['appendChild'](_0x478c82);let _0x20c3a4=0x0;searchButton1[_0x56e76d(0x21f)](_0x56e76d(0x20d),function(){const _0x126af5=_0x56e76d,_0x155c93=_0x5a5753[_0x126af5(0x23c)],_0x1a8285=_0x5f2377(_0x155c93);if(_0x1a8285[_0x126af5(0x1ea)]>0x0){const _0x4375cc=_0x1a8285[0x0],_0x387f7b=parseInt(_0x4375cc[0x0])-0x1,_0x28b748=[];for(let _0x5daad4=0x0;_0x5daad4<_0x3fc182[_0x126af5(0x1ea)];_0x5daad4++){if(_0x5daad4!==_0x387f7b){const _0x3e52a0=_0x4b8339(_0x4375cc,_0x3fc182[_0x5daad4]);_0x28b748['push']({'index':_0x5daad4,'difference':_0x3e52a0});}}_0x28b748[_0x126af5(0x200)]((_0x2d2541,_0x21286c)=>_0x2d2541[_0x126af5(0x221)]-_0x21286c['difference']);const _0x4b7cde=_0x28b748['slice'](0x0,0x5);for(let _0x399928=0x0;_0x399928<0x1;_0x399928++){const _0x24c231=_0x4b7cde[_0x399928][_0x126af5(0x1d2)],_0x362a92=_0x3fc182[_0x24c231][0x1],_0x34400c=_0x3fc182[_0x24c231][0x3],_0x3df8c1=_0x3fc182[_0x24c231][0x2],_0x904ad4=document[_0x126af5(0x190)](_0x126af5(0x1d9));_0x904ad4[_0x126af5(0x1ce)]['add'](_0x126af5(0x1d6));const _0x3541fa=document[_0x126af5(0x190)]('tr'),_0x24cb2f=document[_0x126af5(0x190)]('th');_0x24cb2f['setAttribute'](_0x126af5(0x1d1),'5'),_0x24cb2f[_0x126af5(0x1a6)]=_0x126af5(0x1f5)+_0x1a8285[0x0][0x1],_0x24cb2f['classList'][_0x126af5(0x1e5)](_0x245690[_0x20c3a4%_0x245690[_0x126af5(0x1ea)]]),_0x3541fa[_0x126af5(0x1fa)](_0x24cb2f),_0x904ad4[_0x126af5(0x1fa)](_0x3541fa);const _0x58c92e=document[_0x126af5(0x190)]('tr');for(let _0x55a29f=0x0;_0x55a29f<_0x4b7cde[_0x126af5(0x1ea)];_0x55a29f++){const _0x25116c=_0x4b7cde[_0x55a29f]['index'],_0x52b9ea=_0x3fc182[_0x25116c][0x1],_0x7830ab=_0x3fc182[_0x25116c][0x3],_0x2b3312=_0x3fc182[_0x25116c][0x2],_0x17e40c=document[_0x126af5(0x190)]('td');_0x17e40c[_0x126af5(0x1a6)]=''+_0x52b9ea,_0x17e40c['style'][_0x126af5(0x245)]='10.8px',_0x17e40c[_0x126af5(0x20e)][_0x126af5(0x225)]='pointer',_0x17e40c['addEventListener'](_0x126af5(0x20d),function(){const _0x1d7a39=_0x126af5;_0x5a5753[_0x1d7a39(0x23c)]=_0x52b9ea,searchButton1[_0x1d7a39(0x20d)]();}),_0x58c92e['appendChild'](_0x17e40c);}_0x478c82[_0x126af5(0x202)]['length']>0x0&&_0x478c82[_0x126af5(0x1e1)](_0x478c82[_0x126af5(0x1eb)]),_0x904ad4['appendChild'](_0x58c92e),_0x478c82[_0x126af5(0x1fa)](_0x904ad4),_0x20c3a4++;}}_0x5a5753[_0x126af5(0x23c)]='',_0x3d5979();});});})[_0xb87ede(0x19b)](_0x16b54f=>{const _0x16be81=_0xb87ede;console[_0x16be81(0x1fd)]('Error\x20fetching\x20or\x20processing\x20data:',_0x16b54f);});
+</script>
+	  
+<script>async function takeScreenshot() {
+  const body = document.querySelector('body');
+  const isDarkMode = body.classList.contains('dark-mode');
+  const backgroundColor = isDarkMode ? '#0F0F0E' : '#ffffff'; // Black for dark mode, white for light mode
+  
+  try {
+    const element = document.querySelector('.screenshotcontainer'); // Capture the screenshotcontainer using the class name
+    if (!element) {
+      throw new Error('screenshotcontainer element not found');
+    }
 
-function _0x2b6c(_0x45f53e,_0x27d3b1){var _0x98647e=_0x9864();return _0x2b6c=function(_0x2b6c04,_0x21fa4b){_0x2b6c04=_0x2b6c04-0x6c;var _0x3f3cb2=_0x98647e[_0x2b6c04];return _0x3f3cb2;},_0x2b6c(_0x45f53e,_0x27d3b1);}var _0x38090e=_0x2b6c;function _0x9864(){var _0x2c0699=['5667235LeHzoG','59315deGdIc','goalkeeperIframe','27397QwdvgQ','src','51daXJTy','128012agZOZW','54PEWUWE','13060672zlFeCX','25876440nPKgTj','6605572cRgGDy'];_0x9864=function(){return _0x2c0699;};return _0x9864();}(function(_0x4f212f,_0x5062b0){var _0x3e8c51=_0x2b6c,_0x2ed0f4=_0x4f212f();while(!![]){try{var _0x3de8ae=parseInt(_0x3e8c51(0x76))/0x1+-parseInt(_0x3e8c51(0x6e))/0x2*(parseInt(_0x3e8c51(0x6d))/0x3)+parseInt(_0x3e8c51(0x72))/0x4+parseInt(_0x3e8c51(0x74))/0x5*(-parseInt(_0x3e8c51(0x6f))/0x6)+-parseInt(_0x3e8c51(0x73))/0x7+-parseInt(_0x3e8c51(0x70))/0x8+parseInt(_0x3e8c51(0x71))/0x9;if(_0x3de8ae===_0x5062b0)break;else _0x2ed0f4['push'](_0x2ed0f4['shift']());}catch(_0x55cc0e){_0x2ed0f4['push'](_0x2ed0f4['shift']());}}}(_0x9864,0xdfd9c),document['getElementById'](_0x38090e(0x75))[_0x38090e(0x6c)]=generateSrc('aHR0cHM6Ly9kYXRhbWIuZm9vdGJhbGwvc2Rqc2RqamRzMTYvaW5kZXguaHRtbA=='));
+    const canvas = await html2canvas(element, {
+	width: 773,
+    y: -10,
+    x: - 10,  
+      useCORS: true,
+      backgroundColor: backgroundColor, // Set the background color based on mode
+      scale: window.devicePixelRatio,
+      logging: false, // Disable logging for production
+      foreignObjectRendering: false,
+    });
+
+    canvas.toBlob(blob => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'screenshot.png';
+      link.click();
+    }, 'image/png');
+  } catch (error) {
+    console.error('Error in takeScreenshot:', error);
+    // Handle errors appropriately (e.g., display to user or log)
+  }
+}
+
+
+
+  // Function to toggle dark mode
+  function toggleDarkMode() {
+    const body = document.querySelector("body");
+    body.classList.toggle("dark-mode");
+
+    // Store the user's preference in local storage
+    const isDarkMode = body.classList.contains("dark-mode");
+    localStorage.setItem("darkMode", isDarkMode);
+  }
+
+  // Check if user has a stored preference for dark mode
+  const storedDarkMode = localStorage.getItem("darkMode");
+
+  if (storedDarkMode === "true") {
+    const body = document.querySelector("body");
+    body.classList.add("dark-mode");
+  }
+
+              
+  function toggleFilling() {
+    const radarPolygons = document.querySelectorAll('.radarPolygon');
+    radarPolygons.forEach(polygon => {
+      polygon.style.fill = polygon.style.fill ? '' : 'none'; // Toggle the filling
+    });
+  }
+
+
+
 
 </script>
 
+        <div class="emptycontainer"></div>
 
-
-<script>
-
-const _0x49d7fb=_0x3ccc;(function(_0x11c8bb,_0x2538d4){const _0x5b4669=_0x3ccc,_0x51fde0=_0x11c8bb();while(!![]){try{const _0x4cbc9a=parseInt(_0x5b4669(0x94))/0x1*(-parseInt(_0x5b4669(0x85))/0x2)+parseInt(_0x5b4669(0x8c))/0x3*(parseInt(_0x5b4669(0x91))/0x4)+parseInt(_0x5b4669(0x9c))/0x5*(parseInt(_0x5b4669(0x99))/0x6)+-parseInt(_0x5b4669(0x97))/0x7+-parseInt(_0x5b4669(0x9d))/0x8+parseInt(_0x5b4669(0x9e))/0x9+-parseInt(_0x5b4669(0x86))/0xa*(-parseInt(_0x5b4669(0x8f))/0xb);if(_0x4cbc9a===_0x2538d4)break;else _0x51fde0['push'](_0x51fde0['shift']());}catch(_0x37740a){_0x51fde0['push'](_0x51fde0['shift']());}}}(_0x1ea6,0xf337b));function _0x3ccc(_0x9469f5,_0x626211){const _0x1ea631=_0x1ea6();return _0x3ccc=function(_0x3ccc2c,_0x185b01){_0x3ccc2c=_0x3ccc2c-0x85;let _0x5ec680=_0x1ea631[_0x3ccc2c];return _0x5ec680;},_0x3ccc(_0x9469f5,_0x626211);}function _0x1ea6(){const _0xe677e9=['positionSelect','102076MHzpez','9070340wSXlFb','dark-mode-iframe','querySelector','getElementsByTagName','querySelectorAll','iframe','45132ZJYPYG','value','body','11KeFVNU','data','28rVeEcb','block','getElementById','15CoFaes','style','addEventListener','4215820rnPcNB','toggle','6OvfONj','toggleDarkMode','display','7988490tshEkV','12254576hvptXP','11572479TEGhZR','classList'];_0x1ea6=function(){return _0xe677e9;};return _0x1ea6();}const positionSelect=document[_0x49d7fb(0x93)](_0x49d7fb(0xa0)),iframes=document[_0x49d7fb(0x89)](_0x49d7fb(0x8b));positionSelect[_0x49d7fb(0x96)]('change',function(){const _0x20c6f6=_0x49d7fb,_0x45cc91=this[_0x20c6f6(0x8d)];for(const _0x2e6d7f of iframes){_0x2e6d7f[_0x20c6f6(0x95)][_0x20c6f6(0x9b)]='none';}if(_0x45cc91){const _0x3593c8=document[_0x20c6f6(0x8a)]('#'+_0x45cc91+'Iframe');for(const _0x2b8f9e of _0x3593c8){_0x2b8f9e['style'][_0x20c6f6(0x9b)]=_0x20c6f6(0x92);}}}),window[_0x49d7fb(0x96)]('message',function(_0x38701a){const _0x4533de=_0x49d7fb;if(_0x38701a[_0x4533de(0x90)]===_0x4533de(0x9a)){const _0x348dd8=document[_0x4533de(0x88)](_0x4533de(0x8e));_0x348dd8[_0x4533de(0x9f)][_0x4533de(0x98)](_0x4533de(0x87));}});
-</script>
-
-
+        <div class="finalcontainer">
 
 <center><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
-     crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
 <!-- radar page -->
 <ins class="adsbygoogle"
-     style="display:inline-block;width:728px;height:90px"
-     data-ad-client="ca-pub-7677714701428206"
-     data-ad-slot="5336962902"></ins>
+  style="display:inline-block;width:728px;height:90px"
+  data-ad-client="ca-pub-7677714701428206"
+  data-ad-slot="5336962902"></ins>
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+  (adsbygoogle = window.adsbygoogle || []).push({});
 </script></center>
+<center><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
+  crossorigin="anonymous"></script>
+<!-- radar page -->
+<ins class="adsbygoogle"
+  style="display:inline-block;width:728px;height:90px"
+  data-ad-client="ca-pub-7677714701428206"
+  data-ad-slot="5336962902"></ins>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script></center>
+</div>
+
+<script>
+  // Function to scroll down a tiny bit
+  function scrollDown() {
+    window.scrollBy(0, 400); // Adjust the value (400) to change the scroll distance
+  }
+
+  // Function to scroll up a tiny bit
+  function scrollUp() {
+    window.scrollBy(0, -15); // Adjust the value (-10) to change the scroll distance
+  }
+
+  // Function to check if the device is mobile
+  function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+  }
+
+  // Combine both actions with a small timer between them
+  window.onload = function() {
+    if (isMobileDevice()) {
+      scrollDown();
+      setTimeout(scrollUp, 100); // Adjust the delay time (100ms = 0.1 second)
+    }
+  };
+</script>
 
 </body>
 </html>
