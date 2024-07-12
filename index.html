@@ -14,24 +14,20 @@
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 <script>
   (function() {
-      // Get the width of the viewport
       var width = window.innerWidth;
-      console.log('Window width:', width);  // Debug log
-
-      // Calculate the initial scale based on the width
-      var initialScale = width / 770;
-      console.log('Initial scale:', initialScale);  // Debug log
-
-      // Find the viewport meta tag
       var viewportMeta = document.querySelector('meta[name="viewport"]');
       if (viewportMeta) {
-          // Set the viewport meta tag content attribute
-          viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + initialScale + ', user-scalable=no');
-          console.log('Viewport meta updated with initial scale:', initialScale);  // Debug log
-      } else {
-          console.error('Viewport meta tag not found');
-      }
-  })();
+if (width < 770) {
+	      
+      var initialScale = width / 770;
+viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + initialScale + ', user-scalable=no');
+} else {
+            var fixedScale = 1;
+	viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + fixedScale + ', user-scalable=no');
+
+  }
+    } 
+})();
 </script>
 	<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
