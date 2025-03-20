@@ -16,6 +16,9 @@
   <meta name="twitter:description" content="Radar Comparison Tool">
   <meta name="twitter:image" content="https://datamb.football/vignettes/cm.png">
 <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 <script>
   (function() {
       var width = window.innerWidth;
@@ -33,1265 +36,806 @@ viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + init
     } 
 })();
 </script>
-	<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
 <defs>
-<style>
+<style> :root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --background-color: #f5f7fa;
+  --container-bg: #ffffff;
+  --text-color: #333333;
+  --border-color: #e0e0e0;
+  --hover-color: #f0f0f0;
+  --button-color: #3498db;
+  --button-text: #ffffff;
+  --header-bg: #ffffff;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --table-bg: #f2f2f2;
+}
+.dark-mode {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --background-color: #0e0f0f;
+  --container-bg: #1a1a1a;
+  --text-color: #e0e0e0;
+  --border-color: #333333;
+  --hover-color: #252525;
+  --button-color: #2980b9;
+  --button-text: #ffffff;
+  --header-bg: #0e0f0f;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  --table-bg: #333333;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0;
+  padding: 0;
+  min-width: 770px;
+  overflow-x: auto;
+}
+body.dark-mode {
+  background-color: #0e0f0f !important;
+  min-width: 770px;
+}
+.container {
+  max-width: 880px;
+  min-width: 770px;
+  margin: 20px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+/* Ensure the chart wrapper doesn't shrink below a minimum width */
+.chart-wrapper {
+  background-color: var(--container-bg);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 12px 14px 20px;
+  margin-bottom: 30px;
+  position: relative;
+  width: 100%;
+  min-width: 730px;
+}
+
+
+/* Radar chart styling */
+.radar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 32px 0px -15px;
+  width: 100%;
+  min-width: 670px;
+  position: relative;
+}
+svg.radar {
+  width: 100%;
+  max-width: 700px;
+  min-width: 670px;
+  height: 485px;
+  display: block;
+  margin: 0 auto;
+}
+/* Add specific styling for the SVG group */
+svg.radar > g {
+  transform-origin: center;
+  transform: translate(50%, 50%);
+}
+
+/* Search input styling */
+.search-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  width: 70%;
+  min-width: 500px;
+  position: relative;
+}
+/* Container for search and dropdown */
+.search-container {
+  position: relative;
+  margin-bottom: 15px;
+  min-width: 500px;
+}
+#searchInput1 {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+  background-color: var(--container-bg);
+  color: var(--text-color);
+  transition: border-color 0.2s;
+  height: 40px;
+}
+#searchInput1:focus {
+  border-color: var(--primary-color);
+}
+#searchInput1::placeholder {
+  color: #999;
+}
+#searchButton1 {
+  background-color: var(--button-color);
+  color: var(--button-text) !important;
+  border: none;
+  border-radius: 6px;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 18px;
+  font-weight: bold;
+}
+#searchButton1:hover {
+  background-color: #2980b9;
+}
+body.dark-mode #searchButton1:hover {
+  background-color: #2980b9;
+}
+body.dark-mode #searchButton1 {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+/* Button styles for screenshot */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--button-color);
+  color: var(--button-text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  height: 36px;
+  box-sizing: border-box;
+}
+.btn:hover {
+  background-color: #2980b9;
+}
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+.btn-outline:hover {
+  background-color: var(--hover-color);
+}
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 6px;
+}
+.icon2::before {
+  font-family: "Ionicons";
+  content: "\f147";
+ /* Camera icon from Ionicons */
+  font-size: 18px;
+  color: var(--button-text);
+}
+/* Matching names dropdown styling */
 #matchingNames {
-  background-color: #ffffff;
+  flex: 1;
+  background-color: var(--container-bg);
   border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-body.dark-mode #matchingNames {
-  background-color: #333333;
-  box-shadow: 0px 4px 12px rgba(255, 253, 253, 0.1);
-}
-
-#matchingNames {
+  box-shadow: var(--shadow);
   scrollbar-width: thin;
   scrollbar-color: #c4c4c4 #f1f1f1;
+  z-index: 9999;
+  max-height: 267px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  min-height: 0;
 }
-
-body.dark-mode #matchingNames {
-  scrollbar-color: #888888 #333333;
+/* When matchingNames is empty, maintain spacing */
+#matchingNames:empty {
+  margin-bottom: 0;
+  min-height: 0;
+  display: none !important;
 }
-
 .name {
   padding: 9px 12px;
-  font-size: 13px;
-  color: #333333;
+  font-size: 15px;
+  color: var(--text-color);
   cursor: pointer;
   display: flex;
   align-items: center;
   transition: background-color 0.2s ease-in-out;
-font-family: Arial, sans-serif !important;
-position: relative;
+  font-family: 'Inter', sans-serif;
+  position: relative;
 }
-
 .name:hover {
-  background-color: #f5f5f5;
+  background-color: var(--hover-color);
 }
-
-body.dark-mode #matchingNames .name:hover {
-  background-color: #444444;
-}
-
-body.dark-mode #matchingNames .fullName {
-  color: #ffffff;
-}
-
-body.dark-mode #matchingNames .age {
-  color: #ffffff;
-}
-
-body.dark-mode #matchingNames .team {
-  color: #ffffff;
-}
-
 .fullName {
   font-weight: bold;
-  color: #333333;
   margin-right: 6px;
 }
-
-.age {
+.age, .team {
   color: #777777;
   margin-right: 4px;
 }
-
-.team {
-  color: #777777;
+.dark-mode .age, .dark-mode .team, .dark-mode .fullName {
+  color: var(--text-color);
 }
-body {
-    background-color: white;
+/* Table styling */
+.metrics-table {
+  width: 100%;
+  background-color: var(--container-bg);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+  box-shadow: var(--shadow);
+  table-layout: fixed;
+  max-width: 100%;
 }
-	  body.dark-mode #searchInput {
-    color: #000; 
-        }
-	
-.result-color-blue {
-  color: #3062FB !important;
-  stroke: #3062FB;
-  fill: #3062FB;
-  fill-opacity: 0.02;
+.metrics-table th {
+  color: var(--text-color);
+  padding: 10px;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 500;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid var(--border-color);
+  line-height: 1.2;
+}
+.dark-mode .metrics-table th {
+  color: #aeaeae;
+}
+/* Match the first header with the first column styling */
+.metrics-table th:first-child {
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: center;
+  width: 20%;
+}
+.metrics-table td {
+  padding: 8px 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s;
+  line-height: 1.2;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Give more breathing room to the first column (name) */
+.metrics-table td:first-child {
+  padding: 12px 15px;
+  text-align: center;
+  white-space: normal;
+  width: 30%;
+  overflow: visible;
+  text-overflow: clip;
+  height: auto;
+  min-height: 50px;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+.metrics-table tr:last-child td {
+  border-bottom: none;
+}
+.metrics-table tr:hover td {
+  background-color: var(--hover-color);
+}
+/* X button styling */
+.metrics-table td button {
+  background-color: transparent;
+  border: none;
+  color: #999;
+  font-size: 14px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.metrics-table td button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #666;
+}
+/* Dark mode specific table styling */
+.dark-mode .metrics-table {
+  background-color: var(--container-bg);
+}
+.dark-mode .metrics-table th {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.dark-mode .metrics-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.dark-mode .metrics-table td button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #aaa;
+}
+/* Position switcher */
+.position-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.position-button {
+  padding: 8px 16px;
+  background-color: var(--container-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.position-button:hover {
+  background-color: var(--hover-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* Toggle controls */
+.toggle-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.toggle-container {
+  display: flex;
+  align-items: center;
+}
+.toggle-label {
+  font-size: 14px;
+  margin-right: 10px;
+}
+.toggle-checkbox {
+  width: 40px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+}
+.toggle-checkbox input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+.toggle-slider:before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+input:checked + .toggle-slider {
+  background-color: var(--primary-color);
+}
+input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+/* Dark mode toggle */
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--container-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  transition: background-color 0.3s;
+}
+.toggle-icon::before {
+  font-family: "Ionicons";
+  content: "\f467";
+  font-size: 30px;
+  color: var(--text-color);
+}
+.dark-mode .toggle-icon::before {
+  content: "\f3b0";
+  font-size: 20px;
 }
 
+@media (hover: none) and (pointer: coarse) {
+      .similar-text, .player-text {
+        font-size: 8px !important;
+        line-height: 1 !important;
+        font-weight: 500 !important;
+      }
+    }
 
-.result-color-pink {
-  color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
+/* Similar players table */
+.similar-table {
+  width: 100%;
+  background-color: var(--container-bg);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 1px;
+  margin-bottom: 27px;
+  box-shadow: var(--shadow);
 }
-
-.result-color-orange {
-  color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
+.similar-table th {
+  color: var(--text-color);
+  padding: 10px;
+  font-size: 13.8px;
+  text-align: center;
+  font-weight: 500;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid var(--border-color);
+  line-height: 1.2;
 }
-
-.result-color-green {
-  color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
+.similar-table td {
+  padding: 7px 8px;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  line-height: 1.2;
 }
-
-
-
-
-
-.result-color-bleu {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
+.similar-table td:last-child {
+  border-right: none;
 }
-
-
-.result-color-rose {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
+.similar-table td:hover {
+  background-color: var(--hover-color);
 }
-
-
+/* Dark mode specific similar table styling */
+.dark-mode .similar-table {
+  background-color: var(--container-bg);
+}
+.dark-mode .similar-table th {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.dark-mode .similar-table td {
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+/* Color classes for radar chart */
 .result-color-1 {
   color: #3062FB !important;
   stroke: #3062FB;
   fill: #3062FB;
-  fill-opacity: 0.02;
+  fill-opacity: 0;
 }
-
-
 .result-color-2 {
   color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
+  stroke: #F62681;
+  fill: #F62681;
+  fill-opacity: 0;
 }
-
 .result-color-3 {
   color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
+  stroke: #55d149;
+  fill: #55d149;
+  fill-opacity: 0;
 }
-
 .result-color-4 {
   color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
+  stroke: #FFCF5F;
+  fill: #FFCF5F;
+  fill-opacity: 0;
 }
-
-
 .result-color-5 {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
+  color: rgb(153, 50, 204) !important;
+  stroke: rgb(153, 50, 204);
+  fill: rgb(153, 50, 204);
+  fill-opacity: 0;
 }
-
-
 .result-color-6 {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
+  color: rgb(255, 140, 0) !important;
+  stroke: rgb(255, 140, 0);
+  fill: rgb(255, 140, 0);
+  fill-opacity: 0;
 }
 .result-color-7 {
-  color: #3062FB !important;
-  stroke: #3062FB;
-  fill: #3062FB;
-  fill-opacity: 0.02;
+  color: rgb(30, 144, 255) !important;
+  stroke: rgb(30, 144, 255);
+  fill: rgb(30, 144, 255);
+  fill-opacity: 0;
 }
-
-
 .result-color-8 {
-  color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
+  color: rgb(240, 128, 128) !important;
+  stroke: rgb(240, 128, 128);
+  fill: rgb(240, 128, 128);
+  fill-opacity: 0;
 }
-
 .result-color-9 {
-  color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
+  color: rgb(144, 238, 144) !important;
+  stroke: rgb(144, 238, 144);
+  fill: rgb(144, 238, 144);
+  fill-opacity: 0;
 }
-
 .result-color-10 {
-  color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
+  color: rgb(135, 206, 235) !important;
+  stroke: rgb(135, 206, 235);
+  fill: rgb(135, 206, 235);
+  fill-opacity: 0;
 }
-
-
 .result-color-11 {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
+  color: rgb(246, 38, 129) !important;
+  stroke: rgb(246, 38, 129);
+  fill: rgb(246, 38, 129);
+  fill-opacity: 0;
 }
-
-
 .result-color-12 {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
+  color: rgb(255, 69, 0) !important;
+  stroke: rgb(255, 69, 0);
+  fill: rgb(255, 69, 0);
+  fill-opacity: 0;
 }
-
-
 .result-color-13 {
-  color: #3062FB !important;
-  stroke: #3062FB;
-  fill: #3062FB;
-  fill-opacity: 0.02;
+  color: rgb(60, 179, 113) !important;
+  stroke: rgb(60, 179, 113);
+  fill: rgb(60, 179, 113);
+  fill-opacity: 0;
 }
-
-
 .result-color-14 {
-  color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
+  color: rgb(138, 40, 165) !important;
+  stroke: rgb(138, 40, 165);
+  fill: rgb(138, 40, 165);
+  fill-opacity: 0;
 }
-
 .result-color-15 {
-  color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
+  color: rgb(70, 130, 180) !important;
+  stroke: rgb(70, 130, 180);
+  fill: rgb(70, 130, 180);
+  fill-opacity: 0;
 }
-
 .result-color-16 {
-  color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
+  color: rgb(208, 32, 144) !important;
+  stroke: rgb(208, 32, 144);
+  fill: rgb(208, 32, 144);
+  fill-opacity: 0;
 }
-
-
 .result-color-17 {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
+  color: rgb(220, 20, 60) !important;
+  stroke: rgb(220, 20, 60);
+  fill: rgb(220, 20, 60);
+  fill-opacity: 0;
 }
-
-
 .result-color-18 {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
+  color: rgb(255, 223, 60) !important;
+  stroke: rgb(255, 223, 60);
+  fill: rgb(255, 223, 60);
+  fill-opacity: 0;
 }
 .result-color-19 {
-  color: #3062FB !important;
-  stroke: #3062FB;
-  fill: #3062FB;
-  fill-opacity: 0.02;
+  color: rgb(238, 130, 238) !important;
+  stroke: rgb(238, 130, 238);
+  fill: rgb(238, 130, 238);
+  fill-opacity: 0;
 }
-
-
 .result-color-20 {
-  color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
+  color: rgb(147, 112, 219) !important;
+  stroke: rgb(147, 112, 219);
+  fill: rgb(147, 112, 219);
+  fill-opacity: 0;
 }
-
 .result-color-21 {
-  color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
+  color: rgb(34, 139, 34) !important;
+  stroke: rgb(34, 139, 34);
+  fill: rgb(34, 139, 34);
+  fill-opacity: 0;
 }
-
 .result-color-22 {
-  color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
+  color: rgb(255, 198, 0) !important;
+  stroke: rgb(255, 198, 0);
+  fill: rgb(255, 198, 0);
+  fill-opacity: 0;
 }
-
-
 .result-color-23 {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
+  color: rgb(255, 99, 71) !important;
+  stroke: rgb(255, 99, 71);
+  fill: rgb(255, 99, 71);
+  fill-opacity: 0;
 }
-
-
 .result-color-24 {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
+  color: rgb(65, 105, 225) !important;
+  stroke: rgb(65, 105, 225);
+  fill: rgb(65, 105, 225);
+  fill-opacity: 0;
 }
-
-
 .result-color-25 {
-  color: #3062FB !important;
-  stroke: #3062FB;
-  fill: #3062FB;
-  fill-opacity: 0.02;
+  color: rgb(255, 215, 0) !important;
+  stroke: rgb(255, 215, 0);
+  fill: rgb(255, 215, 0);
+  fill-opacity: 0;
 }
-
-
 .result-color-26 {
-  color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
+  color: rgb(0, 206, 209) !important;
+  stroke: rgb(0, 206, 209);
+  fill: rgb(0, 206, 209);
+  fill-opacity: 0;
 }
-
 .result-color-27 {
-  color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
+  color: rgb(197, 142, 255) !important;
+  stroke: rgb(197, 142, 255);
+  fill: rgb(197, 142, 255);
+  fill-opacity: 0;
 }
-
 .result-color-28 {
-  color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
+  color: rgb(46, 139, 87) !important;
+  stroke: rgb(46, 139, 87);
+  fill: rgb(46, 139, 87);
+  fill-opacity: 0;
 }
-
-
 .result-color-29 {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
+  color: rgb(255, 105, 180) !important;
+  stroke: rgb(255, 105, 180);
+  fill: rgb(255, 105, 180);
+  fill-opacity: 0;
 }
-
-
 .result-color-30 {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
+  color: rgb(255, 165, 0) !important;
+  stroke: rgb(255, 165, 0);
+  fill: rgb(255, 165, 0);
+  fill-opacity: 0;
 }
 .result-color-31 {
-  color: #3062FB !important;
-  stroke: #3062FB;
-  fill: #3062FB;
-  fill-opacity: 0.02;
+  color: rgb(255, 207, 95) !important;
+  stroke: rgb(255, 207, 95);
+  fill: rgb(255, 207, 95);
+  fill-opacity: 0;
 }
-
-
 .result-color-32 {
-  color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
+  color: rgb(255, 182, 193) !important;
+  stroke: rgb(255, 182, 193);
+  fill: rgb(255, 182, 193);
+  fill-opacity: 0;
 }
-
 .result-color-33 {
-  color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
+  color: rgb(102, 205, 170) !important;
+  stroke: rgb(102, 205, 170);
+  fill: rgb(102, 205, 170);
+  fill-opacity: 0;
 }
-
 .result-color-34 {
-  color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
+  color: rgb(48, 98, 251) !important;
+  stroke: rgb(48, 98, 251);
+  fill: rgb(48, 98, 251);
+  fill-opacity: 0;
 }
-
-
 .result-color-35 {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
+  color: rgb(186, 85, 211) !important;
+  stroke: rgb(186, 85, 211);
+  fill: rgb(186, 85, 211);
+  fill-opacity: 0;
 }
-
-
 .result-color-36 {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
+  color: rgb(123, 104, 238) !important;
+  stroke: rgb(123, 104, 238);
+  fill: rgb(123, 104, 238);
+  fill-opacity: 0;
 }
-
-
 .result-color-37 {
-  color: #3062FB !important;
-  stroke: #3062FB;
-  fill: #3062FB;
-  fill-opacity: 0.02;
+  color: rgb(0, 128, 128) !important;
+  stroke: rgb(0, 128, 128);
+  fill: rgb(0, 128, 128);
+  fill-opacity: 0;
 }
-
-
-.result-color-38 {
-  color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
+svg text.label{
+  fill: #bcbcbc;
 }
-
-.result-color-39 {
-  color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
+/* Add specific styling for resultsTable to reduce space */
+#resultsTable {
+  margin-top: -8px;
+  padding-top: 0;
 }
-
-.result-color-40 {
-  color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
-}
-
-
-.result-color-41 {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
-}
-
-
-.result-color-42 {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
-}
-.result-color-43 {
-  color: #3062FB !important;
-  stroke: #3062FB;
-  fill: #3062FB;
-  fill-opacity: 0.02;
-}
-
-
-.result-color-44 {
-  color: #F62681 !important;
-stroke: #F62681;
-fill: #F62681;
-fill-opacity: 0.02;
-
-}
-
-.result-color-45 {
-  color: #55d149 !important;
-stroke: #55d149;
-fill: #55d149;
-fill-opacity: 0.02;
-}
-
-.result-color-46 {
-  color: #FFCF5F !important;
-stroke: #FFCF5F;
-fill: #FFCF5F;
-fill-opacity: 0.02;
-}
-
-
-.result-color-47 {
-  color: #900C3F  !important;
-  stroke: #900C3F ;
-  fill: #900C3F ;
-  fill-opacity: 0.02;
-}
-
-
-.result-color-48 {
-  color: #F09710 !important;
-stroke: #F09710;
-fill: #F09710;
-fill-opacity: 0.02;
-
-}
-
-   
-
-  /* !!!DARK MODE!!! */
-  body.dark-mode {
-    color: #f2f2f2;
-  }
-
-  body.dark-mode {
-    background-color: #0F0F0E;
-  }
-
-  body.dark-mode table {
-    background-color: #333333;
-  }
-
-  body.dark-mode tr:first-child th:first-child {
-  color: #5b5b5b;
-  
-}
-
-
-
- body.dark-mode .metrics-table th {
-  color: #bcbcbc;
-  padding: 9px;
-}
-
-body.dark-mode #searchInput1 {
-    color: #000; 
-background-color : #cacaca;
-  }
-	
- body.dark-mode	  #searchInput1::placeholder {
-    color: #363636; 
-  }
-
- body.dark-mode	  #searchButton1 {
-    color: #fff !important; 
-background-color : #333333;
-  }
-
-
-
-
-
-
-  body.dark-mode svg text.label {
-    fill: #bcbcbc;
-  }
-
-
-
-  body.dark-mode svg text.label {
-    fill: #bcbcbc;
-  }
-
-body.dark-mode button {
-  background-color: #333333;
-}
-
-body.dark-mode button,
-body.dark-mode button:focus {
-  color: #f2f2f2;
-}
-
-body.dark-mode button:hover {
-  color: initial;
-}
-
-body.dark-mode .button-8 {
-  background-color: #13293d; 
-  color: #f2f2f2; 
-}
-
-body.dark-mode .button-8:hover,
-body.dark-mode .button-8:focus {
-  background-color: #3a6ea5;
-  color: #f2f2f2; 
-}
-
-body.dark-mode .button-8:hover,
-body.dark-mode .button-8:focus {
-  background-color: #3a6ea5;
-  color: #f2f2f2;
-}
-
-
-
-
-.dark-mode-toggle .toggle-icon::before {
-  font-family: "Ionicons";
-  content: "\f467"; 
-  font-size: 35px; 
-}
-
-body.dark-mode .dark-mode-toggle {
-  background-color: #333333;
-}
-
-
-
-body.dark-mode .dark-mode-toggle .toggle-icon::before {
-  font-family: "Ionicons";
-  content: "\f3b0"; 
-  font-size: 24px; 
-}
-
-
-
-body.dark-mode .toggle-slider {
-  background-color: #2B2C2E;
-}
-
-body.dark-mode input:checked + .toggle-slider:before {
-  background-color: #ccc; 
-}
-
-
-body.dark-mode .button-10 {
-  border: 0.1px solid #000000; 
-}
-
-
-
-
-
-
-
-
-
-.search-input-modal {
-    display: none;
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7); 
-    z-index: 999; 
-}
-
-.search-input-container {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 4px;
-    z-index: 1000; 
-}
-
-#searchInput {
-            width: 340px;
-            padding: 12px;
-            border: 3px solid #ccc;
-            border-radius: 4px;
-            font-size: 19px;
-            outline: none;
-        }
-
-        #autocompleteBox {
-            width: 360px;
-            max-height: 150px;
-            overflow-y: auto;
-            background-color: #fff;
-        }
-
-
-        #autocompleteBox ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        #autocompleteBox li {
-            margin: 0;
-            padding: 5px;
-        }
-
-        #autocompleteBox {
-            line-height: 2; 
-            text-align: center !important;
-
-        }
-
-        #autocompleteBox a {
-            text-decoration: none;
-            font-family: Arial, sans-serif;
-            text-align: center !important;
-            color: #333 !important;
-            cursor: pointer; 
-        }
-
-        #autocompleteBox li:hover {
-            background-color: #f0f0f0;
-        }
-        #searchButton {
-  padding: 8.5px;  /* Reduced from 10px */
-  background-color: #0074d9;
-  color: #fff;
-  border: none;
-  width: 34px;  /* Reduced from 40px */
-  height: 34px;  /* Reduced from 40px */
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 17px;  /* Reduced from 20px */
-}
-
-.button-10 {
-    position: absolute;
-    top: 607px;
-    left: 657px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40.1px;
-    height: 40.1px;
-    border-radius: 50%;
-  background-color: #e0e0de;
-  color: #333;
-  border: 0.1px solid #ccc;
-  cursor: pointer;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  }
-
-
-.button-1 {
-  align-items: center;
-height: 20px;
-  background-color: #F9F9F9;
-  border-radius: 6px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  color: #121212;
-  cursor: pointer;
-  display: inline-flex;
-  flex: 1 1 auto;
-  font-family: Inter,sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
+/* Position Switcher styling */
+.position-switcher-container {
+  display: flex;
   justify-content: center;
-  line-height: 1;
-  margin: 0;
-  outline: none;
-  padding: 1rem 1.2rem;
-  text-align: center;
-  text-decoration: none;
-  transition: box-shadow .1s,-webkit-box-shadow .1s;
-  white-space: nowrap;
-  border: 0;
-  user-select: none;
-  position: absolute;
-top: 611px;
-  left: 55px;
-width: 85px; 
- 
-  touch-action: manipulation;
-}
-
-.button-1:hover {
-   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
-}
-
-.button-2 {
   align-items: center;
-  background-color: #F9F9F9;
-  border-radius: 6px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  color: #121212;
-  cursor: pointer;
-  display: inline-flex;
-  flex: 1 1 auto;
-  font-family: Inter,sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  justify-content: center;
-  line-height: 1;
-  margin: 0;
-  outline: none;
-  padding: 1rem 1.2rem;
-  text-align: center;
-  text-decoration: none;
-  transition: box-shadow .1s,-webkit-box-shadow .1s;
-  white-space: nowrap;
-  border: 0;
-  user-select: none;
-  position: absolute;
-top: 611px;
-  left: 155px;
-height: 20px;
-width: 85px; 
- 
-  touch-action: manipulation;
+  gap: 10px;
+  max-width: 700px;
+  flex-wrap: wrap;
 }
-
-.button-2:hover {
-   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
-}
-
-.button-3 {
+.position-link {
+  display: flex;
   align-items: center;
-height: 20px;
-  background-color: #F9F9F9;
-  border-radius: 6px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  color: #121212;
-  cursor: pointer;
-  display: inline-flex;
-  flex: 1 1 auto;
-  font-family: Inter,sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
   justify-content: center;
-  line-height: 1;
-  margin: 0;
-  outline: none;
-  padding: 1rem 1.2rem;
-  text-align: center;
+  padding: 8px 12px;
+  min-width: 40px;
+  width: 50px;
+ /* Fixed width for all position buttons */
+  background-color: var(--container-bg);
+  color: var(--text-color);
   text-decoration: none;
-  transition: box-shadow .1s,-webkit-box-shadow .1s;
-  white-space: nowrap;
-  border: 0;
-  user-select: none;
-  position: absolute;
-top: 611px;
-  left: 255px;
-width: 85px; 
- 
-  touch-action: manipulation;
-}
-
-.button-3:hover {
-   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
-}
-
-.button-4 {
-  align-items: center;
-  background-color: #F9F9F9;
   border-radius: 6px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  color: #121212;
-  cursor: pointer;
-  display: inline-flex;
-  flex: 1 1 auto;
-  font-family: Inter,sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  justify-content: center;
-  line-height: 1;
-  margin: 0;
-  outline: none;
-  padding: 1rem 1.2rem;
-  text-align: center;
-  text-decoration: none;
-  transition: box-shadow .1s,-webkit-box-shadow .1s;
-  white-space: nowrap;
-  border: 0;
-  user-select: none;
-  position: absolute;
-top: 611px;
-  left: 355px;
-height: 20px;
-width: 85px; 
- 
-  touch-action: manipulation;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 14px;
 }
-
-.button-4:hover {
-   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+/* Add specific width for Team button */
+.position-link:last-child {
+  width: 70px;
 }
-
-
-
-.button-5 {
-  align-items: center;
-height: 20px;
-  background-color: #F9F9F9;
-  border-radius: 6px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  color: #121212;
-  cursor: pointer;
-  display: inline-flex;
-  flex: 1 1 auto;
-  font-family: Inter,sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  justify-content: center;
-  line-height: 1;
-  margin: 0;
-  outline: none;
-  padding: 1rem 1.2rem;
-  text-align: center;
-  text-decoration: none;
-  transition: box-shadow .1s,-webkit-box-shadow .1s;
-  white-space: nowrap;
-  border: 0;
-  user-select: none;
-  position: absolute;
-top: 611px;
-  left: 455px;
-width: 85px; 
- 
-  touch-action: manipulation;
+.position-link:hover {
+  background-color: var(--hover-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-.button-5:hover {
-   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
+.position-link.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
 }
-
-.button-6 {
-  align-items: center;
-  background-color: #F9F9F9;
-  border-radius: 6px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  color: #121212;
-  cursor: pointer;
-  display: inline-flex;
-  flex: 1 1 auto;
-  font-family: Inter,sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  justify-content: center;
-  line-height: 1;
-  margin: 0;
-  outline: none;
-  padding: 1rem 1.2rem;
-  text-align: center;
-  text-decoration: none;
-  transition: box-shadow .1s,-webkit-box-shadow .1s;
-  white-space: nowrap;
-  border: 0;
-  user-select: none;
-  position: absolute;
-top: 611px;
-  left: 555px;
-height: 20px;
-width: 85px; 
- 
-  touch-action: manipulation;
+/* Dark mode styles for position switcher */
+.dark-mode .position-link {
+  border-color: var(--border-color);
 }
-
-.button-6:hover {
-   box-shadow: rgba(0, 0, 0, 0.4) 3px 3px 3px;
-}
-
-
-
-svg text.label {
-    fill: #bcbcbc;
-  }
-	
-.icon2::before {
-  content: "\f118";
-  font-family: "Ionicons"; 
-font-size: 22px;
-}
-
-.icon3::before {
-  content: "\f448";
-  font-family: "Ionicons";
-font-size: 22px;
-}
-
-text {
-  font-family: Arial;
-}
-
-
-  #searchInput1::placeholder {
-    font-size : 18px; 
-  }
-
-
-
-
-
-
-td {
-    font-weight: bold;
-  }
-  th {
-    font-weight: normal;
-  }
-
-
-.icon::before {
-  content: "\f21c";
-  font-family: "Ionicons"; 
-font-size: 22px;
-}		
-
-body, html {
-            margin: 0;
-            padding: 0;
-        }
-
-
-table {
-   border-collapse: collapse;
-  width: 200px;
-  font-family: Arial;
-  border-radius: 10px;
-}
-
-.metrics-table {
-  background-color: #f2f2f2;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  width: 750px;
-  table-layout: fixed; 
-  border-collapse: collapse; 
-}
-
-
-.metrics-table th {
-  color: #000000;
-  padding: 6px 9px;
-  font-size: 11px;
-  text-align: center;
-  overflow: hidden; 
-}
-
-.metrics-table td {
-  padding: 4px 11px;
-  text-align: center;
-  word-wrap: break-word; 
-  overflow: hidden; 
-}
-
-.metrics-table th:nth-child(1),
-.metrics-table td:nth-child(1) {
-  width: 90px; 
-}
-
-.metrics-table th:nth-child(2),
-.metrics-table td:nth-child(2) {
-  width: 95px; 
-}
-
-.metrics-table th:nth-child(3),
-.metrics-table td:nth-child(3) {
-  width: 20px; 
-}
-
-
-tr:first-child th:first-child {
-  color: #5b5b5b;
-  font-weight: bold;
-  font-size: 12px;
-  word-wrap: break-word;
-  overflow: hidden; 
-}
-
-
-
-#searchInput1 {
-    width: 406px;
-    height: 32px;
-    font-size: 15px;
-    border-radius: 3px;
-    border-width: 0.5px;
-    padding: 1px;
-    padding-left: 5px; /* Adds extra padding on the left side */
-    margin-bottom: 1px;
-        }
-
-#searchButton1 {
-width: 32px;
-color: black !important;
-height: 32px;
-cursor: pointer;
-}
-
-
-  
-svg.radar {
-  width: 700px;
-  height: 485px;
-}
-
-
-.searchcontainer {
-    display: flex;
-    align-items: center;
-    position: relative;
-	  margin-left: 8px;
-            margin-top: 8px;
-	
-}
-
-.dark-mode-toggle {
-position: absolute;
-left: 93%;
-top:5%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 37px;
-    height: 37px;
-    background-color: #e0e0de;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  }
-
-
-.maxcontainer {
-position: absolute;
-    }
-
-
-
-.toggle-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-position: absolute;
-  top: 431.5px;
-  left: 620px;
- width: 120px; 
- 
-    }
-
-    .toggle-label {
-      font-size: 16px;
-      margin-right: 10px;
-    }
-
-    .toggle-checkbox {
-      width: 40px;
-      height: 20px;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .toggle-checkbox input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .toggle-slider {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-    }
-
-    .toggle-slider:before {
-      content: "";
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      left: 2px;
-      bottom: 2px;
-      background-color: white;
-      transition: 0.4s;
-    }
-
-    input:checked + .toggle-slider {
-      background-color: #2196F3;
-    }
-
-    input:checked + .toggle-slider:before {
-      transform: translateX(20px);
-    }
-
-    .toggle-container2 {
-display: flex;
-align-items: center;
-justify-content: center;
-position: absolute;
-  top: 416.6px;
-  left: 5.9px;
- width: 120px; 
-    }
-
-    img {
-            width: 40px;
-top: -400px;
-pointer-events: none;
-
-left: -953px;
-opacity: .8;
-        }
-
-
-
-  
-        .screenshotcontainer {
-            margin-left: 8px;
-        }
-        
-	.emptycontainer {
-    height: 166px;
-    width: 100%; 
-}
-.finalcontainer {
-  width: 100%;
-}
-
-
-
-.similar-table {
-  position: absolute;
-  left: 389.4px;
-  transform: translateX(-50%);
-  background-color: #f2f2f2;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  border-collapse: collapse; 
-}
-
-.similar-table th,
-.similar-table td {
-  text-align: center;
-  white-space: normal;
-  width: auto;
-
-}
-
-.similar-table th {
-  color: #000000;
-  padding: 6px 9px;
-  font-size: 11px;
-  overflow: hidden; 
-}
-
-.similar-table td {
-  padding: 4px 11px;
+.dark-mode .position-link.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .header {
-  font-family: system-ui;
-  padding: 20px;
-  color: #fff;
+  background-color: var(--header-bg);
   display: flex;
+  padding: 20px;
   align-items: center;
   justify-content: space-between;
+  box-shadow: var(--shadow);
+  position: relative;
+  font-family: system-ui;
+  top: 0;
+  z-index: 100;
 }
-
 .header .logo {
   display: flex;
   align-items: center;
-  margin-right: auto; /* Push logo to the left */
+  margin-right: auto;
+ /* Push logo to the left */
 }
-
 .header .logo img {
   height: 34px;
   width: auto;
@@ -1301,23 +845,18 @@ opacity: .8;
   margin-left: 10px;
   font-size: 23px;
   font-weight: 600;
+  transform: translateY(-1.1px);
+ /* Move logo text slightly higher */
 }
-
 .header .navigation {
   display: flex;
   align-items: center;
-  gap: 25px; /* Reduced gap between buttons */
+  gap: 25px;
   position: absolute;
   left: 50%;
-  transform: translateX(-50%); /* Center the navigation */
+  transform: translateX(-50%) translateY(-2px);
 }
 
-/* Hide navigation on small screens */
-@media screen and (max-width: 650px) {
-  .header .navigation {
-    display: none;
-  }
-}
 
 .header .button10 {
   padding: 0.5rem 1rem;
@@ -1326,77 +865,130 @@ opacity: .8;
   line-height: 1.6;
   border-radius: 4px;
   transition: background-color 0.2s;
-  font-size: 1.1rem;  /* Added larger font size */
+  font-size: 1.1rem;
 }
-
-
 .header .button10:hover {
   background-color: #f0f0f0;
   color: #2563eb;
-
 }
-
-
-
 /* Group search and language buttons */
 .header-right {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto; /* Push buttons to the right */
+  margin-left: auto;
 }
-
 header a {
-      color: black;
-      text-decoration: none;
-    }
-
-
-    body.dark-mode .header .button10 {
-      color: #aeaeae;
+  color: black;
+  text-decoration: none;
+}
+body.dark-mode .header .button10 {
+  color: #aeaeae;
 }
 body.dark-mode .header .button10:hover {
   color: #2563eb;
-background-color: #ffffff;
+  background-color: #ffffff;
 }
-
-    body.dark-mode header a {
-      color: #aeaeae;
+body.dark-mode header a {
+  color: #aeaeae;
 }
-
 body.dark-mode .header .logo img {
   opacity: 0.88;
 }
-
-
+.search-input-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+}
+.search-input-container {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  z-index: 1000;
+}
+#searchInput {
+  width: 370px;
+  padding: 12px;
+  border: 3px solid #ccc;
+  border-radius: 4px;
+  font-size: 18.3px;
+  outline: none;
+  height: 50px;
+  color: #000000;
+  background-color: #fff;
+  ;
+}
+#autocompleteBox {
+  width: 370px;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: #fff;
+}
+#autocompleteBox ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#autocompleteBox li {
+  margin: 0;
+  padding: 5px;
+}
+#autocompleteBox {
+  line-height: 2;
+  text-align: center !important;
+}
+#autocompleteBox a {
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  text-align: center !important;
+  color: #333 !important;
+  cursor: pointer;
+}
+#autocompleteBox li:hover {
+  background-color: #f0f0f0;
+}
+#searchButton {
+  padding: 8.5px;
+ /* Reduced from 10px */
+  background-color: #0074d9;
+  color: #fff;
+  border: none;
+  width: 34px;
+ /* Reduced from 40px */
+  height: 34px;
+ /* Reduced from 40px */
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 17px;
+ /* Reduced from 20px */
+}
 body.dark-mode .language-button {
-      background-color: #0F0F0E;
-      color: #aeaeae;
+  background-color: #0F0F0E;
+  color: #aeaeae;
 }
-
 body.dark-mode .language-button:hover {
-      background-color: #0F0F0E;
-      color: #aeaeae;
+  background-color: #0F0F0E;
+  color: #aeaeae;
 }
-
-
 body.dark-mode .language-dropdown {
-
   background: #e8e6e6;
-
 }
-
 body.dark-mode .language-option {
-
   color: #000000;
 }
-
-
 .language-switcher-container {
   position: relative;
   display: none;
 }
-
 .language-button {
   background: none;
   border: none;
@@ -1407,12 +999,10 @@ body.dark-mode .language-option {
   align-items: center;
   font-size: 17px;
 }
-
 .language-button iconify-icon {
   font-size: 24px;
   opacity: 0.7;
 }
-
 .language-dropdown {
   display: none;
   position: absolute;
@@ -1425,7 +1015,6 @@ body.dark-mode .language-option {
   width: 200px;
   z-index: 1000;
 }
-
 .language-option {
   display: flex;
   align-items: center;
@@ -1435,24 +1024,24 @@ body.dark-mode .language-option {
   color: #444444;
   text-decoration: none;
 }
-
-
-
 .language-option iconify-icon {
   margin-right: 10px;
   font-size: 20px;
 }
-
 .language-dropdown.show {
   display: block;
+}
+.chart-wrapper img {
+  width: 38px;
+  margin-left: 10px;
+  margin-bottom: 8px;
+  opacity: 0.69;
 }
 
 
 </style>
 </defs>
 	
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
 
 
@@ -1469,7 +1058,7 @@ body.dark-mode .language-option {
     <a href="https://datamb.football/guide" class="button10" data-i18n="header.guide">Guide</a>
   </nav>
   <div class="header-right">
-  <div class="search-container">
+  <div class="search-container1">
     <button id="searchButton"><iconify-icon icon="ion:search-outline"></iconify-icon></button>
 </div>
   <div class="language-switcher-container">
@@ -1481,8 +1070,10 @@ body.dark-mode .language-option {
     </div>
   </div></div>
 </header>
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
      crossorigin="anonymous"></script>
+
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSBMXX80EF"></script>
@@ -1505,18 +1096,15 @@ body.dark-mode .language-option {
 
 <script>
 
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://datamb.football/database/searchbar.csv', false); // false for synchronous request
+  xhr.send(null);
   
-const xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://datamb.football/database/searchbar.csv', false); // false for synchronous request
-xhr.send(null);
-
-let dataCSV = xhr.responseText;
-
-function _0x5707(_0xd20fa7,_0x4d36b5){const _0x4dcd69=_0x4dcd();return _0x5707=function(_0x57077a,_0xde96b9){_0x57077a=_0x57077a-0x140;let _0x383e81=_0x4dcd69[_0x57077a];return _0x383e81;},_0x5707(_0xd20fa7,_0x4d36b5);}const _0xedf2b2=_0x5707;(function(_0x16e1b0,_0x125833){const _0x222c5a=_0x5707,_0x3f540c=_0x16e1b0();while(!![]){try{const _0x3105f2=parseInt(_0x222c5a(0x161))/0x1+parseInt(_0x222c5a(0x144))/0x2+parseInt(_0x222c5a(0x148))/0x3+-parseInt(_0x222c5a(0x155))/0x4+parseInt(_0x222c5a(0x141))/0x5*(-parseInt(_0x222c5a(0x145))/0x6)+-parseInt(_0x222c5a(0x157))/0x7+parseInt(_0x222c5a(0x14b))/0x8*(parseInt(_0x222c5a(0x159))/0x9);if(_0x3105f2===_0x125833)break;else _0x3f540c['push'](_0x3f540c['shift']());}catch(_0x450250){_0x3f540c['push'](_0x3f540c['shift']());}}}(_0x4dcd,0x1bc51));const dataLines=dataCSV[_0xedf2b2(0x160)]('\x0a'),searchButton=document[_0xedf2b2(0x142)]('searchButton'),searchInputModal=document[_0xedf2b2(0x142)](_0xedf2b2(0x14a)),searchInput=document[_0xedf2b2(0x142)](_0xedf2b2(0x143)),autocompleteBox=document[_0xedf2b2(0x142)](_0xedf2b2(0x162)),data1=dataLines[_0xedf2b2(0x146)](_0x19546c=>{const _0x89300c=_0xedf2b2,[_0x5af128,_0x515bec]=_0x19546c[_0x89300c(0x160)](',');return{'name':_0x5af128,'link':_0x515bec};});function removeDiacritics(_0x3ed1af){const _0x202611=_0xedf2b2,_0x4b45cf={'ø':'o','Ø':'O','ı':'i'};return _0x3ed1af=_0x3ed1af[_0x202611(0x147)](/[øØıI]/g,_0x19f74a=>_0x4b45cf[_0x19f74a]),_0x3ed1af[_0x202611(0x15d)]('NFD')[_0x202611(0x147)](/[\u0300-\u036f]/g,'');}function search2(_0x1db14d){const _0x26c944=_0xedf2b2;autocompleteBox[_0x26c944(0x15e)]='';const _0x321867=removeDiacritics(_0x1db14d)[_0x26c944(0x147)](/[^\w\s]/g,'')[_0x26c944(0x149)](),_0x3ad89e=data1[_0x26c944(0x15c)](_0xb995bf=>{const _0x3866b0=_0x26c944,_0x2b7de7=removeDiacritics(_0xb995bf[_0x3866b0(0x14e)])['replace'](/[^\w\s]/g,'')[_0x3866b0(0x149)]();return _0x2b7de7['includes'](_0x321867);});if(_0x3ad89e[_0x26c944(0x163)]===0x0){autocompleteBox[_0x26c944(0x152)][_0x26c944(0x14c)]='none';return;}_0x3ad89e[_0x26c944(0x151)](_0x4b9def=>{const _0x31eeb1=_0x26c944,_0x505ab8=document[_0x31eeb1(0x14d)]('div'),_0x3a2d70=document[_0x31eeb1(0x14d)]('a');_0x3a2d70['href']=_0x4b9def[_0x31eeb1(0x154)],_0x3a2d70[_0x31eeb1(0x150)]=_0x4b9def[_0x31eeb1(0x14e)],_0x505ab8[_0x31eeb1(0x15b)](_0x3a2d70),autocompleteBox[_0x31eeb1(0x15b)](_0x505ab8);}),autocompleteBox['style'][_0x26c944(0x14c)]=_0x26c944(0x153);}searchButton[_0xedf2b2(0x156)](_0xedf2b2(0x14f),()=>{const _0x350b96=_0xedf2b2;searchInputModal['style'][_0x350b96(0x14c)]=_0x350b96(0x153);}),searchInput['addEventListener'](_0xedf2b2(0x158),()=>{const _0x122364=_0xedf2b2,_0x1aac33=searchInput['value'];_0x1aac33[_0x122364(0x140)]()===''?autocompleteBox[_0x122364(0x152)][_0x122364(0x14c)]='none':search2(_0x1aac33);}),document['addEventListener']('click',_0x17873a=>{const _0x2c2a21=_0xedf2b2;_0x17873a[_0x2c2a21(0x15a)]===searchInputModal&&(searchInputModal[_0x2c2a21(0x152)][_0x2c2a21(0x14c)]=_0x2c2a21(0x15f));});function _0x4dcd(){const _0x3abacf=['forEach','style','block','link','165476bdcaHI','addEventListener','430668iEzpyY','input','90cmGEmO','target','appendChild','filter','normalize','innerHTML','none','split','102625kyWWmb','autocompleteBox','length','trim','5KymJaR','getElementById','searchInput','423476PJmBDe','1170534HGXHHf','map','replace','60222cRWbFM','toLowerCase','searchInputModal','61832bbygIm','display','createElement','name','click','textContent'];_0x4dcd=function(){return _0x3abacf;};return _0x4dcd();}
-
-
-
-</script>
+  let dataCSV = xhr.responseText;
+  
+  function _0x5707(_0xd20fa7,_0x4d36b5){const _0x4dcd69=_0x4dcd();return _0x5707=function(_0x57077a,_0xde96b9){_0x57077a=_0x57077a-0x140;let _0x383e81=_0x4dcd69[_0x57077a];return _0x383e81;},_0x5707(_0xd20fa7,_0x4d36b5);}const _0xedf2b2=_0x5707;(function(_0x16e1b0,_0x125833){const _0x222c5a=_0x5707,_0x3f540c=_0x16e1b0();while(!![]){try{const _0x3105f2=parseInt(_0x222c5a(0x161))/0x1+parseInt(_0x222c5a(0x144))/0x2+parseInt(_0x222c5a(0x148))/0x3+-parseInt(_0x222c5a(0x155))/0x4+parseInt(_0x222c5a(0x141))/0x5*(-parseInt(_0x222c5a(0x145))/0x6)+-parseInt(_0x222c5a(0x157))/0x7+parseInt(_0x222c5a(0x14b))/0x8*(parseInt(_0x222c5a(0x159))/0x9);if(_0x3105f2===_0x125833)break;else _0x3f540c['push'](_0x3f540c['shift']());}catch(_0x450250){_0x3f540c['push'](_0x3f540c['shift']());}}}(_0x4dcd,0x1bc51));const dataLines=dataCSV[_0xedf2b2(0x160)]('\x0a'),searchButton=document[_0xedf2b2(0x142)]('searchButton'),searchInputModal=document[_0xedf2b2(0x142)](_0xedf2b2(0x14a)),searchInput=document[_0xedf2b2(0x142)](_0xedf2b2(0x143)),autocompleteBox=document[_0xedf2b2(0x142)](_0xedf2b2(0x162)),data1=dataLines[_0xedf2b2(0x146)](_0x19546c=>{const _0x89300c=_0xedf2b2,[_0x5af128,_0x515bec]=_0x19546c[_0x89300c(0x160)](',');return{'name':_0x5af128,'link':_0x515bec};});function removeDiacritics(_0x3ed1af){const _0x202611=_0xedf2b2,_0x4b45cf={'ø':'o','Ø':'O','ı':'i'};return _0x3ed1af=_0x3ed1af[_0x202611(0x147)](/[øØıI]/g,_0x19f74a=>_0x4b45cf[_0x19f74a]),_0x3ed1af[_0x202611(0x15d)]('NFD')[_0x202611(0x147)](/[\u0300-\u036f]/g,'');}function search2(_0x1db14d){const _0x26c944=_0xedf2b2;autocompleteBox[_0x26c944(0x15e)]='';const _0x321867=removeDiacritics(_0x1db14d)[_0x26c944(0x147)](/[^\w\s]/g,'')[_0x26c944(0x149)](),_0x3ad89e=data1[_0x26c944(0x15c)](_0xb995bf=>{const _0x3866b0=_0x26c944,_0x2b7de7=removeDiacritics(_0xb995bf[_0x3866b0(0x14e)])['replace'](/[^\w\s]/g,'')[_0x3866b0(0x149)]();return _0x2b7de7['includes'](_0x321867);});if(_0x3ad89e[_0x26c944(0x163)]===0x0){autocompleteBox[_0x26c944(0x152)][_0x26c944(0x14c)]='none';return;}_0x3ad89e[_0x26c944(0x151)](_0x4b9def=>{const _0x31eeb1=_0x26c944,_0x505ab8=document[_0x31eeb1(0x14d)]('div'),_0x3a2d70=document[_0x31eeb1(0x14d)]('a');_0x3a2d70['href']=_0x4b9def[_0x31eeb1(0x154)],_0x3a2d70[_0x31eeb1(0x150)]=_0x4b9def[_0x31eeb1(0x14e)],_0x505ab8[_0x31eeb1(0x15b)](_0x3a2d70),autocompleteBox[_0x31eeb1(0x15b)](_0x505ab8);}),autocompleteBox['style'][_0x26c944(0x14c)]=_0x26c944(0x153);}searchButton[_0xedf2b2(0x156)](_0xedf2b2(0x14f),()=>{const _0x350b96=_0xedf2b2;searchInputModal['style'][_0x350b96(0x14c)]=_0x350b96(0x153);}),searchInput['addEventListener'](_0xedf2b2(0x158),()=>{const _0x122364=_0xedf2b2,_0x1aac33=searchInput['value'];_0x1aac33[_0x122364(0x140)]()===''?autocompleteBox[_0x122364(0x152)][_0x122364(0x14c)]='none':search2(_0x1aac33);}),document['addEventListener']('click',_0x17873a=>{const _0x2c2a21=_0xedf2b2;_0x17873a[_0x2c2a21(0x15a)]===searchInputModal&&(searchInputModal[_0x2c2a21(0x152)][_0x2c2a21(0x14c)]=_0x2c2a21(0x15f));});function _0x4dcd(){const _0x3abacf=['forEach','style','block','link','165476bdcaHI','addEventListener','430668iEzpyY','input','90cmGEmO','target','appendChild','filter','normalize','innerHTML','none','split','102625kyWWmb','autocompleteBox','length','trim','5KymJaR','getElementById','searchInput','423476PJmBDe','1170534HGXHHf','map','replace','60222cRWbFM','toLowerCase','searchInputModal','61832bbygIm','display','createElement','name','click','textContent'];_0x4dcd=function(){return _0x3abacf;};return _0x4dcd();}
+   
+  </script>
 
 <body>
 
@@ -1533,76 +1121,54 @@ function _0x5707(_0xd20fa7,_0x4d36b5){const _0x4dcd69=_0x4dcd();return _0x5707=f
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script></center>
-  <div class="searchcontainer">
-    <input type="text" id="searchInput1" class="search-bar" data-i18n="search.placeholder2" placeholder="Enter name of midfielder..." />
-    &nbsp;<input type="button" id="searchButton1" value="+&nbsp;" />
-    <div class="dark-mode-toggle" onclick="toggleDarkMode()"><div class="toggle-icon"></div></div></div>
-    <div class="screenshotcontainer">
-      <div id="matchingNames"></div>
-	<div id="resultsTable"></div>  
- <br><br>
-  <div class="maxcontainer">
-  <div class="toggle-container">
-    <label class="toggle-label"></label>
-    <label class="toggle-checkbox">
-      <input type="checkbox" id="toggleButton" onclick="toggleFilling()" unchecked>
-      <span class="toggle-slider"></span>
-    </label>
-  </div>
-  <div class="toggle-container2">
-    <img src="https://datamb.football/logo.png" alt="Logo">
-  </div>
-  <button onclick="takeScreenshot()" class="button-10"><div class="icon2"></div></button>
-  <a href="https://datamb.football/keepers/" target="_top" rel="noopener noreferrer">
-    <button class="button-1" role="button">GK</button></a>
-  
-  <a href="https://datamb.football/centrebacks/" target="_top" rel="noopener noreferrer">
-    <button class="button-2" role="button">CB</button></a>
-  
-  <a href="https://datamb.football/fullbacks/" target="_top" rel="noopener noreferrer">
-    <button class="button-3" role="button">FB</button></a>
-  
-  <a href="https://datamb.football/wingers/" target="_top" rel="noopener noreferrer">
-    <button class="button-4" role="button">FW</button></a>
-  
-  <a href="https://datamb.football/strikers/" target="_top" rel="noopener noreferrer">
-    <button class="button-5" role="button">ST</button></a>
-  
-  <a href="https://datamb.football/teamradars/" target="_top" rel="noopener noreferrer">
-    <button class="button-6" role="button" data-i18n="buttons.team">Team</button></a>
-
-  </div>
 
 
-  <svg class="radar"><g transform="translate(379.77,225.77)"><g class="axisWrapper">
+
+  <div class="container">
+      <div class="search-container">
+        <div class="search-controls">
+          <input type="text" id="searchInput1" class="search-bar" data-i18n="search.placeholder2" placeholder="Enter name of midfielder..." />
+          <button id="searchButton1">+</button>
+        </div>
+        <div id="matchingNames"></div>
+      </div>
+
+    <div class="chart-wrapper">
+
+      <div id="resultsTable"></div>
+      
+      <div class="radar-container">
+        <svg class="radar">
+          <g><g class="axisWrapper">
   
-    <g class="radar_label">
-      <text class="label" data-type="Aerial%" data-idx="0" data-i18n="radar.keyPasses" transform="translate(-60 -196.04) scale(1.3) rotate(-1.7)">Key Passes</text>
-  </g>
-  
-  <g class="radar_label">
-      <text class="label" data-type="Long%" data-idx="6" data-i18n="radar.fwdPass" transform="matrix(0.65, -1.118, 1.118, 0.65, -188.21, -80.03) rotate(7.5)">Fwd Pass%</text>
-  </g>
-  
-  <g class="radar_label">
-      <text class="label" data-type="Passes" data-idx="5" data-i18n="radar.fwdPasses" transform="matrix(-0.494, -1.209, 1.209, -0.494, -173, 107.54) rotate(3.87)">Fwd Passes</text>
-  </g>
-  
-  <g class="radar_label">
-      <text class="label" data-type="Exits" data-idx="4" data-i18n="radar.carrying" transform="translate(-120.12 183.16) scale(1.3) rotate(20)">Carrying</text>
-  </g>
-  
-  <g class="radar_label">
-      <text class="label" data-type="Aerial" data-idx="3" data-i18n="radar.defActions" transform="translate(71.82 206.54) scale(1.3) rotate(-31)">Def Actions</text>
-  </g>
-  
-  <g class="radar_label">
-      <text class="label" data-type="Def Actions" data-idx="2" data-i18n="radar.duels" transform="translate(200.22 6.30) scale(1.3) rotate(99.11)">Duels%</text>
-  </g>
-  
-  <g class="radar_label">
-      <text class="label" data-type="Shotstopping" data-idx="1" data-i18n="radar.progPasses" transform="translate(125.64 -163.65) scale(1.3) rotate(52.49)">Prog Passes</text>
-  </g>
+            <g class="radar_label">
+              <text class="label" data-type="Aerial%" data-idx="0" data-i18n="radar.keyPasses" transform="translate(-60 -196.04) scale(1.3) rotate(-1.7)">Key Passes</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Long%" data-idx="6" data-i18n="radar.fwdPass" transform="matrix(0.65, -1.118, 1.118, 0.65, -188.21, -80.03) rotate(7.5)">Fwd Pass%</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Passes" data-idx="5" data-i18n="radar.fwdPasses" transform="matrix(-0.494, -1.209, 1.209, -0.494, -173, 107.54) rotate(3.87)">Fwd Passes</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Exits" data-idx="4" data-i18n="radar.carrying" transform="translate(-120.12 183.16) scale(1.3) rotate(20)">Carrying</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Aerial" data-idx="3" data-i18n="radar.defActions" transform="translate(71.82 206.54) scale(1.3) rotate(-31)">Def Actions</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Def Actions" data-idx="2" data-i18n="radar.duels" transform="translate(200.22 6.30) scale(1.3) rotate(99.11)">Duels%</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Shotstopping" data-idx="1" data-i18n="radar.progPasses" transform="translate(125.64 -163.65) scale(1.3) rotate(52.49)">Prog Passes</text>
+          </g>
+          
   
   
   <circle class="blackCircle" r="190" style="fill:none; stroke:#D3D3D3; stroke-width:1;"></circle>
@@ -1621,71 +1187,202 @@ function _0x5707(_0xd20fa7,_0x4d36b5){const _0x4dcd69=_0x4dcd();return _0x5707=f
   <line x1="0" y1="0" x2="182.73258666666666" y2="-52.67472" stroke="#D3D3D3" stroke-width="1" transform="translate(-182.7209384, 52.480128)"></line>
   <line x1="0" y1="0" x2="154.67849333333334" y2="109.91788799999999" stroke="#D3D3D3" stroke-width="1" transform="translate(-154.6883792222, -110.017215488)"></line>
   
-  
+
   <g class="radarWrapper"></g>
-  </g></g>    
-  <div id="insertHere"></div>
-</div>
+  </g></g>
+        </svg>
+      </div>
+      <img src="https://datamb.football/logo.png" alt="DataMB - Compare and visualize player performance">
+      <div id="insertHere"></div>
+
+      
+      <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border-color); opacity: 0.5;">
+      
+      <div class="toggle-controls">
+        <div class="toggle-container">
+          <label class="toggle-label"></label>
+          <label class="toggle-checkbox">
+            <input type="checkbox" id="toggleButton" onclick="toggleFilling()" unchecked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="position-switcher-container">
+ 
+          <a href="https://datamb.football/keepers/" target="_self" rel="noopener noreferrer" class="position-link">
+            <span>GK</span>
+        </a>
+          <a href="https://datamb.football/centrebacks/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span>CB</span>
+          </a>
+          <a href="https://datamb.football/fullbacks/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span>FB</span>
+          </a>
+  
+          <span class="position-link active" style="user-select: none;">
+            <span>CM</span>
+        </span>
+          <a href="https://datamb.football/wingers/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span>FW</span>
+          </a>
+          <a href="https://datamb.football/strikers/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span>ST</span>
+          </a>
+          <a href="https://datamb.football/teamradars/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span data-i18n="buttons.team">Team</span>
+          </a>
+    </div>
+        
+        <button onclick="takeScreenshot()" class="btn btn-outline btn-icon"><iconify-icon icon="ion:camera" style="color: var(--text-color); font-size: 18px;"></iconify-icon></button>
+      </div>
+      
+    </div>
+
+      </div>
+  
+  <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+    <div class="toggle-icon"></div>
+  </div>
+
 <script>
 
-function _0x2e0d(_0x136d85,_0x5622b2){const _0x29cd33=_0x29cd();return _0x2e0d=function(_0x2e0d17,_0x185da6){_0x2e0d17=_0x2e0d17-0xc9;let _0x4e3fef=_0x29cd33[_0x2e0d17];return _0x4e3fef;},_0x2e0d(_0x136d85,_0x5622b2);}const _0x307a06=_0x2e0d;(function(_0x2b7895,_0x13ff6b){const _0x54d125=_0x2e0d,_0x1b4141=_0x2b7895();while(!![]){try{const _0x371f94=-parseInt(_0x54d125(0xd5))/0x1+-parseInt(_0x54d125(0x114))/0x2*(parseInt(_0x54d125(0x126))/0x3)+parseInt(_0x54d125(0xca))/0x4*(parseInt(_0x54d125(0xec))/0x5)+parseInt(_0x54d125(0x174))/0x6*(-parseInt(_0x54d125(0x179))/0x7)+parseInt(_0x54d125(0x139))/0x8+parseInt(_0x54d125(0x10b))/0x9*(-parseInt(_0x54d125(0x13e))/0xa)+-parseInt(_0x54d125(0x176))/0xb*(-parseInt(_0x54d125(0x140))/0xc);if(_0x371f94===_0x13ff6b)break;else _0x1b4141['push'](_0x1b4141['shift']());}catch(_0x42791e){_0x1b4141['push'](_0x1b4141['shift']());}}}(_0x29cd,0x9f28e));const allData1=[],allData2=[];let allDataAsString='';function _0x29cd(){const _0x2dd27f=['result-color-26','table','searchButton','sort','overflowY','querySelector','<span\x20data-i18n=\x22table.keyPasses\x22>Key\x20passes</span>','result-color-39','auto','result-color-23','trim','substring','keyup','.metrics-table\x20tr:not(:first-child)','input','map','style','45GpWclG','radarCircle\x20','insertHere','autocomplete','result-color-34','result-color-6','result-color-green','fontFamily','then','16sDziOK','remove','result-color-31','<span\x20data-i18n=\x22table.fwdPassPct\x22>Forward\x20pass%</span>','radarLines\x20','<span\x20data-i18n=\x22table.duel\x22>Duel%</span>','result-color-3','<span\x20data-i18n=\x22table.fwdPasses\x22>Forward\x20passes</span>','0.2','toLowerCase','result-color-41','similar-table','left','result-color-35','result-color-4','1.9px','filter','result-color-42','428421pNSRnO','normalize','result-color-29','sheet_to_json','block','Sheets','http://www.w3.org/2000/svg','translate(379.77,225.77)','circle','sin','arrayBuffer','indexOf','maxHeight','<span\x20data-i18n=\x22table.minutes\x22>Minutes\x20played</span>','textContent','<span\x20data-i18n=\x22table.defActions\x22>Def.\x20actions</span>','<span\x20data-i18n=\x22table.age\x22>Age</span>','result-color-13','result-color-24','3739944wZLhzD','result-color-32','all','result-color-18','result-color-blue','1671330qgAVSQ','https://datamb.football/database/OLD/RATOP72324/CM/CM.xlsx','26053068YdRXPv','error','td:first-child','createElementNS','<span\x20data-i18n=\x22similar.to\x22>Similar\x20data\x20to</span>\x20','addEventListener','pointer','result-color-12','result-color-30','startsWith','getElementById','result-color-25','9999','difference','result-color-2','add','key','querySelectorAll','replace','cursor','result-color-20','forEach','toFixed','firstChild','\x2023/24','result-color-rose','div','result-color-5','test','find','result-color-15','result-color-orange','.radar','9px','sqrt','SheetNames','setAttribute','8px','push','result-color-bleu','.radarPolygon.','name','Backspace','array','from','resultsTable','searchInput1',')\x20-\x20','.radarPolygon','innerHTML','result-color-37','unshift','405492clBbKb','result-color-11','11XZbhXQ','join','length','98QpVjEV','class','result-color-46','split','166160ZUnBlZ','position','.name','classList','Enter','display','<span\x20data-i18n=\x22table.percentiles\x22>Percentiles</span>','result-color-14','searchButton1','userAgent','\x20min','100895PvmAGb','fillOpacity','.team','267px','NFD','none','polygon','click','result-color-8','relative','pow','result-color-17','off','result-color-22','result-color-40','result-color-28','utils','points','paddingLeft','fontSize','read','result-color-33','colspan','125ccxYRY','392px','result-color-45','value','slice','span','result-color-pink','10.8px','createElement','Error\x20fetching\x20or\x20processing\x20data:','result-color-38','catch','appendChild','button'];_0x29cd=function(){return _0x2dd27f;};return _0x29cd();}const urls1=['https://datamb.football/database/CURRENT/RATOP72425/CM/CM.xlsx'],urls2=[_0x307a06(0x13f)],fetchPromises1=urls1[_0x307a06(0x109)](_0x5a27e1=>fetch(_0x5a27e1)[_0x307a06(0x113)](_0x4d61de=>_0x4d61de[_0x307a06(0x130)]())),fetchPromises2=urls2[_0x307a06(0x109)](_0x3c19c5=>fetch(_0x3c19c5)[_0x307a06(0x113)](_0x4b8aa0=>_0x4b8aa0[_0x307a06(0x130)]()));function processAndStoreData1(_0x5b2d1a){const _0x2a0871=_0x307a06;let _0x57dcd5=0x1;_0x5b2d1a['forEach'](_0x12b7a7=>{const _0x39208a=_0x2e0d,_0x4ea112=XLSX[_0x39208a(0xe9)](new Uint8Array(_0x12b7a7),{'type':_0x39208a(0x16b)}),_0x5294f1=_0x4ea112[_0x39208a(0x163)][0x0],_0x2cedd7=_0x4ea112[_0x39208a(0x12b)][_0x5294f1],_0x4789d8=XLSX[_0x39208a(0xe5)][_0x39208a(0x129)](_0x2cedd7,{'header':0x1}),_0x4f9d28=_0x4789d8[_0x39208a(0xf0)](0x1);_0x4f9d28[_0x39208a(0x155)](_0x39663a=>{const _0x3acbec=_0x39208a;_0x39663a[_0x3acbec(0x173)](''+_0x57dcd5++),_0x39663a[0xf]=_0x39663a[0x1]+_0x3acbec(0x158);const _0x11de6d=[_0x39663a[0x0],_0x39663a[0xf],_0x39663a[0x2],_0x39663a[0x3],_0x39663a[0x5],_0x39663a[0x6],_0x39663a[0x7],_0x39663a[0x8],_0x39663a[0x9],_0x39663a[0xa],_0x39663a[0xb],_0x39663a[0x4]];allData1['push'](_0x11de6d);});});const _0x502548=[0x4,0x5,0x6,0x7,0x8,0x9,0xa],_0x24199b=_0x502548[_0x2a0871(0x109)](_0x5d0757=>allData1[_0x2a0871(0x109)](_0x52ef4e=>parseFloat(_0x52ef4e[_0x5d0757]))),_0x16e1da=_0x24199b[_0x2a0871(0x109)](_0x23179a=>{const _0x40c817=_0x2a0871,_0xb26e67=[..._0x23179a]['sort']((_0x1438ed,_0xcb5dc6)=>_0x1438ed-_0xcb5dc6);return _0x23179a[_0x40c817(0x109)](_0x5f52f7=>{const _0x440f73=_0x40c817,_0x426e70=_0xb26e67['indexOf'](_0x5f52f7)+0x1;return _0x426e70/_0xb26e67[_0x440f73(0x178)];});});allData1[_0x2a0871(0x155)]((_0x15328c,_0x5a3f42)=>{const _0x5235c5=_0x2a0871;_0x502548[_0x5235c5(0x155)]((_0x5910a6,_0x51cdd7)=>{const _0x1b1a61=_0x5235c5;_0x15328c[_0x5910a6]=_0x16e1da[_0x51cdd7][_0x5a3f42][_0x1b1a61(0x156)](0x3);});});}function processAndStoreData(_0x3b1287){const _0x1653b6=_0x307a06;let _0x525642=0x1;_0x3b1287[_0x1653b6(0x155)](_0x11f175=>{const _0x328817=_0x1653b6,_0x579474=XLSX[_0x328817(0xe9)](new Uint8Array(_0x11f175),{'type':_0x328817(0x16b)}),_0x190e1c=_0x579474[_0x328817(0x163)][0x0],_0x3e4e73=_0x579474['Sheets'][_0x190e1c],_0xd9f237=XLSX[_0x328817(0xe5)]['sheet_to_json'](_0x3e4e73,{'header':0x1}),_0x53faad=_0xd9f237[_0x328817(0xf0)](0x1);_0x53faad[_0x328817(0x155)](_0x1c6e38=>{const _0x17dfcf=_0x328817;_0x1c6e38[_0x17dfcf(0x173)](''+_0x525642++),_0x1c6e38[0xf]=_0x1c6e38[0x1]+'\x2024/25';const _0x2aec2e=[_0x1c6e38[0x0],_0x1c6e38[0xf],_0x1c6e38[0x2],_0x1c6e38[0x3],_0x1c6e38[0x5],_0x1c6e38[0x6],_0x1c6e38[0x7],_0x1c6e38[0x8],_0x1c6e38[0x9],_0x1c6e38[0xa],_0x1c6e38[0xb],_0x1c6e38[0x4]];allData2[_0x17dfcf(0x166)](_0x2aec2e);});});const _0x5c1620=[0x4,0x5,0x6,0x7,0x8,0x9,0xa],_0x274c72=_0x5c1620[_0x1653b6(0x109)](_0x1410fa=>allData2[_0x1653b6(0x109)](_0x523988=>parseFloat(_0x523988[_0x1410fa]))),_0x1b7c45=_0x274c72['map'](_0x172b01=>{const _0x5f0cea=_0x1653b6,_0x4966b9=[..._0x172b01][_0x5f0cea(0xfd)]((_0x49dd28,_0x30febd)=>_0x49dd28-_0x30febd);return _0x172b01['map'](_0x3c4231=>{const _0x594951=_0x5f0cea,_0x4db44d=_0x4966b9[_0x594951(0x131)](_0x3c4231)+0x1;return _0x4db44d/_0x4966b9[_0x594951(0x178)];});});allData2[_0x1653b6(0x155)]((_0x386468,_0xf39fae)=>{const _0x582595=_0x1653b6;_0x5c1620[_0x582595(0x155)]((_0x5ad067,_0x418f13)=>{_0x386468[_0x5ad067]=_0x1b7c45[_0x418f13][_0xf39fae]['toFixed'](0x3);});});}Promise[_0x307a06(0x13b)](fetchPromises1)[_0x307a06(0x113)](_0x3b04d5=>{const _0x36d948=_0x307a06;processAndStoreData(_0x3b04d5),Promise[_0x36d948(0x13b)](fetchPromises2)[_0x36d948(0x113)](_0xcb6357=>{const _0xe37774=_0x36d948;processAndStoreData1(_0xcb6357);const _0x4ea113=allData2['concat'](allData1);_0x4ea113[_0xe37774(0x155)]((_0x3b0674,_0x1fd2b5)=>{_0x3b0674[0x0]=''+(_0x1fd2b5+0x1);}),_0x4ea113[_0xe37774(0x155)](_0x6fcedb=>{const _0x8ae6ed=_0xe37774;allDataAsString+=_0x6fcedb[_0x8ae6ed(0x177)](',')+'\x0a';});const _0x34e168=allDataAsString['trim']()['split']('\x0a'),_0x319d41=[];for(const _0x9e9a4f of _0x34e168){const _0x596650=_0x9e9a4f[_0xe37774(0xc9)](','),_0x2a6348=_0x596650[0x1],_0x2ebad2=_0x596650[0x3],_0x2a4b10=_0x596650[0x2],_0x31b51a=_0x2a6348+','+_0x2ebad2+','+_0x2a4b10;_0x319d41[_0xe37774(0x166)](_0x31b51a);}function _0x521724(){const _0x3ae0ee=_0xe37774,_0x380de6=navigator[_0x3ae0ee(0xd3)];return/Android|iPhone/i[_0x3ae0ee(0x15c)](_0x380de6);}const _0x430ac8=_0x319d41,_0x2d818e=document[_0xe37774(0x14a)]('searchInput1');_0x2d818e[_0xe37774(0x164)](_0xe37774(0x10e),_0xe37774(0xe1));const _0x31a800=document[_0xe37774(0x14a)]('matchingNames'),_0x3e924f=document[_0xe37774(0x14a)](_0xe37774(0xfc));function _0x5390a0(){const _0x94a7b3=_0xe37774,_0x1dfdec=_0x46e96f(_0x2d818e[_0x94a7b3(0xef)]['toLowerCase']()),_0x37c6d1=_0x430ac8[_0x94a7b3(0x124)](function(_0x5a1008){const _0x562e7e=_0x94a7b3,[_0xf930ea]=_0x5a1008[_0x562e7e(0xc9)](','),_0x59046d=_0x46e96f(_0xf930ea[_0x562e7e(0x11d)]());return _0x59046d['includes'](_0x1dfdec);});_0x31a800[_0x94a7b3(0x171)]='',_0x37c6d1[_0x94a7b3(0x155)](function(_0x1a6c6b){const _0x4deb8c=_0x94a7b3,[_0xdc6d5b,_0x3713b3,_0x40dabb]=_0x1a6c6b[_0x4deb8c(0xc9)](','),_0x5f3e53=document[_0x4deb8c(0xf4)](_0x4deb8c(0x15a));_0x5f3e53['classList'][_0x4deb8c(0x14f)](_0x4deb8c(0x169));const _0x3970e6=document[_0x4deb8c(0xf4)](_0x4deb8c(0xf1));_0x3970e6['textContent']=_0xdc6d5b,_0x3970e6[_0x4deb8c(0xcd)][_0x4deb8c(0x14f)]('fullName'),_0x5f3e53[_0x4deb8c(0xf8)](_0x3970e6);const _0x3de8f6=document[_0x4deb8c(0xf4)]('span');_0x3de8f6[_0x4deb8c(0x134)]='\x20('+_0x40dabb+',',_0x3de8f6[_0x4deb8c(0xcd)][_0x4deb8c(0x14f)]('age'),_0x5f3e53[_0x4deb8c(0xf8)](_0x3de8f6);const _0x3b09e7=document['createElement'](_0x4deb8c(0xf1));_0x3b09e7[_0x4deb8c(0x134)]='\x20'+_0x3713b3+')',_0x3b09e7[_0x4deb8c(0xcd)][_0x4deb8c(0x14f)]('team'),_0x5f3e53['appendChild'](_0x3b09e7),_0x5f3e53['addEventListener']('click',function(_0x427a53){const _0x4b711b=_0x4deb8c,_0x28a0bf=_0x427a53['target']['closest'](_0x4b711b(0xcc));if(_0x28a0bf){const _0xf59899=_0x28a0bf[_0x4b711b(0xff)]('.fullName')[_0x4b711b(0x134)],_0x4c451a=_0x28a0bf[_0x4b711b(0xff)]('.age')[_0x4b711b(0x134)][_0x4b711b(0x104)](),_0x4df490=_0x28a0bf['querySelector'](_0x4b711b(0xd7))['textContent'][_0x4b711b(0x104)]()[_0x4b711b(0x127)](_0x4b711b(0xd9))[_0x4b711b(0x152)](/[\u0300-\u036f\s]/g,'')[_0x4b711b(0x152)](/[^a-zA-Z]/g,''),_0x24df72=_0xf59899+','+_0x4df490+','+_0x4c451a[_0x4b711b(0x105)](0x1,_0x4c451a[_0x4b711b(0x178)]-0x1);_0x2d818e['value']=_0x24df72;const _0x826faf=new KeyboardEvent('keyup',{'key':'Enter'});_0x2d818e['dispatchEvent'](_0x826faf);}}),_0x31a800['appendChild'](_0x5f3e53);}),_0x1dfdec===''&&_0x37c6d1[_0x94a7b3(0x178)]===0x0?_0x31a800[_0x94a7b3(0x10a)][_0x94a7b3(0xcf)]=_0x94a7b3(0xda):(_0x31a800[_0x94a7b3(0x10a)][_0x94a7b3(0xcf)]=_0x94a7b3(0x12a),_0x31a800['style']['padding']=_0x94a7b3(0x165),_0x31a800['style'][_0x94a7b3(0xcb)]=_0x94a7b3(0xde),_0x31a800['style'][_0x94a7b3(0x120)]=_0x94a7b3(0x123),_0x31a800[_0x94a7b3(0x10a)]['zIndex']=_0x94a7b3(0x14c),_0x31a800[_0x94a7b3(0x10a)]['width']=_0x94a7b3(0xed),_0x31a800[_0x94a7b3(0x10a)][_0x94a7b3(0x132)]=_0x94a7b3(0xd8),_0x31a800[_0x94a7b3(0x10a)][_0x94a7b3(0xfe)]=_0x94a7b3(0x102),_0x31a800['style']['border']='1px\x20solid\x20#e0e0e0'),_0x1dfdec===''&&(_0x31a800[_0x94a7b3(0x10a)][_0x94a7b3(0xcf)]=_0x94a7b3(0xda));}_0x2d818e[_0xe37774(0x145)](_0xe37774(0x108),_0x5390a0),_0x2d818e[_0xe37774(0x145)](_0xe37774(0x106),function(_0xc4828a){const _0x1b5bdc=_0xe37774;if(_0xc4828a['key']===_0x1b5bdc(0xce))searchButton1[_0x1b5bdc(0xdc)]();else _0xc4828a[_0x1b5bdc(0x150)]===_0x1b5bdc(0x16a)&&_0x5390a0();});const _0x2de786=allDataAsString;let _0x550d16=_0x2de786['trim']()['split']('\x0a')['map'](_0x1193b0=>_0x1193b0['split'](','));function _0x43bcec(_0x23ad62,_0x1fbe7d){const _0x3b1154=_0xe37774;let _0x4e19a3=0x0;for(let _0x21e658=0x4;_0x21e658<=0xa;_0x21e658++){const _0x4b467b=parseFloat(_0x23ad62[_0x21e658]),_0x41d2ab=parseFloat(_0x1fbe7d[_0x21e658]);_0x4e19a3+=Math[_0x3b1154(0xdf)](_0x4b467b-_0x41d2ab,0x2);}return Math[_0x3b1154(0x162)](_0x4e19a3);}const _0x538484=[_0xe37774(0x13d),_0xe37774(0xf2),_0xe37774(0x15f),_0xe37774(0x111),_0xe37774(0x167),_0xe37774(0x159),'result-color-1',_0xe37774(0x14e),_0xe37774(0x11a),_0xe37774(0x122),_0xe37774(0x15b),_0xe37774(0x110),'result-color-7',_0xe37774(0xdd),'result-color-9','result-color-10',_0xe37774(0x175),_0xe37774(0x147),_0xe37774(0x137),_0xe37774(0xd1),_0xe37774(0x15e),'result-color-16',_0xe37774(0xe0),_0xe37774(0x13c),'result-color-19',_0xe37774(0x154),'result-color-21',_0xe37774(0xe2),_0xe37774(0x103),_0xe37774(0x138),_0xe37774(0x14b),_0xe37774(0xfa),'result-color-27',_0xe37774(0xe4),_0xe37774(0x128),_0xe37774(0x148),_0xe37774(0x116),_0xe37774(0x13a),_0xe37774(0xea),_0xe37774(0x10f),_0xe37774(0x121),'result-color-36',_0xe37774(0x172),_0xe37774(0xf6),_0xe37774(0x101),_0xe37774(0xe3),_0xe37774(0x11e),_0xe37774(0x125),'result-color-43','result-color-44',_0xe37774(0xee),_0xe37774(0x17b),'result-color-47','result-color-48'];let _0x203f0e=[];function _0x46e96f(_0x2ed682){const _0x35731b=_0xe37774;return _0x2ed682[_0x35731b(0x127)](_0x35731b(0xd9))[_0x35731b(0x152)](/[\u0300-\u036f\s]/g,'')[_0x35731b(0x152)](/Ø/g,'O')[_0x35731b(0x152)](/ø/g,'o')[_0x35731b(0x152)](/ı/g,'i');}function _0x1398f5(_0x1942a3){const _0x2b8061=_0xe37774,_0x43716e=_0x1942a3[_0x2b8061(0xc9)](',')[_0x2b8061(0x109)](_0x348dac=>_0x348dac[_0x2b8061(0x104)]()),_0x2dfe8c=_0x43716e[0x0];let _0x3aaf7e,_0x31baf0;_0x43716e[_0x2b8061(0x178)]>0x1&&(_0x3aaf7e=_0x43716e[0x1]['trim'](),_0x43716e[_0x2b8061(0x178)]>0x2&&(_0x31baf0=_0x43716e[0x2][_0x2b8061(0x104)]()));const _0xdadd19=_0x550d16[_0x2b8061(0x124)](_0x1310b8=>{const _0x9f4ffc=_0x2b8061,_0x199b8c=_0x46e96f(_0x1310b8[0x1][_0x9f4ffc(0x11d)]()),_0x55c719=_0x46e96f(_0x1310b8[0x2][_0x9f4ffc(0x11d)]()),_0xf71253=_0x1310b8[0x3][_0x9f4ffc(0x104)]()[_0x9f4ffc(0x11d)](),_0x5e2dd9=_0x199b8c['includes'](_0x46e96f(_0x2dfe8c['toLowerCase']())),_0x4ff7f5=!_0x3aaf7e||_0xf71253===_0x46e96f(_0x3aaf7e[_0x9f4ffc(0x11d)]()),_0x17b9e8=!_0x31baf0||_0x55c719===_0x46e96f(_0x31baf0[_0x9f4ffc(0x11d)]());return _0x5e2dd9&&_0x4ff7f5&&_0x17b9e8;});return _0xdadd19;}function _0x2d29f2(_0x4baa2e,_0xe7ac1,_0x25832c){const _0x38aeba=_0xe37774,_0x139af4=document['getElementById'](_0x38aeba(0x16d)),_0x31997c=['',_0x38aeba(0xd0),'',_0x38aeba(0x136),_0x38aeba(0x119),_0x38aeba(0x135),'<span\x20data-i18n=\x22table.progCarries\x22>Prog.\x20carries</span>',_0x38aeba(0x11b),_0x38aeba(0x117),_0x38aeba(0x100),'<span\x20data-i18n=\x22table.progPasses\x22>Prog.\x20passes</span>',_0x38aeba(0x133)],_0x464e8d=_0x139af4[_0x38aeba(0xff)]('th')!==null,_0x29fd50=_0x464e8d?_0x139af4[_0x38aeba(0xff)](_0x38aeba(0xfb)):document[_0x38aeba(0xf4)](_0x38aeba(0xfb));_0x29fd50[_0x38aeba(0xcd)][_0x38aeba(0x14f)]('metrics-table');if(!_0x464e8d){const _0x50e41c=document[_0x38aeba(0xf4)]('tr');for(let _0x452866=0x1;_0x452866<_0x31997c[_0x38aeba(0x178)];_0x452866++){const _0x2e2389=document['createElement']('th');_0x2e2389['innerHTML']=_0x31997c[_0x452866],_0x50e41c[_0x38aeba(0xf8)](_0x2e2389);}const _0x1eccd9=document['createElement']('th');_0x1eccd9[_0x38aeba(0x134)]='',_0x50e41c[_0x38aeba(0xf8)](_0x1eccd9),_0x29fd50[_0x38aeba(0xf8)](_0x50e41c);}const _0x34a87b=_0x550d16[_0xe7ac1],_0x54b802=document['createElement']('tr');for(let _0x289df5=0x1;_0x289df5<_0x34a87b[_0x38aeba(0x178)];_0x289df5++){const _0x44978d=document['createElement']('td');if(_0x289df5>=0x4&&_0x289df5<=0xa){const _0x15a3cc=parseFloat(_0x34a87b[_0x289df5])*0x64;_0x44978d[_0x38aeba(0x134)]=_0x15a3cc[_0x38aeba(0x156)](0x1);}else _0x44978d[_0x38aeba(0x134)]=_0x34a87b[_0x289df5];_0x44978d[_0x38aeba(0xcd)][_0x38aeba(0x14f)](_0x25832c),_0x54b802['appendChild'](_0x44978d);}const _0x18fc04=document['createElement']('td'),_0x3f60a8=document['createElement'](_0x38aeba(0xf9));_0x3f60a8[_0x38aeba(0x134)]='x',_0x3f60a8[_0x38aeba(0x145)]('click',function(){const _0x3f1ae5=_0x38aeba;_0x54b802[_0x3f1ae5(0x115)]();const _0x28abe2=document[_0x3f1ae5(0x151)](_0x3f1ae5(0x168)+_0x25832c),_0x5a50d0=document[_0x3f1ae5(0x151)]('.radarLines.'+_0x25832c),_0x23c6ca=document['querySelectorAll']('.radarCircle.'+_0x25832c);_0x28abe2['forEach'](_0x72bb59=>_0x72bb59[_0x3f1ae5(0x115)]()),_0x5a50d0[_0x3f1ae5(0x155)](_0x9229af=>_0x9229af[_0x3f1ae5(0x115)]()),_0x23c6ca[_0x3f1ae5(0x155)](_0x821556=>_0x821556['remove']());const _0x2c9522=document[_0x3f1ae5(0x151)]('.metrics-table\x20tr:not(:first-child)');if(_0x2c9522['length']>0x0){const _0x1d07ad=_0x2c9522[_0x2c9522['length']-0x1],_0x342c88=_0x1d07ad[_0x3f1ae5(0x157)][_0x3f1ae5(0x134)][_0x3f1ae5(0xc9)](',')[0x0],_0x4b763f=_0x550d16[_0x3f1ae5(0x15d)](_0x4867b1=>_0x4867b1[0x1]===_0x342c88);_0x4b763f&&_0x475c75(_0x4b763f);}else{const _0x369d53=document[_0x3f1ae5(0x14a)]('similarPlayersContainer');_0x369d53&&(_0x369d53[_0x3f1ae5(0x171)]='');}}),_0x18fc04[_0x38aeba(0xf8)](_0x3f60a8),_0x54b802[_0x38aeba(0xf8)](_0x18fc04),_0x29fd50[_0x38aeba(0xf8)](_0x54b802);!_0x464e8d&&_0x139af4[_0x38aeba(0xf8)](_0x29fd50);const _0x362361=_0x550d16[_0xe7ac1]['join'](',\x20'),_0x1e32ef=0xbe,_0x4a40d8=[0x0,0x0],_0x3a1a1f=[0x0,0x2*Math['PI']/0x7,0x4*Math['PI']/0x7,0x6*Math['PI']/0x7,0x8*Math['PI']/0x7,0xa*Math['PI']/0x7,0xc*Math['PI']/0x7];function _0x3030f9(_0x45bfaf,_0x757ef1){const _0x1544b5=_0x38aeba;let _0x17c622=_0x3a1a1f[_0x45bfaf-0x1];_0x17c622+=0x2*Math['PI']/0x7*0.2;const _0x402fe5=0xbe*_0x757ef1*Math['cos'](_0x17c622),_0x24e262=0xbe*_0x757ef1*Math[_0x1544b5(0x12f)](_0x17c622);return{'x':_0x402fe5,'y':_0x24e262};}const _0x162fd4=document[_0x38aeba(0xff)](_0x38aeba(0x160)),_0x1dd8e4=_0x162fd4['appendChild'](document[_0x38aeba(0x143)](_0x38aeba(0x12c),'g'));_0x1dd8e4[_0x38aeba(0x164)]('transform',_0x38aeba(0x12d)),_0x1dd8e4[_0x38aeba(0x171)]='';const _0x306e61=[],_0x306df4=_0x362361['split'](',');for(let _0x4f269f=0x4;_0x4f269f<0xb;_0x4f269f++){_0x306e61[_0x38aeba(0x166)]({'axis':_0x4f269f-0x3,'value':parseFloat(_0x306df4[_0x4f269f])});}const _0x33f231=_0x306e61[_0x38aeba(0x109)](({axis:_0x183f5b,value:_0x4fb44a})=>{const {x:_0x18561d,y:_0x30171e}=_0x3030f9(_0x183f5b,_0x4fb44a);return _0x18561d+','+_0x30171e;})[_0x38aeba(0x177)]('\x20'),_0x1dba8a=document[_0x38aeba(0x143)](_0x38aeba(0x12c),'polyline');_0x1dba8a[_0x38aeba(0x164)](_0x38aeba(0x17a),_0x38aeba(0x118)+_0x25832c),_0x1dba8a[_0x38aeba(0x164)](_0x38aeba(0xe6),_0x33f231+'\x20'+_0x33f231[_0x38aeba(0xc9)]('\x20')[0x0]),_0x1dba8a[_0x38aeba(0x164)]('stroke-width','3'),_0x1dba8a[_0x38aeba(0x164)]('fill','none'),_0x1dd8e4[_0x38aeba(0xf8)](_0x1dba8a);const _0x378f87=document[_0x38aeba(0x143)]('http://www.w3.org/2000/svg',_0x38aeba(0xdb));_0x378f87[_0x38aeba(0x164)](_0x38aeba(0x17a),'radarPolygon\x20'+_0x25832c),_0x378f87[_0x38aeba(0x164)]('points',_0x33f231),_0x378f87[_0x38aeba(0x10a)][_0x38aeba(0xd6)]=_0x38aeba(0x11c),_0x1dd8e4['appendChild'](_0x378f87),_0x306e61[_0x38aeba(0x155)](({axis:_0x43492d,value:_0x38e470})=>{const _0x3621e5=_0x38aeba,{x:_0x4d5ea3,y:_0x4bbb18}=_0x3030f9(_0x43492d,_0x38e470),_0x4b8aad=document[_0x3621e5(0x143)](_0x3621e5(0x12c),_0x3621e5(0x12e));_0x4b8aad['setAttribute']('class',_0x3621e5(0x10c)+_0x25832c),_0x4b8aad[_0x3621e5(0x10a)][_0x3621e5(0xd6)]='0.86',_0x4b8aad[_0x3621e5(0x164)]('r','6'),_0x4b8aad['setAttribute']('cx',_0x4d5ea3),_0x4b8aad[_0x3621e5(0x164)]('cy',_0x4bbb18),_0x1dd8e4['appendChild'](_0x4b8aad);});}const _0x443ef8=new Set();function _0x5de940(){const _0x48799a=_0xe37774,_0x21fdd1=document[_0x48799a(0x14a)](_0x48799a(0x16e)),_0xdfecdd=document[_0x48799a(0x14a)]('searchButton1'),_0x1f81b5=document[_0x48799a(0x14a)](_0x48799a(0x16d)),_0x3c821a=document['createElement']('ul');_0x3c821a[_0x48799a(0x10a)][_0x48799a(0x112)]='Arial,\x20sans-serif',_0x3c821a[_0x48799a(0x10a)]['listStyleType']=_0x48799a(0xda),_0x3c821a[_0x48799a(0x10a)][_0x48799a(0xe7)]=_0x48799a(0x161),_0x1f81b5[_0x48799a(0xf8)](_0x3c821a);let _0x3b9410=0x0;_0xdfecdd['addEventListener'](_0x48799a(0xdc),function(){const _0x1dcc10=_0x48799a,_0x1afe7f=_0x21fdd1[_0x1dcc10(0xef)],_0x323e70=_0x1398f5(_0x1afe7f),_0x439db2=document[_0x1dcc10(0x151)](_0x1dcc10(0x170));_0x439db2[_0x1dcc10(0x155)](_0x8e58df=>{const _0x234dd6=_0x1dcc10;_0x8e58df[_0x234dd6(0x10a)]['fill']='';});if(_0x323e70){const _0x12476e=parseInt(_0x323e70[0x0]),_0x516a77=_0x323e70[0x1]+'\x20('+_0x323e70[0x2]+',\x20'+_0x323e70[0x3]+_0x1dcc10(0x16f)+_0x323e70[0xb]+_0x1dcc10(0xd4),_0x22f339=_0x538484[_0x3b9410%_0x538484[_0x1dcc10(0x178)]];_0x2d29f2(_0x516a77,_0x12476e-0x1,_0x22f339),_0x3b9410++;}});}_0x5de940();const _0x20944f=document['createElement'](_0xe37774(0x15a));_0x20944f['id']='similarPlayersContainer';const _0x1220c0=document[_0xe37774(0x14a)](_0xe37774(0x10d));_0x1220c0['appendChild'](_0x20944f);let _0x460ea8=0x0;searchButton1[_0xe37774(0x145)](_0xe37774(0xdc),function(){const _0x290b2e=_0xe37774,_0x5284e4=_0x2d818e[_0x290b2e(0xef)],_0x15f1d0=_0x1398f5(_0x5284e4);if(_0x15f1d0['length']>0x0){const _0x30b80e=_0x15f1d0[0x0];_0x475c75(_0x30b80e),_0x460ea8++;}_0x2d818e[_0x290b2e(0xef)]='',_0x5390a0();});function _0x475c75(_0x16621a){const _0x225e33=_0xe37774,_0x126f9f=parseInt(_0x16621a[0x0])-0x1,_0x46ebce=[],_0x2e7105=document[_0x225e33(0x151)](_0x225e33(0x107));let _0x51ff78='';if(_0x2e7105['length']>0x0){const _0x136d3d=_0x2e7105[_0x2e7105['length']-0x1],_0x496c70=_0x136d3d['querySelector'](_0x225e33(0x142)),_0x3526a0=Array[_0x225e33(0x16c)](_0x496c70[_0x225e33(0xcd)]);_0x51ff78=_0x3526a0[_0x225e33(0x15d)](_0x17db9f=>_0x17db9f[_0x225e33(0x149)]('result-color-'));}for(let _0x3e3056=0x0;_0x3e3056<_0x550d16[_0x225e33(0x178)];_0x3e3056++){if(_0x3e3056!==_0x126f9f){const _0x27197f=_0x43bcec(_0x16621a,_0x550d16[_0x3e3056]);_0x46ebce[_0x225e33(0x166)]({'index':_0x3e3056,'difference':_0x27197f});}}_0x46ebce[_0x225e33(0xfd)]((_0xdfabee,_0x207978)=>_0xdfabee[_0x225e33(0x14d)]-_0x207978[_0x225e33(0x14d)]);const _0x2a7d21=_0x46ebce['slice'](0x0,0x5),_0x3d8e66=document[_0x225e33(0x14a)]('similarPlayersContainer');_0x3d8e66['innerHTML']='';const _0x4bc682=document['createElement'](_0x225e33(0xfb));_0x4bc682['classList'][_0x225e33(0x14f)](_0x225e33(0x11f));const _0x3aabb2=document['createElement']('tr'),_0xd5c0db=document[_0x225e33(0xf4)]('th');_0xd5c0db[_0x225e33(0x164)](_0x225e33(0xeb),'5'),_0xd5c0db[_0x225e33(0x171)]=_0x225e33(0x144)+_0x16621a[0x1],_0xd5c0db[_0x225e33(0xcd)][_0x225e33(0x14f)](_0x51ff78||_0x538484[_0x460ea8%_0x538484[_0x225e33(0x178)]]),_0x3aabb2[_0x225e33(0xf8)](_0xd5c0db),_0x4bc682['appendChild'](_0x3aabb2);const _0x5d8f45=document[_0x225e33(0xf4)]('tr');for(let _0x8918d8=0x0;_0x8918d8<_0x2a7d21[_0x225e33(0x178)];_0x8918d8++){const _0x31927c=_0x2a7d21[_0x8918d8]['index'],_0x19cb34=_0x550d16[_0x31927c][0x1],_0x3730a5=document[_0x225e33(0xf4)]('td');_0x3730a5[_0x225e33(0x134)]=_0x19cb34,_0x3730a5['style'][_0x225e33(0xe8)]=_0x225e33(0xf3),_0x3730a5[_0x225e33(0x10a)][_0x225e33(0x153)]=_0x225e33(0x146),_0x3730a5[_0x225e33(0x145)]('click',function(){const _0x5b970f=_0x225e33,_0x13af16=document[_0x5b970f(0x14a)](_0x5b970f(0x16e)),_0x378d59=document['getElementById'](_0x5b970f(0xd2));_0x13af16[_0x5b970f(0xef)]=_0x19cb34,_0x378d59[_0x5b970f(0xdc)]();}),_0x5d8f45[_0x225e33(0xf8)](_0x3730a5);}_0x4bc682['appendChild'](_0x5d8f45),_0x3d8e66[_0x225e33(0xf8)](_0x4bc682);}});})[_0x307a06(0xf7)](_0x36db37=>{const _0x51758b=_0x307a06;console[_0x51758b(0x141)](_0x51758b(0xf5),_0x36db37);});
+const _0x30a895=_0x4d77;function _0xcd4e(){const _0x52cad4=['fontSize','minHeight','setAttribute','result-color-18','result-color-37','listStyleType','overflow','push','SheetNames','searchInput1','insertHere','6605106kOtRzy','points','position','toLowerCase','input','appendChild','result-color-17','width','.radarPolygon.','difference','lineHeight','https://datamb.football/database/CURRENT/RATOP72425/CM/CM.xlsx','50%','50px','td:first-child','result-color-11','slice','querySelectorAll','result-color-10','3147368rsthBf','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22fullName\x22>','forEach','add','result-color-14','</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22age\x22>\x20(','zIndex','267px','179667ICWIWX','none','</span>','radarCircle\x20','fill','error','result-color-28','overflowY',')</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','result-color-31','alignItems','array','stroke-width','0.2','matches','find','top','result-color-34','sqrt','(max-width:\x20500px)','div','display','textOverflow','<span\x20data-i18n=\x22table.progCarries\x22>Prog.\x20carries</span>','result-color-5','textContent','backgroundColor','4px','#999','colspan','result-color-6','result-color-16','1.2','result-color-4','<span\x20data-i18n=\x22table.defActions\x22>Def.\x20actions</span>','maxHeight','querySelector','border','offsetWidth','auto','unshift','result-color-29','result-color-25','utils','.radarLines.','indexOf','result-color-3','padding','<span\x20data-i18n=\x22table.progPasses\x22>Prog.\x20passes</span>','toFixed','cos','textAlign','join','result-color-2','keyup','radarLines\x20','center','11px','fillOpacity','.radarPolygon','class','metrics-table','result-color-35','createElementNS','Error\x20fetching\x20or\x20processing\x20data:','name','read','pointer','<span\x20data-i18n=\x22table.duel\x22>Duel%</span>','remove','10%',')\x20-\x20','result-color-26','relative','<span\x20data-i18n=\x22table.fwdPassPct\x22>Forward\x20pass%</span>','index','1px\x20solid\x20#e0e0e0','10IMUGAq','key','result-color-21','Arial,\x20sans-serif','cursor','includes','getElementById','whiteSpace','transition','7wHqhIC','0.86','sort','paddingLeft','result-color-33','1px\x20solid\x20rgba(0,\x200,\x200,\x200.05)','Backspace','8px','\x20min','result-color-27','split','filter','Sheets','autocomplete','click','matchMedia','result-color-15','transparent','all\x200.2s','result-color-20','addEventListener','result-color-32','button','innerHTML','result-color-22','borderRight','table','all','776IDHwem','500','value','from','<span\x20data-i18n=\x22similar.to\x22\x20class=\x22similar-text\x22>Similar\x20data\x20to</span>\x20<span\x20class=\x22player-text\x22>','result-color-30','sheet_to_json','block','style','\x2024/25','result-color-19','map','classList','userAgent','pow','replace','createElement','http://www.w3.org/2000/svg','startsWith','result-color-1','<span\x20data-i18n=\x22table.percentiles\x22>Percentiles</span>','1023069qjtAYW','length','normalize','result-color-8','24px','trim','polyline','788970nLCewX','\x2023/24','result-color-36','1787465QLRehO','.radarCircle.','then','<span\x20data-i18n=\x22table.keyPasses\x22>Key\x20passes</span>','2181524kKmZEd','polygon','catch','similarPlayersContainer','searchButton1','height','arrayBuffer','9px','Enter','<span\x20data-i18n=\x22table.minutes\x22>Minutes\x20played</span>','color','matchingNames','normal','visible','NFD','.metrics-table\x20tr:not(:first-child)','margin','result-color-9','dispatchEvent'];_0xcd4e=function(){return _0x52cad4;};return _0xcd4e();}(function(_0x2015d7,_0x37b6f7){const _0x13f632=_0x4d77,_0x466ffe=_0x2015d7();while(!![]){try{const _0x1e021d=parseInt(_0x13f632(0x120))/0x1+parseInt(_0x13f632(0x155))/0x2+-parseInt(_0x13f632(0x116))/0x3+-parseInt(_0x13f632(0x124))/0x4*(-parseInt(_0x13f632(0x1aa))/0x5)+-parseInt(_0x13f632(0x142))/0x6*(parseInt(_0x13f632(0x1b3))/0x7)+parseInt(_0x13f632(0x101))/0x8*(-parseInt(_0x13f632(0x15d))/0x9)+-parseInt(_0x13f632(0x11d))/0xa;if(_0x1e021d===_0x37b6f7)break;else _0x466ffe['push'](_0x466ffe['shift']());}catch(_0x1a7f95){_0x466ffe['push'](_0x466ffe['shift']());}}}(_0xcd4e,0xf2da9));const allData1=[],allData2=[];let allDataAsString='';const urls1=[_0x30a895(0x14d)],urls2=['https://datamb.football/database/OLD/RATOP72324/CM/CM.xlsx'],fetchPromises1=urls1[_0x30a895(0x10c)](_0x1790db=>fetch(_0x1790db)[_0x30a895(0x122)](_0x3bd12a=>_0x3bd12a[_0x30a895(0x12a)]())),fetchPromises2=urls2[_0x30a895(0x10c)](_0x1ec053=>fetch(_0x1ec053)['then'](_0x38d679=>_0x38d679['arrayBuffer']()));function processAndStoreData1(_0x4f0276){const _0x508191=_0x30a895;let _0x871e18=0x1;_0x4f0276['forEach'](_0x125f37=>{const _0x4700ed=_0x4d77,_0x19c9fa=XLSX[_0x4700ed(0x19f)](new Uint8Array(_0x125f37),{'type':_0x4700ed(0x168)}),_0x2481c4=_0x19c9fa[_0x4700ed(0x13f)][0x0],_0x4a9b26=_0x19c9fa[_0x4700ed(0x1bf)][_0x2481c4],_0x6f3ea8=XLSX[_0x4700ed(0x188)][_0x4700ed(0x107)](_0x4a9b26,{'header':0x1}),_0x2b589e=_0x6f3ea8[_0x4700ed(0x152)](0x1);_0x2b589e['forEach'](_0x2ba52e=>{const _0x42767b=_0x4700ed;_0x2ba52e[_0x42767b(0x185)](''+_0x871e18++),_0x2ba52e[0xf]=_0x2ba52e[0x1]+_0x42767b(0x11e);const _0x506074=[_0x2ba52e[0x0],_0x2ba52e[0xf],_0x2ba52e[0x2],_0x2ba52e[0x3],_0x2ba52e[0x5],_0x2ba52e[0x6],_0x2ba52e[0x7],_0x2ba52e[0x8],_0x2ba52e[0x9],_0x2ba52e[0xa],_0x2ba52e[0xb],_0x2ba52e[0x4]];allData1[_0x42767b(0x13e)](_0x506074);});});const _0x191d36=[0x4,0x5,0x6,0x7,0x8,0x9,0xa],_0x554fd2=_0x191d36[_0x508191(0x10c)](_0x287ff7=>allData1[_0x508191(0x10c)](_0x549aa4=>parseFloat(_0x549aa4[_0x287ff7]))),_0x54f150=_0x554fd2[_0x508191(0x10c)](_0x403210=>{const _0x17a663=_0x508191,_0x259d9f=[..._0x403210]['sort']((_0x43dcd4,_0x11ebc2)=>_0x43dcd4-_0x11ebc2);return _0x403210[_0x17a663(0x10c)](_0x49dff6=>{const _0x4eb149=_0x17a663,_0x583ec8=_0x259d9f['indexOf'](_0x49dff6)+0x1;return _0x583ec8/_0x259d9f[_0x4eb149(0x117)];});});allData1[_0x508191(0x157)]((_0x13f7ca,_0x480bec)=>{const _0x5869fb=_0x508191;_0x191d36[_0x5869fb(0x157)]((_0x53e0ec,_0x49c16d)=>{const _0x2911ca=_0x5869fb;_0x13f7ca[_0x53e0ec]=_0x54f150[_0x49c16d][_0x480bec][_0x2911ca(0x18e)](0x3);});});}function processAndStoreData(_0x2395df){const _0x3b48f8=_0x30a895;let _0x19d0a2=0x1;_0x2395df[_0x3b48f8(0x157)](_0x1dcc10=>{const _0x1b8b2a=_0x3b48f8,_0x20fd4c=XLSX[_0x1b8b2a(0x19f)](new Uint8Array(_0x1dcc10),{'type':_0x1b8b2a(0x168)}),_0x4e5924=_0x20fd4c[_0x1b8b2a(0x13f)][0x0],_0x28f518=_0x20fd4c['Sheets'][_0x4e5924],_0x2d01b=XLSX[_0x1b8b2a(0x188)][_0x1b8b2a(0x107)](_0x28f518,{'header':0x1}),_0x2ca1d3=_0x2d01b[_0x1b8b2a(0x152)](0x1);_0x2ca1d3[_0x1b8b2a(0x157)](_0x52e2c4=>{const _0x3e39c6=_0x1b8b2a;_0x52e2c4[_0x3e39c6(0x185)](''+_0x19d0a2++),_0x52e2c4[0xf]=_0x52e2c4[0x1]+_0x3e39c6(0x10a);const _0x7525a0=[_0x52e2c4[0x0],_0x52e2c4[0xf],_0x52e2c4[0x2],_0x52e2c4[0x3],_0x52e2c4[0x5],_0x52e2c4[0x6],_0x52e2c4[0x7],_0x52e2c4[0x8],_0x52e2c4[0x9],_0x52e2c4[0xa],_0x52e2c4[0xb],_0x52e2c4[0x4]];allData2[_0x3e39c6(0x13e)](_0x7525a0);});});const _0xd0e864=[0x4,0x5,0x6,0x7,0x8,0x9,0xa],_0x40910a=_0xd0e864[_0x3b48f8(0x10c)](_0x11acda=>allData2[_0x3b48f8(0x10c)](_0x1f2215=>parseFloat(_0x1f2215[_0x11acda]))),_0x1b2d8a=_0x40910a[_0x3b48f8(0x10c)](_0x3d7cec=>{const _0x230dd1=_0x3b48f8,_0x12caf6=[..._0x3d7cec][_0x230dd1(0x1b5)]((_0x230055,_0x54a772)=>_0x230055-_0x54a772);return _0x3d7cec[_0x230dd1(0x10c)](_0x476d66=>{const _0x162321=_0x230dd1,_0x3ea42a=_0x12caf6[_0x162321(0x18a)](_0x476d66)+0x1;return _0x3ea42a/_0x12caf6[_0x162321(0x117)];});});allData2[_0x3b48f8(0x157)]((_0xe377e2,_0x16e177)=>{_0xd0e864['forEach']((_0x4fe3d8,_0x1978be)=>{const _0x1cf1c8=_0x4d77;_0xe377e2[_0x4fe3d8]=_0x1b2d8a[_0x1978be][_0x16e177][_0x1cf1c8(0x18e)](0x3);});});}function _0x4d77(_0x2b8f5a,_0x39653f){const _0xcd4e9d=_0xcd4e();return _0x4d77=function(_0x4d77bc,_0x5a78b2){_0x4d77bc=_0x4d77bc-0xff;let _0x652d74=_0xcd4e9d[_0x4d77bc];return _0x652d74;},_0x4d77(_0x2b8f5a,_0x39653f);}Promise[_0x30a895(0x100)](fetchPromises1)[_0x30a895(0x122)](_0x44b1e7=>{const _0x27d0ba=_0x30a895;processAndStoreData(_0x44b1e7),Promise[_0x27d0ba(0x100)](fetchPromises2)[_0x27d0ba(0x122)](_0x354efd=>{const _0x289e32=_0x27d0ba;processAndStoreData1(_0x354efd);const _0x5bbf67=allData2['concat'](allData1);_0x5bbf67[_0x289e32(0x157)]((_0x359088,_0x274a96)=>{_0x359088[0x0]=''+(_0x274a96+0x1);}),_0x5bbf67[_0x289e32(0x157)](_0x2aa893=>{const _0x491323=_0x289e32;allDataAsString+=_0x2aa893[_0x491323(0x191)](',')+'\x0a';});const _0x335046=allDataAsString['trim']()[_0x289e32(0x1bd)]('\x0a'),_0x1eb9c8=[];for(const _0x20ba4d of _0x335046){const _0x1d62eb=_0x20ba4d[_0x289e32(0x1bd)](','),_0xbc883=_0x1d62eb[0x1],_0x50a0bb=_0x1d62eb[0x3],_0x1864c3=_0x1d62eb[0x2],_0x3c5fb6=_0xbc883+','+_0x50a0bb+','+_0x1864c3;_0x1eb9c8['push'](_0x3c5fb6);}const _0xdceb26=_0x1eb9c8,_0x47da2e=document[_0x289e32(0x1b0)](_0x289e32(0x140));_0x47da2e[_0x289e32(0x139)](_0x289e32(0x1c0),'off');const _0x3d3404=document[_0x289e32(0x1b0)](_0x289e32(0x12f)),_0xa1624c=document[_0x289e32(0x1b0)]('searchButton');function _0x4cfade(){const _0x5ed69f=_0x289e32,_0x2d25d2=navigator[_0x5ed69f(0x10e)];return/Android|iPhone/i['test'](_0x2d25d2);}function _0xfcad8c(){const _0x56fd61=_0x289e32,_0x54abab=_0x8fccaa(_0x47da2e['value']['toLowerCase']()),_0x4f9b96=_0x8fccaa(_0x54abab),_0x2a51f5=_0xdceb26[_0x56fd61(0x1be)](_0x5d13d5=>{const _0x6ba120=_0x56fd61,[_0x853439,_0x8d4119,_0x541ce9]=_0x5d13d5[_0x6ba120(0x1bd)](','),_0x25c654=_0x8fccaa(_0x853439['toLowerCase']()),_0xc3d105=_0x8fccaa(_0x8d4119['toLowerCase']());return _0x25c654[_0x6ba120(0x1af)](_0x4f9b96)||_0xc3d105[_0x6ba120(0x1af)](_0x4f9b96);});_0x3d3404[_0x56fd61(0x1ca)]='';if(_0x54abab===''||_0x2a51f5[_0x56fd61(0x117)]===0x0){_0x3d3404[_0x56fd61(0x109)]['display']='none';return;}_0x2a51f5[_0x56fd61(0x157)](_0xdb4081=>{const _0x5e91bb=_0x56fd61,[_0x5a2d51,_0x2bcf28,_0x3f78a8]=_0xdb4081[_0x5e91bb(0x1bd)](','),_0x545874=document[_0x5e91bb(0x111)](_0x5e91bb(0x171));_0x545874['classList'][_0x5e91bb(0x158)](_0x5e91bb(0x19e)),_0x545874[_0x5e91bb(0x1ca)]=_0x5e91bb(0x156)+_0x5a2d51+_0x5e91bb(0x15a)+_0x3f78a8+',\x20</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22team\x22>'+_0x2bcf28+_0x5e91bb(0x165),_0x545874[_0x5e91bb(0x1c7)](_0x5e91bb(0x1c1),()=>{const _0x1efefa=_0x5e91bb;_0x47da2e[_0x1efefa(0x103)]=_0x5a2d51+','+_0x2bcf28+','+_0x3f78a8;const _0x332cdb=new KeyboardEvent(_0x1efefa(0x193),{'key':_0x1efefa(0x12c)});_0x47da2e[_0x1efefa(0x136)](_0x332cdb);}),_0x3d3404[_0x5e91bb(0x147)](_0x545874);});if(_0x54abab===''&&_0x2a51f5[_0x56fd61(0x117)]===0x0)_0x3d3404[_0x56fd61(0x109)][_0x56fd61(0x172)]='none';else{const _0x11c855=_0x47da2e[_0x56fd61(0x183)];_0x3d3404[_0x56fd61(0x109)]['display']=_0x56fd61(0x108),_0x3d3404['style'][_0x56fd61(0x18c)]=_0x56fd61(0x1ba),_0x3d3404[_0x56fd61(0x109)][_0x56fd61(0x144)]=_0x56fd61(0x1a6),_0x3d3404[_0x56fd61(0x109)][_0x56fd61(0x15b)]='9999',_0x3d3404[_0x56fd61(0x109)]['width']=_0x11c855+'px',_0x3d3404['style'][_0x56fd61(0x180)]=_0x56fd61(0x15c),_0x3d3404[_0x56fd61(0x109)][_0x56fd61(0x164)]=_0x56fd61(0x184),_0x3d3404[_0x56fd61(0x109)]['border']=_0x56fd61(0x1a9);}_0x54abab===''&&(_0x3d3404[_0x56fd61(0x109)][_0x56fd61(0x172)]=_0x56fd61(0x15e));}_0x47da2e[_0x289e32(0x1c7)](_0x289e32(0x146),_0xfcad8c),_0x47da2e['addEventListener'](_0x289e32(0x193),function(_0x167a0c){const _0x2fc3aa=_0x289e32;if(_0x167a0c[_0x2fc3aa(0x1ab)]===_0x2fc3aa(0x12c))searchButton1[_0x2fc3aa(0x1c1)]();else _0x167a0c[_0x2fc3aa(0x1ab)]===_0x2fc3aa(0x1b9)&&_0xfcad8c();});const _0x5b7db4=allDataAsString;let _0x32d173=_0x5b7db4['trim']()['split']('\x0a')[_0x289e32(0x10c)](_0x3d1fc4=>_0x3d1fc4['split'](','));function _0x10bcf8(_0xe7d7b9,_0x3e933b){const _0x4fafab=_0x289e32;let _0x309066=0x0;for(let _0x47d03f=0x4;_0x47d03f<=0xa;_0x47d03f++){const _0x187abe=parseFloat(_0xe7d7b9[_0x47d03f]),_0x342cec=parseFloat(_0x3e933b[_0x47d03f]);_0x309066+=Math[_0x4fafab(0x10f)](_0x187abe-_0x342cec,0x2);}return Math[_0x4fafab(0x16f)](_0x309066);}const _0x25255a=[_0x289e32(0x114),_0x289e32(0x192),_0x289e32(0x18b),_0x289e32(0x17e),_0x289e32(0x175),_0x289e32(0x17b),'result-color-7',_0x289e32(0x119),_0x289e32(0x135),_0x289e32(0x154),_0x289e32(0x151),'result-color-12','result-color-13',_0x289e32(0x159),_0x289e32(0x1c3),_0x289e32(0x17c),_0x289e32(0x148),_0x289e32(0x13a),_0x289e32(0x10b),_0x289e32(0x1c6),_0x289e32(0x1ac),_0x289e32(0x1cb),'result-color-23','result-color-24',_0x289e32(0x187),_0x289e32(0x1a5),_0x289e32(0x1bc),_0x289e32(0x163),_0x289e32(0x186),_0x289e32(0x106),_0x289e32(0x166),_0x289e32(0x1c8),_0x289e32(0x1b7),_0x289e32(0x16e),_0x289e32(0x19b),_0x289e32(0x11f),_0x289e32(0x13b)];let _0x1f94a6=[];function _0x8fccaa(_0x350ceb){const _0x18e73a=_0x289e32;return _0x350ceb[_0x18e73a(0x118)](_0x18e73a(0x132))['replace'](/[\u0300-\u036f\s]/g,'')[_0x18e73a(0x110)](/Ø/g,'O')['replace'](/ø/g,'o')['replace'](/ı/g,'i');}function _0x40ad1c(_0x258305){const _0x49562c=_0x289e32,_0x5db3dc=_0x258305['split'](',')['map'](_0x42c4d4=>_0x42c4d4[_0x49562c(0x11b)]()),_0x114046=_0x5db3dc[0x0];let _0x36e510,_0x269a3e;_0x5db3dc[_0x49562c(0x117)]>0x1&&(_0x36e510=_0x5db3dc[0x1]['trim'](),_0x5db3dc[_0x49562c(0x117)]>0x2&&(_0x269a3e=_0x5db3dc[0x2][_0x49562c(0x11b)]()));const _0x2e5b61=_0x32d173[_0x49562c(0x1be)](_0x58f8a8=>{const _0x5b48ca=_0x49562c,_0xbf808c=_0x8fccaa(_0x58f8a8[0x1]['toLowerCase']()),_0x9ddc73=_0x8fccaa(_0x58f8a8[0x2][_0x5b48ca(0x145)]()),_0x5bf901=_0x58f8a8[0x3]['trim']()['toLowerCase'](),_0x1f7b37=_0xbf808c['includes'](_0x8fccaa(_0x114046[_0x5b48ca(0x145)]())),_0x2156ac=!_0x36e510||_0x5bf901===_0x8fccaa(_0x36e510[_0x5b48ca(0x145)]()),_0x77955e=!_0x269a3e||_0x9ddc73===_0x8fccaa(_0x269a3e[_0x5b48ca(0x145)]());return _0x1f7b37&&_0x2156ac&&_0x77955e;});return _0x2e5b61;}function _0x1cf74f(_0x464f87,_0x2a5e21,_0x599801){const _0x25865d=_0x289e32,_0x49cbf3=document[_0x25865d(0x1b0)]('resultsTable'),_0x1f6b96=['',_0x25865d(0x115),'','<span\x20data-i18n=\x22table.age\x22>Age</span>',_0x25865d(0x1a1),_0x25865d(0x17f),_0x25865d(0x174),'<span\x20data-i18n=\x22table.fwdPasses\x22>Forward\x20passes</span>',_0x25865d(0x1a7),_0x25865d(0x123),_0x25865d(0x18d),_0x25865d(0x12d)],_0x151e04=_0x49cbf3[_0x25865d(0x181)]('th')!==null,_0x53060f=_0x151e04?_0x49cbf3[_0x25865d(0x181)](_0x25865d(0xff)):document[_0x25865d(0x111)]('table');_0x53060f['classList'][_0x25865d(0x158)](_0x25865d(0x19a));if(!_0x151e04){const _0x597932=document[_0x25865d(0x111)]('tr');for(let _0x531164=0x1;_0x531164<_0x1f6b96['length'];_0x531164++){const _0x4705f7=document[_0x25865d(0x111)]('th');_0x4705f7[_0x25865d(0x1ca)]=_0x1f6b96[_0x531164];if(_0x531164===0x1)_0x4705f7[_0x25865d(0x109)][_0x25865d(0x149)]='17%',_0x4705f7[_0x25865d(0x109)][_0x25865d(0x190)]=_0x25865d(0x195);else{if(_0x531164===0x3)_0x4705f7['style']['width']='7%';else _0x531164===0x2&&(_0x4705f7[_0x25865d(0x109)][_0x25865d(0x149)]=_0x25865d(0x1a3));}_0x597932[_0x25865d(0x147)](_0x4705f7);}const _0x49debd=document[_0x25865d(0x111)]('th');_0x49debd['textContent']='',_0x49debd['style'][_0x25865d(0x149)]='4%',_0x597932[_0x25865d(0x147)](_0x49debd),_0x53060f['appendChild'](_0x597932);}const _0x1a2a61=_0x32d173[_0x2a5e21],_0x3e0658=document[_0x25865d(0x111)]('tr');for(let _0x5b49d3=0x1;_0x5b49d3<_0x1a2a61[_0x25865d(0x117)];_0x5b49d3++){const _0x5639f1=document[_0x25865d(0x111)]('td');if(_0x5b49d3>=0x4&&_0x5b49d3<=0xa){const _0x5429b4=parseFloat(_0x1a2a61[_0x5b49d3])*0x64;_0x5639f1[_0x25865d(0x176)]=_0x5429b4['toFixed'](0x1),_0x5639f1[_0x25865d(0x109)]['fontWeight']=_0x25865d(0x102);}else _0x5639f1[_0x25865d(0x176)]=_0x1a2a61[_0x5b49d3];_0x5639f1[_0x25865d(0x10d)]['add'](_0x599801);if(_0x5b49d3===0x1){_0x5639f1[_0x25865d(0x109)][_0x25865d(0x190)]=_0x25865d(0x195),_0x5639f1[_0x25865d(0x109)][_0x25865d(0x1b1)]='normal',_0x5639f1[_0x25865d(0x109)][_0x25865d(0x13d)]=_0x25865d(0x131),_0x5639f1[_0x25865d(0x109)][_0x25865d(0x173)]='clip',_0x5639f1['style'][_0x25865d(0x138)]=_0x25865d(0x14f),_0x5639f1[_0x25865d(0x109)][_0x25865d(0x129)]='auto',_0x5639f1['style']['verticalAlign']=_0x25865d(0x16d);const _0x8cdc93=_0x1a2a61[_0x5b49d3];}_0x5b49d3===0x2&&(_0x5639f1[_0x25865d(0x109)][_0x25865d(0x1b1)]=_0x25865d(0x130)),_0x5b49d3===0xb&&(_0x5639f1[_0x25865d(0x109)]['fontSize']=_0x25865d(0x196),_0x5639f1[_0x25865d(0x109)]['color']='#777'),_0x3e0658[_0x25865d(0x147)](_0x5639f1);}const _0x535471=document[_0x25865d(0x111)]('td'),_0x450a48=document['createElement'](_0x25865d(0x1c9));_0x450a48[_0x25865d(0x176)]='x',_0x450a48['style'][_0x25865d(0x177)]=_0x25865d(0x1c4),_0x450a48['style'][_0x25865d(0x182)]=_0x25865d(0x15e),_0x450a48['style'][_0x25865d(0x12e)]=_0x25865d(0x179),_0x450a48['style'][_0x25865d(0x137)]='14px',_0x450a48[_0x25865d(0x109)][_0x25865d(0x1ae)]=_0x25865d(0x1a0),_0x450a48[_0x25865d(0x109)]['width']=_0x25865d(0x178),_0x450a48['style']['height']=_0x25865d(0x11a),_0x450a48[_0x25865d(0x109)]['borderRadius']=_0x25865d(0x14e),_0x450a48[_0x25865d(0x109)][_0x25865d(0x172)]='flex',_0x450a48[_0x25865d(0x109)][_0x25865d(0x167)]='center',_0x450a48[_0x25865d(0x109)]['justifyContent']=_0x25865d(0x195),_0x450a48[_0x25865d(0x109)]['transition']=_0x25865d(0x1c5),_0x450a48[_0x25865d(0x1c7)](_0x25865d(0x1c1),function(){const _0x5c65a5=_0x25865d;_0x3e0658[_0x5c65a5(0x1a2)]();const _0x188121=document[_0x5c65a5(0x153)](_0x5c65a5(0x14a)+_0x599801),_0x331395=document[_0x5c65a5(0x153)](_0x5c65a5(0x189)+_0x599801),_0x3e23a5=document[_0x5c65a5(0x153)](_0x5c65a5(0x121)+_0x599801);_0x188121[_0x5c65a5(0x157)](_0x3d8214=>_0x3d8214['remove']()),_0x331395[_0x5c65a5(0x157)](_0x4788c4=>_0x4788c4[_0x5c65a5(0x1a2)]()),_0x3e23a5[_0x5c65a5(0x157)](_0x499a17=>_0x499a17[_0x5c65a5(0x1a2)]());const _0x2a8c4c=document[_0x5c65a5(0x153)]('.metrics-table\x20tr:not(:first-child)');if(_0x2a8c4c[_0x5c65a5(0x117)]>0x0){const _0x4e864c=_0x2a8c4c[_0x2a8c4c[_0x5c65a5(0x117)]-0x1],_0x1a2a21=_0x4e864c['firstChild'][_0x5c65a5(0x176)][_0x5c65a5(0x1bd)](',')[0x0],_0x304467=_0x32d173[_0x5c65a5(0x16c)](_0x7d5a21=>_0x7d5a21[0x1]===_0x1a2a21);_0x304467&&_0x65a0b7(_0x304467);}else{const _0xd0fe59=document[_0x5c65a5(0x1b0)](_0x5c65a5(0x127));_0xd0fe59&&(_0xd0fe59[_0x5c65a5(0x1ca)]='');}}),_0x535471[_0x25865d(0x147)](_0x450a48),_0x3e0658['appendChild'](_0x535471),_0x53060f[_0x25865d(0x147)](_0x3e0658);!_0x151e04&&_0x49cbf3[_0x25865d(0x147)](_0x53060f);const _0x59b9f4=_0x32d173[_0x2a5e21][_0x25865d(0x191)](',\x20'),_0x4e4f41=0xbe,_0x20b219=[0x0,0x0],_0x16f97f=[0x0,0x2*Math['PI']/0x7,0x4*Math['PI']/0x7,0x6*Math['PI']/0x7,0x8*Math['PI']/0x7,0xa*Math['PI']/0x7,0xc*Math['PI']/0x7];function _0x5df301(_0x411a73,_0x114b56){const _0x1b3d35=_0x25865d;let _0x177709=_0x16f97f[_0x411a73-0x1];_0x177709+=0x2*Math['PI']/0x7*0.2;const _0xbad770=0xbe*_0x114b56*Math[_0x1b3d35(0x18f)](_0x177709),_0x202e39=0xbe*_0x114b56*Math['sin'](_0x177709);return{'x':_0xbad770,'y':_0x202e39};}const _0x3aa18c=document[_0x25865d(0x181)]('.radar'),_0x1c65e0=_0x3aa18c[_0x25865d(0x147)](document['createElementNS'](_0x25865d(0x112),'g'));_0x1c65e0[_0x25865d(0x1ca)]='';const _0x16fdf6=[],_0x21a657=_0x59b9f4[_0x25865d(0x1bd)](',');for(let _0x43fd40=0x4;_0x43fd40<0xb;_0x43fd40++){_0x16fdf6[_0x25865d(0x13e)]({'axis':_0x43fd40-0x3,'value':parseFloat(_0x21a657[_0x43fd40])});}const _0x10cdd4=_0x16fdf6['map'](({axis:_0x4f6680,value:_0x5ab849})=>{const {x:_0x2cffbe,y:_0x4ed47e}=_0x5df301(_0x4f6680,_0x5ab849);return _0x2cffbe+','+_0x4ed47e;})['join']('\x20'),_0x3543ff=document[_0x25865d(0x19c)](_0x25865d(0x112),_0x25865d(0x11c));_0x3543ff[_0x25865d(0x139)](_0x25865d(0x199),_0x25865d(0x194)+_0x599801),_0x3543ff[_0x25865d(0x139)](_0x25865d(0x143),_0x10cdd4+'\x20'+_0x10cdd4[_0x25865d(0x1bd)]('\x20')[0x0]),_0x3543ff[_0x25865d(0x139)](_0x25865d(0x169),'3'),_0x3543ff[_0x25865d(0x139)]('fill',_0x25865d(0x15e)),_0x1c65e0['appendChild'](_0x3543ff);const _0x40907b=document[_0x25865d(0x19c)](_0x25865d(0x112),_0x25865d(0x125));_0x40907b['setAttribute'](_0x25865d(0x199),'radarPolygon\x20'+_0x599801),_0x40907b[_0x25865d(0x139)]('points',_0x10cdd4),_0x40907b[_0x25865d(0x109)][_0x25865d(0x197)]=_0x25865d(0x16a),_0x1c65e0['appendChild'](_0x40907b),_0x16fdf6[_0x25865d(0x157)](({axis:_0x39a9e4,value:_0x392a72})=>{const _0x423463=_0x25865d,{x:_0x26daf2,y:_0x13c542}=_0x5df301(_0x39a9e4,_0x392a72),_0x19bd5f=document[_0x423463(0x19c)](_0x423463(0x112),'circle');_0x19bd5f[_0x423463(0x139)](_0x423463(0x199),_0x423463(0x160)+_0x599801),_0x19bd5f[_0x423463(0x109)][_0x423463(0x197)]=_0x423463(0x1b4),_0x19bd5f[_0x423463(0x139)]('r','6'),_0x19bd5f[_0x423463(0x139)]('cx',_0x26daf2),_0x19bd5f[_0x423463(0x139)]('cy',_0x13c542),_0x1c65e0['appendChild'](_0x19bd5f);});}const _0x5bec7b=new Set();function _0x3a41ac(){const _0x144052=_0x289e32,_0x1dc189=document[_0x144052(0x1b0)]('searchInput1'),_0x3b6d5e=document[_0x144052(0x1b0)]('searchButton1'),_0x1b420f=document['getElementById']('resultsTable'),_0x1fc147=document['createElement']('ul');_0x1fc147[_0x144052(0x109)]['fontFamily']=_0x144052(0x1ad),_0x1fc147[_0x144052(0x109)][_0x144052(0x13c)]='none',_0x1fc147[_0x144052(0x109)][_0x144052(0x1b6)]=_0x144052(0x12b),_0x1fc147[_0x144052(0x109)][_0x144052(0x134)]='0',_0x1fc147[_0x144052(0x109)][_0x144052(0x18c)]='0',_0x1b420f[_0x144052(0x147)](_0x1fc147);let _0x30d637=0x0;_0x3b6d5e[_0x144052(0x1c7)]('click',function(){const _0x240f38=_0x144052,_0x330bc9=_0x1dc189[_0x240f38(0x103)],_0x3b29a8=_0x40ad1c(_0x330bc9),_0x37dc1a=document[_0x240f38(0x153)](_0x240f38(0x198));_0x37dc1a[_0x240f38(0x157)](_0x33e1fa=>{const _0x446d0e=_0x240f38;_0x33e1fa[_0x446d0e(0x109)][_0x446d0e(0x161)]='';});if(_0x3b29a8){const _0x47f888=parseInt(_0x3b29a8[0x0]),_0x32d760=_0x3b29a8[0x1]+'\x20('+_0x3b29a8[0x2]+',\x20'+_0x3b29a8[0x3]+_0x240f38(0x1a4)+_0x3b29a8[0xb]+_0x240f38(0x1bb),_0x59a420=_0x25255a[_0x30d637%_0x25255a[_0x240f38(0x117)]];_0x1cf74f(_0x32d760,_0x47f888-0x1,_0x59a420),_0x30d637++;}});}_0x3a41ac();const _0x4af5bb=document[_0x289e32(0x111)](_0x289e32(0x171));_0x4af5bb['id']=_0x289e32(0x127);const _0x569b33=document['getElementById'](_0x289e32(0x141));_0x569b33[_0x289e32(0x147)](_0x4af5bb);let _0x556256=0x0;searchButton1[_0x289e32(0x1c7)](_0x289e32(0x1c1),function(){const _0x44a0e8=_0x289e32,_0x37c09a=_0x47da2e[_0x44a0e8(0x103)],_0x464e62=_0x40ad1c(_0x37c09a);if(_0x464e62[_0x44a0e8(0x117)]>0x0){const _0x440309=_0x464e62[0x0];_0x65a0b7(_0x440309),_0x556256++;}_0x47da2e[_0x44a0e8(0x103)]='',_0x3d3404[_0x44a0e8(0x1ca)]='',_0x3d3404[_0x44a0e8(0x109)]['border']=_0x44a0e8(0x15e),_0x3d3404[_0x44a0e8(0x109)][_0x44a0e8(0x18c)]='0';});function _0x65a0b7(_0x282755){const _0x4cfafb=_0x289e32,_0x43e422=parseInt(_0x282755[0x0])-0x1,_0x19f7b4=[],_0x53fb1d=document['querySelectorAll'](_0x4cfafb(0x133));let _0x1de47b='';if(_0x53fb1d[_0x4cfafb(0x117)]>0x0){const _0x42764a=_0x53fb1d[_0x53fb1d[_0x4cfafb(0x117)]-0x1],_0x4accd2=_0x42764a[_0x4cfafb(0x181)](_0x4cfafb(0x150)),_0x90772b=Array[_0x4cfafb(0x104)](_0x4accd2[_0x4cfafb(0x10d)]);_0x1de47b=_0x90772b[_0x4cfafb(0x16c)](_0x454b2f=>_0x454b2f[_0x4cfafb(0x113)]('result-color-'));}for(let _0xc3cc57=0x0;_0xc3cc57<_0x32d173[_0x4cfafb(0x117)];_0xc3cc57++){if(_0xc3cc57!==_0x43e422){const _0x3aca5e=_0x10bcf8(_0x282755,_0x32d173[_0xc3cc57]);_0x19f7b4[_0x4cfafb(0x13e)]({'index':_0xc3cc57,'difference':_0x3aca5e});}}_0x19f7b4['sort']((_0x4c4bdd,_0x23a252)=>_0x4c4bdd[_0x4cfafb(0x14b)]-_0x23a252[_0x4cfafb(0x14b)]);const _0x34a9d0=_0x19f7b4['slice'](0x0,0x5),_0x9ccb69=document[_0x4cfafb(0x1b0)](_0x4cfafb(0x127));_0x9ccb69[_0x4cfafb(0x1ca)]='';const _0x48bce0=document[_0x4cfafb(0x111)]('table');_0x48bce0[_0x4cfafb(0x10d)][_0x4cfafb(0x158)]('similar-table');const _0x36aac=document[_0x4cfafb(0x111)]('tr'),_0x12ec60=document[_0x4cfafb(0x111)]('th');_0x12ec60[_0x4cfafb(0x139)](_0x4cfafb(0x17a),'5'),_0x12ec60[_0x4cfafb(0x1ca)]=_0x4cfafb(0x105)+_0x282755[0x1]+_0x4cfafb(0x15f),_0x12ec60[_0x4cfafb(0x10d)]['add'](_0x1de47b||_0x25255a[_0x556256%_0x25255a[_0x4cfafb(0x117)]]);const _0x1fe845=window[_0x4cfafb(0x1c2)](_0x4cfafb(0x170));_0x1fe845[_0x4cfafb(0x16b)]&&(_0x12ec60[_0x4cfafb(0x109)][_0x4cfafb(0x137)]='11px',_0x12ec60[_0x4cfafb(0x109)]['padding']=_0x4cfafb(0x1ba));_0x36aac['appendChild'](_0x12ec60),_0x48bce0[_0x4cfafb(0x147)](_0x36aac);const _0x155773=document[_0x4cfafb(0x111)]('tr');for(let _0x37a459=0x0;_0x37a459<_0x34a9d0['length'];_0x37a459++){const _0x45665e=_0x34a9d0[_0x37a459][_0x4cfafb(0x1a8)],_0xaa49fe=_0x32d173[_0x45665e][0x1],_0x1f840b=document[_0x4cfafb(0x111)]('td');_0x1f840b['textContent']=_0xaa49fe,_0x1f840b[_0x4cfafb(0x109)][_0x4cfafb(0x137)]='12px',_0x1f840b['style'][_0x4cfafb(0x18c)]='7px\x208px',_0x1f840b['style']['cursor']=_0x4cfafb(0x1a0),_0x1f840b[_0x4cfafb(0x109)][_0x4cfafb(0x1b2)]='background-color\x200.2s',_0x1f840b[_0x4cfafb(0x109)][_0x4cfafb(0x1cc)]=_0x4cfafb(0x1b8),_0x1f840b[_0x4cfafb(0x109)][_0x4cfafb(0x14c)]=_0x4cfafb(0x17d),_0x1f840b[_0x4cfafb(0x1c7)](_0x4cfafb(0x1c1),function(){const _0x5317bd=_0x4cfafb,_0x37638b=document['getElementById'](_0x5317bd(0x140)),_0x488c39=document['getElementById'](_0x5317bd(0x128));_0x37638b[_0x5317bd(0x103)]=_0xaa49fe,_0x488c39[_0x5317bd(0x1c1)]();}),_0x155773[_0x4cfafb(0x147)](_0x1f840b);}_0x48bce0[_0x4cfafb(0x147)](_0x155773),_0x9ccb69[_0x4cfafb(0x147)](_0x48bce0);}});})[_0x30a895(0x126)](_0x54afa0=>{const _0x440386=_0x30a895;console[_0x440386(0x162)](_0x440386(0x19d),_0x54afa0);});
 </script>
 	  
-<script>async function takeScreenshot() {
-  const body = document.querySelector('body');
-  const isDarkMode = body.classList.contains('dark-mode');
-  const backgroundColor = isDarkMode ? '#0F0F0E' : '#ffffff'; // Black for dark mode, white for light mode
+<script>
+
   
-  try {
-    const element = document.querySelector('.screenshotcontainer'); // Capture the screenshotcontainer using the class name
-    if (!element) {
-      throw new Error('screenshotcontainer element not found');
-    }
 
-    const canvas = await html2canvas(element, {
-	width: 773,
-    y: -10,
-    x: - 10,  
-      useCORS: true,
-      backgroundColor: backgroundColor, // Set the background color based on mode
-      scale: window.devicePixelRatio,
-      logging: false, // Disable logging for production
-      foreignObjectRendering: false,
-    });
+function setLanguage(language) {
+localStorage.setItem('preferredLanguage', language);
+const url = new URL(window.location.href);
+if (language === 'en') {
+url.searchParams.delete('lang');
+} else {
+url.searchParams.set('lang', language);
+}
+window.history.pushState({}, '', url);
+applyLanguage(language);
+}
 
-    canvas.toBlob(blob => {
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'screenshot.png';
-      link.click();
-    }, 'image/png');
-  } catch (error) {
-    console.error('Error in takeScreenshot:', error);
-    // Handle errors appropriately (e.g., display to user or log)
-  }
+function getPreferredLanguage() {
+// PRIORITY 1: Check URL parameter first
+const urlParams = new URLSearchParams(window.location.search);
+const langParam = urlParams.get('lang');
+if (langParam) {
+return langParam;
+}
+// PRIORITY 2: Check localStorage
+const storedLang = localStorage.getItem('preferredLanguage');
+if (storedLang) {
+return storedLang;
+}
+// PRIORITY 3: Use browser language
+return getBrowserLanguage() || 'en';
+}
+
+function getBrowserLanguage() {
+return navigator.language.slice(0, 2);
+}
+
+function applyLanguage(language) {
+console.log(language);
+
+if (language === 'en') {
+return;
 }
 
 
-
-  // Function to toggle dark mode
-  function toggleDarkMode() {
-    const body = document.querySelector("body");
-    body.classList.toggle("dark-mode");
-
-    // Store the user's preference in local storage
-    const isDarkMode = body.classList.contains("dark-mode");
-    localStorage.setItem("darkMode", isDarkMode);
+fetch(`locales/${language}.json`)
+.then(response => {
+  // Don't throw an error, just return null if response is not OK
+  return response.ok ? response.json() : null;
+})
+.then(translations => {
+  // Only proceed if translations exist
+  if (translations) {
+      window.currentTranslations = translations;
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      const keys = element.getAttribute('data-i18n').split('.');
+      let value = translations;
+      for (const key of keys) {
+        if (value === undefined || value === null) break;
+        value = value[key];
+      }
+      if (value) {
+        if (element.tagName === 'META') {
+        element.setAttribute('content', value);
+    } else if (element.tagName === 'INPUT') {
+        element.setAttribute('placeholder', value);
+    } else if (value.includes('<')) {
+        element.innerHTML = value;
+    } else {
+        element.textContent = value;
+    }          }
+    });
+    // REMOVE FOR PAGES WITH NO METADATA
+    document.querySelector('meta[name="language"]').setAttribute('content', language);
   }
+})
+.catch(() => {
+  // Completely empty catch block to silently ignore any errors
+});
+}
 
-  // Check if user has a stored preference for dark mode
-  const storedDarkMode = localStorage.getItem("darkMode");
+const preferredLanguage = getPreferredLanguage();
+applyLanguage(preferredLanguage);
 
-  if (storedDarkMode === "true") {
-    const body = document.querySelector("body");
-    body.classList.add("dark-mode");
+// BUTTON LANGUAGE SWITCHER REMOVE FOR PAGES WITH NO LANGUAGE SWITCHER
+document.addEventListener('DOMContentLoaded', function() {
+const languageButton = document.getElementById('languageButton');
+const languageDropdown = document.getElementById('languageDropdown');
+
+
+if (languageButton) {
+languageButton.addEventListener('click', function(e) {
+  e.stopPropagation();
+  languageDropdown.classList.toggle('show');
+});
+}
+
+document.querySelectorAll('.language-option').forEach(option => {
+option.addEventListener('click', function(e) {
+  e.preventDefault();
+  const lang = this.getAttribute('href').split('=')[1];
+  setLanguage(lang);
+  languageDropdown.classList.remove('show');
+});
+});
+
+document.addEventListener('click', function(event) {
+if (!event.target.closest('.language-switcher-container')) {
+  if (languageDropdown) {
+    languageDropdown.classList.remove('show');
   }
+}
+});
+});
 
-              
+
+function toggleDarkMode() {
+      const body = document.querySelector("body");
+      body.classList.toggle("dark-mode");
+      
+      const isDarkMode = body.classList.contains("dark-mode");
+      localStorage.setItem("darkMode", isDarkMode);
+      
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+      const storedDarkMode = localStorage.getItem("darkMode");
+      
+      if (storedDarkMode === "true") {
+          const body = document.querySelector("body");
+          body.classList.add("dark-mode");
+      }
+      
+
+  });
+
   function toggleFilling() {
     const radarPolygons = document.querySelectorAll('.radarPolygon');
     radarPolygons.forEach(polygon => {
@@ -1693,169 +1390,60 @@ function _0x2e0d(_0x136d85,_0x5622b2){const _0x29cd33=_0x29cd();return _0x2e0d=f
     });
   }
 
-
-
-
-</script>
-
-        <div class="emptycontainer"></div>
-
-        <div class="finalcontainer">
-
-<center><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
-  crossorigin="anonymous"></script>
-<!-- radar page -->
-<ins class="adsbygoogle"
-  style="display:inline-block;width:728px;height:90px"
-  data-ad-client="ca-pub-7677714701428206"
-  data-ad-slot="5336962902"></ins>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({});
-</script></center>
-<center><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
-  crossorigin="anonymous"></script>
-<!-- radar page -->
-<ins class="adsbygoogle"
-  style="display:inline-block;width:728px;height:90px"
-  data-ad-client="ca-pub-7677714701428206"
-  data-ad-slot="5336962902"></ins>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({});
-</script></center>
-</div>
-
-<script>
-  // Function to scroll down a tiny bit
-  function scrollDown() {
-    window.scrollBy(0, 400); // Adjust the value (400) to change the scroll distance
-  }
-
-  // Function to scroll up a tiny bit
-  function scrollUp() {
-    window.scrollBy(0, -15); // Adjust the value (-10) to change the scroll distance
-  }
-
-  // Function to check if the device is mobile
-  function isMobileDevice() {
-    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-  }
-
-  // Combine both actions with a small timer between them
-  window.onload = function() {
-    if (isMobileDevice()) {
-      scrollDown();
-      setTimeout(scrollUp, 100); // Adjust the delay time (100ms = 0.1 second)
+  function takeScreenshot() {
+  const chartWrapper = document.querySelector('.chart-wrapper');
+  const isDarkMode = document.body.classList.contains('dark-mode');
+  chartWrapper.classList.add('screenshot-capture');
+    
+  const options = {
+    scale: 2, 
+    backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff',
+    allowTaint: true,
+    useCORS: true,
+    logging: false,
+    onclone: function(clonedDocument) {
+      const clonedWrapper = clonedDocument.querySelector('.chart-wrapper');
+      const clonedSimilarContainer = clonedDocument.getElementById('similarPlayersContainer');
+      if (clonedSimilarContainer) {
+        clonedSimilarContainer.style.display = 'none';
+      }
+      const horizontalLine = clonedWrapper.querySelector('hr');
+      if (horizontalLine) horizontalLine.style.display = 'none';
+      const toggleControls = clonedWrapper.querySelector('.toggle-controls');
+      if (toggleControls) toggleControls.style.display = 'none';
+      const radar = clonedWrapper.querySelector('.radar');
+      if (radar) {
+        radar.style.display = 'block';
+        radar.style.margin = '0 auto';
+      }
     }
   };
-</script>
-
-<script>
-  function setLanguage(language) {
-    localStorage.setItem('preferredLanguage', language);
-    const url = new URL(window.location.href);
-    if (language === 'en') {
-      url.searchParams.delete('lang');
-    } else {
-      url.searchParams.set('lang', language);
-    }
-    window.history.pushState({}, '', url);
-    applyLanguage(language);
-  }
   
-  function getPreferredLanguage() {
-    // PRIORITY 1: Check URL parameter first
-    const urlParams = new URLSearchParams(window.location.search);
-    const langParam = urlParams.get('lang');
-    if (langParam) {
-      return langParam;
-    }
-    // PRIORITY 2: Check localStorage
-    const storedLang = localStorage.getItem('preferredLanguage');
-    if (storedLang) {
-      return storedLang;
-    }
-    // PRIORITY 3: Use browser language
-    return getBrowserLanguage() || 'en';
-  }
-
-  function getBrowserLanguage() {
-    return navigator.language.slice(0, 2);
-  }
-
-  function applyLanguage(language) {
-    console.log(language);
-
-    if (language === 'en') {
-      return;
-    }
-
-    
-    fetch(`locales/${language}.json`)
-      .then(response => {
-        // Don't throw an error, just return null if response is not OK
-        return response.ok ? response.json() : null;
-      })
-      .then(translations => {
-        // Only proceed if translations exist
-        if (translations) {
-          document.querySelectorAll('[data-i18n]').forEach(element => {
-            const keys = element.getAttribute('data-i18n').split('.');
-            let value = translations;
-            for (const key of keys) {
-              if (value === undefined || value === null) break;
-              value = value[key];
-            }
-            if (value) {
-              if (element.tagName === 'META') {
-              element.setAttribute('content', value);
-          } else if (value.includes('<')) {
-              element.innerHTML = value;
-          } else {
-              element.textContent = value;
-          }          }
-          });
-          // REMOVE FOR PAGES WITH NO METADATA
-          document.querySelector('meta[name="language"]').setAttribute('content', language);
-        }
-      })
-      .catch(() => {
-        // Completely empty catch block to silently ignore any errors
-      });
-  }
-  
-  const preferredLanguage = getPreferredLanguage();
-  applyLanguage(preferredLanguage);
-  
-  // BUTTON LANGUAGE SWITCHER REMOVE FOR PAGES WITH NO LANGUAGE SWITCHER
-  document.addEventListener('DOMContentLoaded', function() {
-    const languageButton = document.getElementById('languageButton');
-    const languageDropdown = document.getElementById('languageDropdown');
-    
-
-    if (languageButton) {
-      languageButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        languageDropdown.classList.toggle('show');
-      });
-    }
-  
-    document.querySelectorAll('.language-option').forEach(option => {
-      option.addEventListener('click', function(e) {
-        e.preventDefault();
-        const lang = this.getAttribute('href').split('=')[1];
-        setLanguage(lang);
-        languageDropdown.classList.remove('show');
-      });
-    });
-  
-    document.addEventListener('click', function(event) {
-      if (!event.target.closest('.language-switcher-container')) {
-        if (languageDropdown) {
-          languageDropdown.classList.remove('show');
-        }
-      }
-    });
+  html2canvas(chartWrapper, options).then(canvas => {
+    const imageUrl = canvas.toDataURL('image/png');
+    const downloadLink = document.createElement('a');
+    downloadLink.href = imageUrl;
+    downloadLink.download = 'DataMB Screenshot.png';
+        document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+        chartWrapper.classList.remove('screenshot-capture');
+  }).catch(error => {
   });
+}
 </script>
+   <center>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
+           crossorigin="anonymous"></script>
+      <!-- radarplotsearch -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-7677714701428206"
+           data-ad-slot="6673239737"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script></center>
 </body>
 </html>
