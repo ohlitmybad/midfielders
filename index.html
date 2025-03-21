@@ -1302,31 +1302,65 @@ fetch(`locales/${language}.json`)
   // Only proceed if translations exist
   if (translations) {
       window.currentTranslations = translations;
+          window.translations = translations;
+      
     document.querySelectorAll('[data-i18n]').forEach(element => {
-      const keys = element.getAttribute('data-i18n').split('.');
-      let value = translations;
-      for (const key of keys) {
-        if (value === undefined || value === null) break;
-        value = value[key];
-      }
-      if (value) {
-        if (element.tagName === 'META') {
-        element.setAttribute('content', value);
-    } else if (element.tagName === 'INPUT') {
-        element.setAttribute('placeholder', value);
-    } else if (value.includes('<')) {
-        element.innerHTML = value;
-    } else {
-        element.textContent = value;
-    }          }
+      translateElement(element, translations);
     });
-    // REMOVE FOR PAGES WITH NO METADATA
+    
     document.querySelector('meta[name="language"]').setAttribute('content', language);
+    
+    if (!window.translationObserver) {
+      window.translationObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.nodeType === 1) { // Element node
+                if (node.hasAttribute && node.hasAttribute('data-i18n')) {
+                  translateElement(node, translations);
+                }
+                const elements = node.querySelectorAll ? node.querySelectorAll('[data-i18n]') : [];
+                elements.forEach(function(element) {
+                  translateElement(element, translations);
+                });
+              }
+            });
+          }
+        });
+      });
+      
+      window.translationObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    }
   }
 })
 .catch(() => {
-  // Completely empty catch block to silently ignore any errors
 });
+}
+
+// Helper function to translate a single element
+function translateElement(element, translations) {
+  const keys = element.getAttribute('data-i18n').split('.');
+  let value = translations;
+  
+  for (const key of keys) {
+    if (value === undefined || value === null) break;
+    value = value[key];
+  }
+  
+  if (value) {
+    if (element.tagName === 'META') {
+      element.setAttribute('content', value);
+    } else if (element.tagName === 'INPUT') {
+      element.setAttribute('placeholder', value);
+    } else if (value.includes('<')) {
+      element.innerHTML = value;
+    } else {
+      element.textContent = value;
+    }
+  }
 }
 
 const preferredLanguage = getPreferredLanguage();
@@ -1362,7 +1396,6 @@ if (!event.target.closest('.language-switcher-container')) {
 }
 });
 });
-
 
 function toggleDarkMode() {
       const body = document.querySelector("body");
