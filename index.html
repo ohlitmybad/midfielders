@@ -341,9 +341,11 @@ body.dark-mode #searchButton1 {
 .metrics-table tr:last-child td {
   border-bottom: none;
 }
-.metrics-table tr:hover td {
-  background-color: var(--hover-color);
-}
+@media (hover: hover) {
+    .metrics-table tr:hover td {
+        background-color: var(--hover-color);
+      }
+    }
 /* X button styling */
 .metrics-table td button {
   background-color: transparent;
