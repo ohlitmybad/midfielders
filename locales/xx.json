@@ -38,5 +38,13 @@
   "meta": {
     "title": "DataMB | Compare Midfielders",
     "description": "Compare midfielder statistics in the Top 7 Leagues. Visualize player performance. Find similar profiles. Use our radar tool to compare duels; interceptions; tackles; passes; passing accuracy; progressive passes; progressive runs; key passes and more for midfielders in Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Primeira Liga."
+  },
+  "positions": {
+    "goalkeeper": "Goalkeeper",
+    "centreback": "Centre-back",
+    "fullback": "Full-back",
+    "midfielder": "Midfielder",
+    "winger": "Winger",
+    "striker": "Striker"
   }
 } 
