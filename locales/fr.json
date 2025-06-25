@@ -38,5 +38,13 @@
     "meta": {
       "title": "DataMB | Comparer les milieux",
       "description": "Comparez les statistiques des milieux de terrain dans les 7 meilleures ligues. Visualisez la performance des joueurs. Trouvez des profils similaires."
+    },
+    "positions": {
+      "goalkeeper": "Gardien",
+      "centreback": "Défenseur",
+      "fullback": "Latéral",
+      "midfielder": "Milieu",
+      "winger": "Ailier",
+      "striker": "Buteur"
     }
-  } 
+  }  
