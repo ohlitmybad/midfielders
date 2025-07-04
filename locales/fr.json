@@ -12,22 +12,22 @@
       "percentiles": "Centiles",
       "age": "Âge",
       "duel": "% Duel",
-      "defActions": "Actions déf",
+      "possWon": "Poss gagnées",
       "progCarries": "Courses prog",
       "fwdPasses": "Passes en av",
       "fwdPassPct": "Passes en av%",
       "keyPasses": "Passes clés",
       "progPasses": "Passes prog",
-      "minutes": "Minutes jouées"
+      "minutes": "Minutes"
     },
     "radar": {
-      "keyPasses": "Passes Clés",
-      "fwdPass": "Passes Av%",
-      "fwdPasses": "Passes Av",
+      "keyPasses": "Passes clés",
+      "fwdPass": "Passes av%",
+      "fwdPasses": "Passes av",
       "carrying": "Courses",
-      "defActions": "Actions Déf",
+      "possWon": "Poss gagnées",
       "duels": "% Duels",
-      "progPasses": "Passes Prog"
+      "progPasses": "Passes prog"
     },
     "buttons": {
         "team": "Équipe"
@@ -46,5 +46,11 @@
       "midfielder": "Milieu",
       "winger": "Ailier",
       "striker": "Buteur"
+    },
+    "footer": {
+      "rights": "© Tous droits réservés",
+      "privacy": "Confidentialité",
+      "contact": "Contact",
+      "about": "À propos"
     }
-  }  
+  }
