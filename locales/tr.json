@@ -1,0 +1,56 @@
+{
+  "header": {
+    "home": "Ana Sayfa",
+    "pro": "Pro",
+    "guide": "Rehber"
+  },
+  "search": {
+    "placeholder": "Takım veya oyuncu adı girin...",
+    "placeholder2": "Orta saha oyuncusu adı girin..."
+  },
+  "table": {
+    "percentiles": "Yüzdelikler",
+    "age": "Yaş",
+    "duel": "Düello%",
+    "possWon": "Top kazanma",
+    "progCarries": "Topu ileri taşıma",
+    "fwdPasses": "İleri paslar",
+    "fwdPassPct": "İleri pas%",
+    "keyPasses": "Anahtar paslar",
+    "progPasses": "Hücum pası",
+    "minutes": "Dakika"
+  },
+  "radar": {
+    "keyPasses": "Anahtar paslar",
+    "fwdPass": "İleri pas%",
+    "fwdPasses": "İleri paslar",
+    "carrying": "Topu ileri taşıma",
+    "possWon": "Top kazanma",
+    "duels": "Düellolar%",
+    "progPasses": "Hücum pası"
+  },
+  "buttons": {
+    "team": "Takım"
+  },
+  "similar": {
+    "to": "Benzer veri"
+  },
+  "meta": {
+    "title": "DataMB | Orta Saha Oyuncularını Karşılaştır",
+    "description": "En İyi 7 Ligdeki orta saha oyuncularının istatistiklerini karşılaştırın. Oyuncu performansını görselleştirin. Benzer profiller bulun. Premier Lig, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Primeira Liga'daki orta saha oyuncuları için düelloları; kazanılan topları; müdahaleleri; tamamlanan pasları; pas isabetini; hücum paslarını; topu ileri taşıma sayılarını; anahtar pasları ve daha fazlasını karşılaştırmak için radar aracımızı kullanın."
+  },
+  "positions": {
+    "goalkeeper": "Kaleci",
+    "centreback": "Stoper",
+    "fullback": "Bek",
+    "midfielder": "Orta saha",
+    "winger": "Kanat",
+    "striker": "Forvet"
+  },
+  "footer": {
+    "rights": "© Tüm Hakları Saklıdır",
+    "privacy": "Gizlilik",
+    "contact": "İletişim",
+    "about": "Hakkında"
+  }
+} 
