@@ -12,7 +12,7 @@
     "percentiles": "Percentiles",
     "age": "Edad",
     "duel": "Duelo%",
-    "possWon": "Posesión ganada",
+    "possWon": "Pos ganada",
     "progCarries": "Carreras prog",
     "fwdPasses": "Pases adelante",
     "fwdPassPct": "Pase adelante%",
@@ -25,7 +25,7 @@
     "fwdPass": "Pase adelante%",
     "fwdPasses": "Pases adelante",
     "carrying": "Conducción",
-    "possWon": "Posesión ganada",
+    "possWon": "Pos ganada",
     "duels": "Duelos%",
     "progPasses": "Pases prog"
   },
