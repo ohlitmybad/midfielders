@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="language" content="en">
+  <link rel="canonical" href="https://datamb.football/midfielders/" />
+  <link rel="alternate" hreflang="x-default" href="https://datamb.football/midfielders/" />  
+  <link rel="alternate" hreflang="en" href="https://datamb.football/midfielders/?lang=en" />
+  <link rel="alternate" hreflang="fr" href="https://datamb.football/midfielders/?lang=fr" />
+  <link rel="alternate" hreflang="es" href="https://datamb.football/midfielders/?lang=es" />
+  <link rel="alternate" hreflang="tr" href="https://datamb.football/midfielders/?lang=tr" />
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link rel="shortcut icon" type="image/x-icon" href="https://datamb.football/favicon.ico">
+  <title data-i18n="meta.title">DataMB | Compare Midfielders</title>
+  <meta property="og:image" content="https://datamb.football/vignettes/cm.png">
+  <meta name="description" data-i18n="meta.description" content="Compare midfielder statistics in the Top 7 Leagues. Visualize player performance. Find similar profiles. Use our radar tool to compare duels; possessions won; interceptions; tackles; passes completed; passing accuracy; progressive passes; progressive runs; key passes and more for midfielders in Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Primeira Liga.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@DataMB_">
+  <meta name="twitter:title" content="DataMB | Compare Midfielders">
+  <meta name="twitter:description" content="Radar Comparison Tool">
+  <meta name="twitter:image" content="https://datamb.football/vignettes/cm.png">
+
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script>
+  (function() {
+      var width = window.innerWidth;
+      var viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+if (width < 770) {
+	      
+      var initialScale = width / 770;
+viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + initialScale + ', user-scalable=no');
+} else {
+            var fixedScale = 1;
+	viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + fixedScale + ', user-scalable=no');
+
+  }
+    } 
+})();
+</script>
+
+
+	
+
+<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="/radarfree.css">
+
+
+
+<header class="header">
+  <div class="logo">
+    <a href="https://datamb.football">
+        <img src="https://datamb.football/logo.png" alt="Player comparisons. Radar comparison tool. Visualise and compare midfielder statistics from the top 7 leagues : Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Primeira Liga"/></a>
+    <div class="logo-text"><a href="https://datamb.football">&nbsp;Radars</a></div>
+  </div>
+  <nav class="navigation">
+    <a href="https://datamb.football/" class="button10" data-i18n="header.home">Home</a>
+    <a href="https://datamb.football/join" class="button10" data-i18n="header.pro">Pro</a>
+    <a href="https://datamb.football/guide" class="button10" data-i18n="header.guide">Guide</a>
+  </nav>
+  <div class="header-right">
+  <div class="search-container1">
+    <button id="searchButtonmodal"><iconify-icon icon="ion:search-outline"></iconify-icon></button>
+</div>
+  <div class="language-switcher-container">
+    <button class="language-button" id="languageButton">
+      <iconify-icon icon="heroicons:globe-alt"></iconify-icon>
+    </button>
+        <div class="language-dropdown" id="languageDropdown">
+      <a href="?lang=en" class="language-option"><iconify-icon icon="flag:gb-4x3"></iconify-icon>English</a>
+      <a href="?lang=fr" class="language-option"><iconify-icon icon="flag:fr-4x3"></iconify-icon>Français</a>
+      <a href="?lang=es" class="language-option"><iconify-icon icon="flag:es-4x3"></iconify-icon>Español</a>
+      <a href="?lang=tr" class="language-option"><iconify-icon icon="flag:tr-4x3"></iconify-icon>Türkçe</a>
+    </div>
+  </div></div>
+</header>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
+     crossorigin="anonymous"></script>
+
+  
+  
+  
+</head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSBMXX80EF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PSBMXX80EF');
+</script>
+
+
+<div class="search-input-modal" id="searchInputModal">
+  <div class="search-input-container">
+      <input type="text" id="searchInputforModal" data-i18n="search.placeholder" placeholder="Enter a team or player name...">
+      <div id="autocompleteBoxmodal"></div>
+  </div>
+</div>
+<script src="/modal.js"></script>
+
+
+
+<body>
+
+  <center>
+<!-- radarplotsearch -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7677714701428206"
+     data-ad-slot="6673239737"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></center>
+
+
+
+  <div class="container">
+      <div class="search-container">
+        <div class="search-controls">
+          <input type="text" id="searchInput1" class="search-bar" data-i18n="search.placeholder2" placeholder="Enter name of midfielder..." />
+          <button id="searchButton1">+</button>
+        </div>
+        <div id="matchingNames"></div>
+      </div>
+
+    <div class="chart-wrapper">
+
+      <div id="resultsTable"></div>
+      
+      <div class="radar-container">
+        <svg class="radar">
+          <g><g class="axisWrapper">
+  
+            <g class="radar_label">
+              <text class="label" data-type="Aerial%" data-idx="0" data-i18n="radar.keyPasses" transform="translate(-60 -196.04) scale(1.3) rotate(-1.7)">Key passes</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Long%" data-idx="6" data-i18n="radar.fwdPass" transform="matrix(0.65, -1.118, 1.118, 0.65, -188.21, -80.03) rotate(7.5)">Fwd pass%</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Passes" data-idx="5" data-i18n="radar.fwdPasses" transform="matrix(-0.494, -1.209, 1.209, -0.494, -173, 107.54) rotate(3.87)">Fwd passes</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Exits" data-idx="4" data-i18n="radar.carrying" transform="translate(-120.12 179.46) scale(1.3) rotate(20.3)">Carrying</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Poss won" data-idx="3" data-i18n="radar.possWon" transform="translate(71.82 203.54) scale(1.3) rotate(-31)">Poss won</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Def Actions" data-idx="2" data-i18n="radar.duels" transform="translate(200.22 6.30) scale(1.3) rotate(99.11)">Duels%</text>
+          </g>
+          
+          <g class="radar_label">
+              <text class="label" data-type="Shotstopping" data-idx="1" data-i18n="radar.progPasses" transform="translate(125.64 -163.65) scale(1.3) rotate(52.49)">Prog passes</text>
+          </g>
+          
+  
+  
+  <circle class="blackCircle" r="190" style="fill:none; stroke:#D3D3D3; stroke-width:1;"></circle>
+  <circle class="gridCircle" r="190" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+  <circle class="gridCircle" r="160" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+  <circle class="gridCircle" r="120" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+  <circle class="gridCircle" r="80" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+  <circle class="gridCircle" r="40" style="fill: rgb(16, 135, 188); fill-opacity: 0.03;"></circle>
+
+   
+  <line x1="0" y1="0" x2="9.33" y2="189.4543362" stroke="#D3D3D3" stroke-width="1" transform="translate(-9.33, -189.4543362)"></line>
+  <line x1="0" y1="0" x2="-142.0538533333333" y2="126.24" stroke="#D3D3D3" stroke-width="1" transform="translate(141.74184, -126.24)"></line>
+  <line x1="0" y1="0" x2="-187.31589333333332" y2="-32.31413333333333" stroke="#D3D3D3" stroke-width="1" transform="translate(187.5574112, 32.2528)"></line>
+  <line x1="0" y1="0" x2="-91.84497333333333" y2="-166.92245333333333" stroke="#D3D3D3" stroke-width="1" transform="translate(91.84497333333333, 166.21328)"></line>
+  <line x1="0" y1="0" x2="72.99733333333333" y2="-175.84917333333335" stroke="#D3D3D3" stroke-width="1" transform="translate(-72.99997333333334, 175.334068)"></line>
+  <line x1="0" y1="0" x2="182.73258666666666" y2="-52.67472" stroke="#D3D3D3" stroke-width="1" transform="translate(-182.7209384, 52.480128)"></line>
+  <line x1="0" y1="0" x2="154.67849333333334" y2="109.91788799999999" stroke="#D3D3D3" stroke-width="1" transform="translate(-154.6883792222, -110.017215488)"></line>
+  
+
+  <g class="radarWrapper"></g>
+  </g></g>
+        </svg>
+      </div>
+      <img src="https://datamb.football/logo.png" alt="DataMB - Compare and visualize player performance">
+      <div id="insertHere"></div>
+
+      
+      <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border-color); opacity: 0.5;">
+      
+      <div class="toggle-controls">
+        <div class="toggle-container">
+          <label class="toggle-label"></label>
+          <label class="toggle-checkbox">
+            <input type="checkbox" id="toggleButton" onclick="toggleFilling()" unchecked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="position-switcher-container">
+ 
+          <a href="https://datamb.football/keepers/" target="_self" rel="noopener noreferrer" class="position-link">
+            <span>GK</span>
+        </a>
+          <a href="https://datamb.football/centrebacks/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span>CB</span>
+          </a>
+          <a href="https://datamb.football/fullbacks/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span>FB</span>
+          </a>
+  
+          <span class="position-link active" style="user-select: none;">
+            <span>CM</span>
+        </span>
+          <a href="https://datamb.football/wingers/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span>FW</span>
+          </a>
+          <a href="https://datamb.football/strikers/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span>ST</span>
+          </a>
+          <a href="https://datamb.football/teamradars/" target="_self" rel="noopener noreferrer" class="position-link">
+              <span data-i18n="buttons.team">Team</span>
+          </a>
+    </div>
+        
+        <button onclick="takeScreenshot()" class="btn btn-outline btn-icon"><iconify-icon icon="ion:camera" style="color: var(--text-color); font-size: 18px;"></iconify-icon></button>
+      </div>
+      
+    </div>
+
+      </div>
+  
+  <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+    <div class="toggle-icon"></div>
+  </div>
+
+<script src="midfielders.js"></script>
+	  
+<script src="/tradradar.js"></script>
+<center>
+<!-- radar2 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7677714701428206"
+     data-ad-slot="4458716228"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></center>
+<br>
+<footer class="footer">
+ 
+  <div class="google-play-container">
+
+  <a href='https://play.google.com/store/apps/details?id=com.datamb.datamb.webviewflutter&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'></a>
+<a href='https://apps.apple.com/app/datamb/id6456224067?l=en-GB'><img alt='Download on the App Store' src='https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg'></a></div>
+<div class="logo">
+    <img src="https://datamb.football/logo.png" alt="Compare football stats. Visualise data from Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Primeira Liga. Player and Team profiles, Radar comparison tool, Plots." />
+  </div>
+
+  <p class="description">DataMB</p>
+  <p class="info" data-i18n="footer.rights">© All Rights Reserved</p>
+  <hr class="divider" />
+  <div class="sub-footer">
+    <nav>
+      <a class="terms" target="_blank" href="https://datamb.football/privacy" data-i18n="footer.privacy">Privacy</a>
+              <a class="privacy" href="https://datamb.football/guide#contact" data-i18n="footer.contact">Contact</a>
+      <a class="glossary" href="https://datamb.football/guide#aboutus" data-i18n="footer.about">About</a>
+    </nav>
+    <nav>
+      <a target="_blank" href="https://twitter.com/datamb_">
+        <svg width="23" height="22" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+        </svg>
+      </a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
