@@ -8,7 +8,7 @@
   <link rel="alternate" hreflang="fr" href="https://datamb.football/midfielders/?lang=fr" />
   <link rel="alternate" hreflang="es" href="https://datamb.football/midfielders/?lang=es" />
   <link rel="alternate" hreflang="tr" href="https://datamb.football/midfielders/?lang=tr" />
-  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <link rel="shortcut icon" type="image/x-icon" href="https://datamb.football/favicon.ico">
   <title data-i18n="meta.title">DataMB | Compare Midfielders</title>
   <meta property="og:image" content="https://datamb.football/vignettes/cm.png">
@@ -22,27 +22,18 @@
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-
 <script>
-  (function() {
-      // Check if device is Android
-      var isAndroid = /Android/i.test(navigator.userAgent);
-      
-      if (isAndroid) {
-          var width = window.innerWidth;
-          var viewportMeta = document.querySelector('meta[name="viewport"]');
-          if (viewportMeta) {
-              if (width < 770) {
-                  var initialScale = width / 770;
-                  viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + initialScale + ', user-scalable=no');
-              } else {
-                  var fixedScale = 1;
-                  viewportMeta.setAttribute('content', 'width=device-width, initial-scale=' + fixedScale + ', user-scalable=no');
-              }
-          }
-      }
-  })();
+const width = window.innerWidth;
+
+if (width <= 770) {
+  const scale = width / 770;
+  const widthPercent = 100 / scale;
+
+  document.documentElement.style.setProperty('--dynamic-width', widthPercent + '%');
+  document.documentElement.style.setProperty('--dynamic-scale', scale);
+}
 </script>
+
 
 	
 
@@ -51,33 +42,7 @@
 
 
 
-<header class="header">
-  <div class="logo">
-    <a href="https://datamb.football">
-        <img src="https://datamb.football/logo.png" alt="Player comparisons. Radar comparison tool. Visualise and compare midfielder statistics from the top 7 leagues : Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Primeira Liga"/></a>
-    <div class="logo-text"><a href="https://datamb.football">&nbsp;Radars</a></div>
-  </div>
-  <nav class="navigation">
-    <a href="https://datamb.football/" class="button10" data-i18n="header.home">Home</a>
-    <a href="https://datamb.football/join" class="button10" data-i18n="header.pro">Pro</a>
-    <a href="https://datamb.football/guide" class="button10" data-i18n="header.guide">Guide</a>
-  </nav>
-  <div class="header-right">
-  <div class="search-container1">
-    <button id="searchButtonmodal"><iconify-icon icon="ion:search-outline"></iconify-icon></button>
-</div>
-  <div class="language-switcher-container">
-    <button class="language-button" id="languageButton">
-      <iconify-icon icon="heroicons:globe-alt"></iconify-icon>
-    </button>
-        <div class="language-dropdown" id="languageDropdown">
-      <a href="?lang=en" class="language-option"><iconify-icon icon="flag:gb-4x3"></iconify-icon>English</a>
-      <a href="?lang=fr" class="language-option"><iconify-icon icon="flag:fr-4x3"></iconify-icon>Français</a>
-      <a href="?lang=es" class="language-option"><iconify-icon icon="flag:es-4x3"></iconify-icon>Español</a>
-      <a href="?lang=tr" class="language-option"><iconify-icon icon="flag:tr-4x3"></iconify-icon>Türkçe</a>
-    </div>
-  </div></div>
-</header>
+
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7677714701428206"
      crossorigin="anonymous"></script>
@@ -108,7 +73,38 @@
 
 
 <body>
-<br>
+  <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+    <div class="toggle-icon"></div>
+  </div>
+  <div id="full-page">
+  <header class="header">
+    <div class="logo">
+      <a href="https://datamb.football">
+          <img src="https://datamb.football/logo.png" alt="Player comparisons. Radar comparison tool. Visualise and compare midfielder statistics from the top 7 leagues : Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Primeira Liga"/></a>
+      <div class="logo-text"><a href="https://datamb.football">&nbsp;Radars</a></div>
+    </div>
+    <nav class="navigation">
+      <a href="https://datamb.football/" class="button10" data-i18n="header.home">Home</a>
+      <a href="https://datamb.football/join" class="button10" data-i18n="header.pro">Pro</a>
+      <a href="https://datamb.football/guide" class="button10" data-i18n="header.guide">Guide</a>
+    </nav>
+    <div class="header-right">
+    <div class="search-container1">
+      <button id="searchButtonmodal"><iconify-icon icon="ion:search-outline"></iconify-icon></button>
+  </div>
+    <div class="language-switcher-container">
+      <button class="language-button" id="languageButton">
+        <iconify-icon icon="heroicons:globe-alt"></iconify-icon>
+      </button>
+          <div class="language-dropdown" id="languageDropdown">
+        <a href="?lang=en" class="language-option"><iconify-icon icon="flag:gb-4x3"></iconify-icon>English</a>
+        <a href="?lang=fr" class="language-option"><iconify-icon icon="flag:fr-4x3"></iconify-icon>Français</a>
+        <a href="?lang=es" class="language-option"><iconify-icon icon="flag:es-4x3"></iconify-icon>Español</a>
+        <a href="?lang=tr" class="language-option"><iconify-icon icon="flag:tr-4x3"></iconify-icon>Türkçe</a>
+      </div>
+    </div></div>
+  </header>
+  <br>
   <center>
 <!-- radarplotsearch -->
 <ins class="adsbygoogle"
@@ -238,9 +234,7 @@
 
       </div>
   
-  <div class="dark-mode-toggle" onclick="toggleDarkMode()">
-    <div class="toggle-icon"></div>
-  </div>
+
 
 <script src="midfielders.js"></script>
 	  
@@ -285,6 +279,6 @@
     </nav>
   </div>
 </footer>
-
+</div>
 </body>
 </html>
