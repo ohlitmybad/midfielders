@@ -12,7 +12,7 @@
     "percentiles": "Perzentile",
     "age": "Alter",
     "duel": "Zweikämpfe%",
-    "possWon": "Balleroberungen",
+    "possWon": "Ballgew.",
     "progCarries": "Prog. Läufe",
     "fwdPasses": "Vorw. Pässe",
     "fwdPassPct": "Vorw. Pass%",
@@ -25,7 +25,7 @@
     "fwdPass": "Vorw. Pass%",
     "fwdPasses": "Vorw. Pässe",
     "carrying": "Ballführung",
-    "possWon": "Balleroberungen",
+    "possWon": "Ballgew.",
     "duels": "Zweikämpfe%",
     "progPasses": "Prog. Pässe"
   },
@@ -37,7 +37,7 @@
   },
   "meta": {
     "title": "DataMB | Mittelfeldspieler vergleichen",
-    "description": "Vergleichen Sie Mittelfeldspieler-Statistiken in den Top-7-Ligen. Visualisieren Sie Spielerleistungen. Finden Sie ähnliche Profile. Nutzen Sie unser Radar-Tool zum Vergleich von Zweikämpfen, Balleroberungen, Abfangen, Tacklings, gespielten Pässen, Passgenauigkeit, progressiven Pässen, progressiven Läufen, Schlüsselpässen und mehr für Mittelfeldspieler in Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Liga Portugal."
+    "description": "Vergleichen Sie Mittelfeldspieler-Statistiken in den Top-7-Ligen. Visualisieren Sie Spielerleistungen. Finden Sie ähnliche Profile. Nutzen Sie unser Radar-Tool zum Vergleich von Zweikämpfen, Ballgew., Abfangen, Tacklings, gespielten Pässen, Passgenauigkeit, progressiven Pässen, progressiven Läufen, Schlüsselpässen und mehr für Mittelfeldspieler in Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Liga Portugal."
   },
   "positions": {
     "goalkeeper": "Torwart",
