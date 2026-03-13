@@ -1,0 +1,56 @@
+{
+  "header": {
+    "home": "Início",
+    "pro": "Pro",
+    "guide": "Guia"
+  },
+  "search": {
+    "placeholder": "Inserir nome de equipa ou jogador...",
+    "placeholder2": "Inserir nome do médio..."
+  },
+  "table": {
+    "percentiles": "Percentis",
+    "age": "Idade",
+    "duel": "Duelos%",
+    "possWon": "Recuperações",
+    "progCarries": "Cond. prog.",
+    "fwdPasses": "Passes fr.",
+    "fwdPassPct": "Passe fr.%",
+    "keyPasses": "Passes chave",
+    "progPasses": "Passes prog.",
+    "minutes": "Minutos"
+  },
+  "radar": {
+    "keyPasses": "Passes chave",
+    "fwdPass": "Passe fr.%",
+    "fwdPasses": "Passes fr.",
+    "carrying": "Conduções",
+    "possWon": "Recuperações",
+    "duels": "Duelos%",
+    "progPasses": "Passes prog."
+  },
+  "buttons": {
+    "team": "Equipa"
+  },
+  "similar": {
+    "to": "Dados semelhantes a"
+  },
+  "meta": {
+    "title": "DataMB | Comparar Médios",
+    "description": "Compare as estatísticas de médios nas 7 principais ligas. Visualize o desempenho dos jogadores. Encontre perfis semelhantes. Use a nossa ferramenta de radar para comparar duelos, recuperações de bola, interceções, tackles, passes completados, precisão de passe, passes progressivos, conduções progressivas, passes chave e mais para médios na Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Liga Portugal."
+  },
+  "positions": {
+    "goalkeeper": "Guarda-redes",
+    "centreback": "Defesa central",
+    "fullback": "Lateral",
+    "midfielder": "Médio",
+    "winger": "Extremo",
+    "striker": "Avançado"
+  },
+  "footer": {
+    "rights": "© Todos os direitos reservados",
+    "privacy": "Privacidade",
+    "contact": "Contacto",
+    "about": "Sobre"
+  }
+}

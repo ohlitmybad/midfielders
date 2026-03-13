@@ -1,0 +1,56 @@
+{
+  "header": {
+    "home": "Startseite",
+    "pro": "Pro",
+    "guide": "Anleitung"
+  },
+  "search": {
+    "placeholder": "Team- oder Spielername eingeben...",
+    "placeholder2": "Name des Mittelfeldspielers eingeben..."
+  },
+  "table": {
+    "percentiles": "Perzentile",
+    "age": "Alter",
+    "duel": "Zweikämpfe%",
+    "possWon": "Ballgew.",
+    "progCarries": "Prog. Läufe",
+    "fwdPasses": "Vorw. Pässe",
+    "fwdPassPct": "Vorw. Pass%",
+    "keyPasses": "Schlüsselpässe",
+    "progPasses": "Prog. Pässe",
+    "minutes": "Minuten"
+  },
+  "radar": {
+    "keyPasses": "Schlüsselpässe",
+    "fwdPass": "Vorw. Pass%",
+    "fwdPasses": "Vorw. Pässe",
+    "carrying": "Ballführung",
+    "possWon": "Ballgew.",
+    "duels": "Zweikämpfe%",
+    "progPasses": "Prog. Pässe"
+  },
+  "buttons": {
+    "team": "Team"
+  },
+  "similar": {
+    "to": "Ähnliche Daten wie"
+  },
+  "meta": {
+    "title": "DataMB | Mittelfeldspieler vergleichen",
+    "description": "Vergleichen Sie Mittelfeldspieler-Statistiken in den Top-7-Ligen. Visualisieren Sie Spielerleistungen. Finden Sie ähnliche Profile. Nutzen Sie unser Radar-Tool zum Vergleich von Zweikämpfen, Ballgew., Abfangen, Tacklings, gespielten Pässen, Passgenauigkeit, progressiven Pässen, progressiven Läufen, Schlüsselpässen und mehr für Mittelfeldspieler in Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Liga Portugal."
+  },
+  "positions": {
+    "goalkeeper": "Torwart",
+    "centreback": "Innenverteidiger",
+    "fullback": "Außenverteidiger",
+    "midfielder": "Mittelfeldspieler",
+    "winger": "Flügelspieler",
+    "striker": "Stürmer"
+  },
+  "footer": {
+    "rights": "© Alle Rechte vorbehalten",
+    "privacy": "Datenschutz",
+    "contact": "Kontakt",
+    "about": "Über uns"
+  }
+}
